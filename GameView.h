@@ -14,6 +14,8 @@ public:
 	char invitePlayer(int);
 	void startRound(int);
 	Command startHumanTurn(Human);
+	void printPlayTurn(const Player&, const Command) const;
+	void printDiscardTurn(const Player&, const Command) const;
 };
 
 #endif

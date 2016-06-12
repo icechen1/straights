@@ -6,7 +6,8 @@
 class AI : public Player {
 public:
 	PlayerType getPlayerType();
-	void play();
+	Command play();
+	AI(int id) : Player(id) {};
 };
 
 #endif

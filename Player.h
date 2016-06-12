@@ -2,18 +2,22 @@
 #define _PLAYER_
 #include <vector>
 #include "Card.h"
+#include "Command.h"
 
 enum PlayerType { HUMAN, COMPUTER };
 
 class Player {
 protected:
-	int score = 0;
+	int _id = -1;
+	int _score = 0;
 	std::vector<Card> discards;
 	std::vector<Card> cards;
 	std::vector<Card> getLegalMoves() const;
+	Player(int id);
 public:
-	virtual PlayerType getPlayerType() = 0;
-	virtual void play() = 0;
+	virtual PlayerType getPlayerType() const = 0;
+	virtual Command play() = 0;
+	int getPlayerId() const;
 };
 
 #endif

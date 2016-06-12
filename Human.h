@@ -6,7 +6,8 @@
 class Human : public Player {
 public:
 	PlayerType getPlayerType();
-	void play();
+	Command play();
+	Human(int id) : Player(id) {};
 };
 
 #endif

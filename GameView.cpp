@@ -52,3 +52,13 @@ Command GameView::startHumanTurn(Human _human) {
 	
 	cout << "Legal plays:";
 }
+
+void GameView::printPlayTurn(Player& player, Command c) const {
+	if (c.type_ != PLAY) return;
+	cout << "Player " << player.getPlayerId() << " plays " << c.card_ << endl;
+}
+
+void GameView::printDiscardTurn(Player& player, Command c) const {
+	if (c.type_ != DISCARD) return;
+	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
+}

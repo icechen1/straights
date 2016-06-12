@@ -24,3 +24,13 @@ vector<Card> Player::getLegalMoves() const {
 
 	return legals;
 }
+
+Player::Player(int id) : _id(id)
+{
+
+}
+
+int Player::getPlayerId() const
+{
+	return _id;
+}
