@@ -5,7 +5,7 @@ using namespace std;
 vector<Card> Player::getLegalMoves() const {
 	vector<Card> legals;
 	shared_ptr<GameController> instance = GameController::getInstance();
-	vector<Card> played = instance->getState().playedCards;
+	vector<Card> played = instance->getState().playedCards_;
 
 	for (Card playerCard : cards) {
 		if (playerCard.getRank() == Rank::SEVEN) {

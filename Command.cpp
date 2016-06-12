@@ -4,7 +4,7 @@
 using namespace std;
 
 istream &operator>>(istream &in, Command &c){
-	c.type = BAD_COMMAND;
+	c.type_ = BAD_COMMAND;
 
 	string str;
 	getline(in, str);
@@ -14,24 +14,24 @@ istream &operator>>(istream &in, Command &c){
 	ss >> cmd;
 
 	if (cmd == "play") {
-		c.type = PLAY;
-		ss >> c.card;
+		c.type_ = PLAY;
+		ss >> c.card_;
 	}
-	else if (cmd == "discard") {
-		c.type = DISCARD;
-		ss >> c.card;
+	else if (cmd == "discard_") {
+		c.type_ = DISCARD;
+		ss >> c.card_;
 	}
 	else if (cmd == "deck") {
-		c.type = DECK;
+		c.type_ = DECK;
 	}
 	else if (cmd == "quit") {
-		c.type = QUIT;
+		c.type_ = QUIT;
 	}
 	else if (cmd == "ragequit") {
-		c.type = RAGEQUIT;
+		c.type_ = RAGEQUIT;
 	}
 
-	assert(!in.fail() && !ss.fail() && c.type != BAD_COMMAND);
+	assert(!in.fail() && !ss.fail() && c.type_ != BAD_COMMAND);
 
 	return in;
 }

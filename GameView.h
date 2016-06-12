@@ -9,6 +9,7 @@
 #include "AI.h"
 
 class GameView {
+	void printCardList(vector<Card>);
 public:
 	char invitePlayer(int);
 	void startRound(int);

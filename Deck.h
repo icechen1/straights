@@ -1,13 +1,13 @@
 #ifndef _DECK_
 #define _DECK_
-#include<vector>
+#include <vector>
 #include "Card.h"
 
 class Deck {
-	std::vector<Card> cards;
-	const int seed;
+	std::vector<Card> cards_;
+	const int seed_;
 public:
-	Deck(int seed);
+	Deck(int);
 	void shuffle();
 	std::vector<Card> getCards() const;
 };
