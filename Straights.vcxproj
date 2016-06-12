@@ -66,12 +66,13 @@
   <ItemGroup>
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="shuffle.cpp" />
+    <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Straights.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Deck.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
