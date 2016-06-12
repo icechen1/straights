@@ -1,10 +1,12 @@
 #ifndef _GAMESTATE_
 #define _GAMESTATE_
-
+#include<vector>
+#include<memory>
 #include "Player.h"
+
 struct GameState {
-	Player players[];
-	Player currentPlayer;
+	std::vector<std::shared_ptr<Player> > players;
+	std::shared_ptr<Player> currentPlayer;
 	int seed;
 };
 
