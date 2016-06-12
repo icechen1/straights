@@ -9,7 +9,9 @@
 #include "AI.h"
 
 class GameView {
-	void printCardList(vector<Card>);
+	template <typename T>
+	void printCardList(std::vector<T>);
+	void printSuit(std::vector<Card>);
 public:
 	char invitePlayer(int);
 	void startRound(int);
