@@ -67,6 +67,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Straights.cpp" />
   </ItemGroup>
@@ -74,6 +75,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="GameController.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

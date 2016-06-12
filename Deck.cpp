@@ -41,3 +41,18 @@ vector<Card> Deck::getCards() const {
 	return cards;
 }
 
+std::ostream &operator<<(std::ostream &out, const Deck &deck) {
+	int count = 0;
+	for (Card card : deck.getCards()) {
+		out << card;
+		count++;
+
+		if (count != 13) {
+			out << " ";
+		} else {
+			out << endl;
+			count = 0;
+		}
+	}
+	return out;
+}

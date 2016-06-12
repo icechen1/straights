@@ -12,4 +12,6 @@ public:
 	std::vector<Card> getCards() const;
 };
 
+std::ostream &operator<<(std::ostream &, const Deck &); // to help with debugging
+
 #endif
