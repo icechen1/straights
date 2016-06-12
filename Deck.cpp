@@ -1,4 +1,5 @@
 #include "Deck.h"
+#include "Card.h"
 #include <random>
 
 using namespace std;

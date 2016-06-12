@@ -3,6 +3,7 @@
 #include <map>
 #include <algorithm>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -45,7 +46,7 @@ void GameView::startRound(int _playerNumber) {
 	cout << "A new round begins. It's player " << _playerNumber << "'s turn to play." << endl;
 }
 
-Command GameView::startHumanTurn(Human _human) {
+Command GameView::startHumanTurn(Human& _human) {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	vector<Card> played = instance->getState().playedCards_;
 	map<Suit, vector<Card>> playedCardsMap;
@@ -65,19 +66,6 @@ Command GameView::startHumanTurn(Human _human) {
 	printSuit(playedCardsMap[SPADE]);
 
 	cout << "Your hand: ";
-	
-	cout << "Legal plays:";
-}
-
-void GameView::printPlayTurn(Player& player, Command c) const {
-	if (c.type_ != PLAY) return;
-	cout << "Player " << player.getPlayerId() << " plays " << c.card_ << endl;
-}
-
-void GameView::printDiscardTurn(Player& player, Command c) const {
-	if (c.type_ != DISCARD) return;
-	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
-}
 	printList(_human.getHand());
 	cout << "Legal plays:";
 	printList(_human.getLegalMoves());
@@ -85,4 +73,14 @@ void GameView::printDiscardTurn(Player& player, Command c) const {
 	Command command;
 	cin >> command;
 	return command;
+}
+
+void GameView::printPlayTurn(const Player& player, const Command c) const {
+	if (c.type_ != PLAY) return;
+	cout << "Player " << player.getPlayerId() << " plays " << c.card_ << endl;
+}
+
+void GameView::printDiscardTurn(const Player& player, const Command c) const {
+	if (c.type_ != DISCARD) return;
+	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
 }

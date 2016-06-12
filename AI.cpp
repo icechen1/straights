@@ -7,7 +7,7 @@ PlayerType AI::getPlayerType() {
 
 }
 
-void AI::play() {
+Command AI::play() {
 	vector<Card> legalMoves = getLegalMoves();
 	Command c = Command();
 	if (legalMoves.size() > 0) {

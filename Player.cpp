@@ -28,14 +28,13 @@ vector<Card> Player::getLegalMoves() const {
 vector<Card> Player::getHand() const {
 	return cards_;
 }
-}
 
-Player::Player(int id) : _id(id)
+Player::Player(int id) : id_(id)
 {
 
 }
 
 int Player::getPlayerId() const
 {
-	return _id;
+	return id_;
 }
