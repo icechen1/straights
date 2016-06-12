@@ -1,10 +1,13 @@
 #include "GameView.h"
 #include "GameController.h"
 #include <map>
+#include <algorithm>
+#include <string>
 
 using namespace std;
 
-void GameView::printCardList(vector<Card> _cards) {
+template <typename T>
+void GameView::printList(vector<T> _cards) {
 	for (int n = 0; n < _cards.size(); n++) {
 		cout << _cards[n];
 		if (n < (_cards.size() - 1)) {
@@ -12,6 +15,19 @@ void GameView::printCardList(vector<Card> _cards) {
 		}
 	}
 	cout << endl;
+}
+
+void GameView::printSuit(vector<Card> _cards) {
+	vector<Rank> cardsRankList;
+	string ranks[RANK_COUNT] = { "A", "2", "3", "4", "5", "6",
+		"7", "8", "9", "10", "J", "Q", "K" };
+
+	for (int n = 0; n < _cards.size(); n++) {
+		cardsRankList.push_back(_cards[n].getRank());
+	}
+	sort(cardsRankList.begin(), cardsRankList.end());
+
+	printList(cardsRankList);
 }
 
 char GameView::invitePlayer(int _number) {
@@ -40,15 +56,20 @@ Command GameView::startHumanTurn(Human _human) {
 	
 	cout << "Cards on the table:" << endl;
 	cout << "Clubs: ";
-	printCardList(playedCardsMap[CLUB]);
+	printSuit(playedCardsMap[CLUB]);
 	cout << "Diamonds: ";
-	printCardList(playedCardsMap[DIAMOND]);
+	printSuit(playedCardsMap[DIAMOND]);
 	cout << "Hearts: ";
-	printCardList(playedCardsMap[HEART]);
+	printSuit(playedCardsMap[HEART]);
 	cout << "Spades: ";
-	printCardList(playedCardsMap[SPADE]);
+	printSuit(playedCardsMap[SPADE]);
 
 	cout << "Your hand: ";
-	
+	printList(_human.getHand());
 	cout << "Legal plays:";
+	printList(_human.getLegalMoves());
+
+	Command command;
+	cin >> command;
+	return command;
 }
