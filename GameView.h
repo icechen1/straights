@@ -5,12 +5,14 @@
 #include "Command.h"
 #include "Player.h"
 #include "GameState.h"
+#include "human.h"
+#include "AI.h"
 
 class GameView {
 public:
 	char invitePlayer(int);
 	void startRound(int);
-	Command startTurn(Player, GameState);
+	Command startHumanTurn(Human);
 };
 
 #endif

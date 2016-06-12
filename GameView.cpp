@@ -17,6 +17,6 @@ void GameView::startRound(int _playerNumber) {
 	cout << "A new round begins. It's player " << _playerNumber << "'s turn to play." << endl;
 }
 
-Command GameView::startTurn(Player) {
+Command GameView::startTurn(Player, GameState) {
 
 }
