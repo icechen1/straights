@@ -6,6 +6,7 @@ cards_ is an array of pointers to cards
 */
 
 #include <random>
+#include "Card.h"
 
 using namespace std;
 
