@@ -7,6 +7,8 @@ cards_ is an array of pointers to cards
 
 #include <random>
 
+using namespace std;
+
 int seed = 0;
 
 void shuffle(){
