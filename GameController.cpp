@@ -64,12 +64,15 @@ GameState GameController::getState() const {
 }
 
 void GameController::handleTurn() {
-	if (state_.currentPlayer_->getPlayerType() == COMPUTER) {
+	shared_ptr<Player> p = state_.currentPlayer_;
+	GameView::startRound(p->getPlayerId());
+	if (p->getPlayerType() == COMPUTER) {
 
 	}
 	else {
 		// human
 		Command c = GameView::startHumanTurn(*(state_.currentPlayer_));
+		p->play();
 		playTurn(c);
 	}
 }
