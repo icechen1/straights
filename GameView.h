@@ -10,14 +10,14 @@
 
 class GameView {
 	template <typename T>
-	void printList(std::vector<T>);
-	void printSuit(std::vector<Card>);
+	static void printList(std::vector<T>);
+	static void printSuit(std::vector<Card>);
 public:
-	char invitePlayer(int);
-	void startRound(int);
-	Command startHumanTurn(Human&);
-	void printPlayTurn(const Player&, const Command) const;
-	void printDiscardTurn(const Player&, const Command) const;
+	static PlayerType invitePlayer(int);
+	static void startRound(int);
+	static Command startHumanTurn(Human&);
+	static void printPlayTurn(const Player&, const Command);
+	static void printDiscardTurn(const Player&, const Command);
 };
 
 #endif

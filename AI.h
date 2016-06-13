@@ -5,8 +5,8 @@
 
 class AI : public Player {
 public:
-	PlayerType getPlayerType();
-	Command play();
+	PlayerType getPlayerType() const override;
+	Command play() override;
 	AI(int id) : Player(id) {};
 };
 

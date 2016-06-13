@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <istream>
+#define CARD_COUNT 52
 
 enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank {

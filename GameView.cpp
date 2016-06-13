@@ -31,15 +31,18 @@ void GameView::printSuit(vector<Card> _cards) {
 	printList(cardsRankList);
 }
 
-char GameView::invitePlayer(int _number) {
+PlayerType GameView::invitePlayer(int _number) {
 	char playerType;
 	cout << "Is player " << _number << " a human(h) or a computer(c)?" << endl;
 	cin >> playerType;
 	
-	if (playerType == 'h' || playerType == 'c') {
-		return playerType;
+	if (playerType == 'h') {
+		return HUMAN;
 	}
-	return ' ';
+	else if (playerType == 'c') {
+		return COMPUTER;
+	}
+	return COMPUTER;
 }
 
 void GameView::startRound(int _playerNumber) {
@@ -75,12 +78,12 @@ Command GameView::startHumanTurn(Human& _human) {
 	return command;
 }
 
-void GameView::printPlayTurn(const Player& player, const Command c) const {
+void GameView::printPlayTurn(const Player& player, const Command c) {
 	if (c.type_ != PLAY) return;
 	cout << "Player " << player.getPlayerId() << " plays " << c.card_ << endl;
 }
 
-void GameView::printDiscardTurn(const Player& player, const Command c) const {
+void GameView::printDiscardTurn(const Player& player, const Command c) {
 	if (c.type_ != DISCARD) return;
 	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
 }

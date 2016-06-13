@@ -1,10 +1,11 @@
 #include "AI.h"
 #include "Command.h"
+#include "GameView.h"
 
 using namespace std;
 
-PlayerType AI::getPlayerType() {
-
+PlayerType AI::getPlayerType() const {
+	return COMPUTER;
 }
 
 Command AI::play() {
@@ -19,6 +20,6 @@ Command AI::play() {
 	c.type_ = PLAY;
 	c.card_ = legalMoves.at(0);
 
-	// call display.showAITurn(command)
+	GameView::printPlayTurn(*this, c);
 	return c;
 }
