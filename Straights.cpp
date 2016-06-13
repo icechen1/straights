@@ -3,6 +3,8 @@
 
 using namespace std;
 
+std::shared_ptr<GameController> GameController::instance_; // WHYYY?
+
 int main(int argc, char *argv[]) {
 	int seed = 0;
 	if (argc > 0) {

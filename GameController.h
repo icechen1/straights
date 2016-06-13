@@ -4,7 +4,7 @@
 #include"GameState.h"
 #include"Command.h"
 
-// GameController is a singleton entity representing the controller for th Straights game
+// GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	static std::shared_ptr<GameController> instance_;
 	GameState state_;
