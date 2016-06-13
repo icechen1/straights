@@ -49,7 +49,7 @@ void GameView::startRound(int _playerNumber) {
 	cout << "A new round begins. It's player " << _playerNumber << "'s turn to play." << endl;
 }
 
-Command GameView::startHumanTurn(Human& _human) {
+Command GameView::startHumanTurn(Player& _human) {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	vector<Card> played = instance->getState().playedCards_;
 	map<Suit, vector<Card>> playedCardsMap;

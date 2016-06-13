@@ -38,7 +38,7 @@ void Deck::shuffle() {
 	}
 }
 
-vector<Card> Deck::getCards() const {
+deque<Card> Deck::getCards() const {
 	return cards_;
 }
 

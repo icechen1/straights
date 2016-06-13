@@ -1,5 +1,6 @@
 #include "GameController.h"
 #include <memory>
+#include <iostream>
 
 using namespace std;
 
@@ -11,7 +12,9 @@ int main(int argc, char *argv[]) {
 		seed = atoi(argv[0]);
 	}
 	shared_ptr<GameController> controller = GameController::createInstance(seed);
-
+	while (!cin.eof()) {
+		controller->handleTurn();
+	}
 
 	return 0;
 }

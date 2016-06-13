@@ -15,7 +15,7 @@ class GameView {
 public:
 	static PlayerType invitePlayer(int);
 	static void startRound(int);
-	static Command startHumanTurn(Human&);
+	static Command startHumanTurn(Player&);
 	static void printPlayTurn(const Player&, const Command);
 	static void printDiscardTurn(const Player&, const Command);
 };

@@ -18,6 +18,8 @@ public:
 	virtual Command play() = 0;
 	int getPlayerId() const;
 
+	void dealCard(Card c);
+
 	std::vector<Card> getLegalMoves() const;
 	std::vector<Card> getHand() const;
 };

@@ -2,6 +2,10 @@
 #include "GameController.h"
 using namespace std;
 
+void Player::dealCard(Card c) {
+	cards_.push_back(c);
+}
+
 vector<Card> Player::getLegalMoves() const {
 	vector<Card> legals;
 	shared_ptr<GameController> instance = GameController::getInstance();

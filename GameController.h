@@ -9,10 +9,14 @@ class GameController {
 	static std::shared_ptr<GameController> instance_;
 	GameState state_;
 	GameController(int);
+	void initPlayers();
+	void dealCards();
+	void initStartTurn();
 public:
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
 	GameState getState() const;
+	void handleTurn();
 	void playTurn(Command);
 };
 
