@@ -17,11 +17,15 @@ public:
 	virtual PlayerType getPlayerType() const = 0;
 	virtual Command play() = 0;
 	int getPlayerId() const;
+	int getScore() const;
 
 	void dealCard(Card c);
 
 	std::vector<Card> getLegalMoves() const;
 	std::vector<Card> getHand() const;
+
+	void playCard(Card);
+	void discardCard(Card);
 };
 
 #endif

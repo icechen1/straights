@@ -17,7 +17,7 @@ istream &operator>>(istream &in, Command &c){
 		c.type_ = PLAY;
 		ss >> c.card_;
 	}
-	else if (cmd == "discard_") {
+	else if (cmd == "discard") {
 		c.type_ = DISCARD;
 		ss >> c.card_;
 	}

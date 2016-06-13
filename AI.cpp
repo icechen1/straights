@@ -18,7 +18,7 @@ Command AI::play() {
 	}
 	// discard first card
 	c.type_ = PLAY;
-	c.card_ = legalMoves.at(0);
+	c.card_ = cards_.at(0);
 
 	GameView::printPlayTurn(*this, c);
 	return c;

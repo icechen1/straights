@@ -11,7 +11,9 @@ int main(int argc, char *argv[]) {
 	if (argc > 0) {
 		seed = atoi(argv[0]);
 	}
+
 	shared_ptr<GameController> controller = GameController::createInstance(seed);
+
 	while (!cin.eof()) {
 		controller->handleTurn();
 	}

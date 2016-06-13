@@ -17,7 +17,7 @@ public:
 	static std::shared_ptr<GameController> getInstance();
 	GameState getState() const;
 	void handleTurn();
-	void playTurn(Command);
+	void playTurn(std::shared_ptr<Player>, Command);
 };
 
 #endif

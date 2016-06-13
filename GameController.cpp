@@ -64,19 +64,42 @@ GameState GameController::getState() const {
 }
 
 void GameController::handleTurn() {
+	// check if we have reached end condition
 	shared_ptr<Player> p = state_.currentPlayer_;
 	GameView::startRound(p->getPlayerId());
 	if (p->getPlayerType() == COMPUTER) {
-
+		playTurn(p, p->play());
 	}
 	else {
 		// human
 		Command c = GameView::startHumanTurn(*(state_.currentPlayer_));
 		p->play();
-		playTurn(c);
+		playTurn(p, c);
 	}
 }
 
-void GameController::playTurn(Command) {
+void GameController::playTurn(shared_ptr<Player> player, Command command) {
+	// handle play
+	// TODO input check
+	switch (command.type_) {
+	case PLAY:
+		player->playCard(command.card_);
+		break;
+	case DISCARD:
+		player->discardCard(command.card_);
+		break;
+	}
 
+	// handle discard
+
+	// handle end condition
+	if (player->getHand().size() == 0) {
+		cout << "gameover" << endl;
+		for (;;) {
+
+		}
+	}
+	// increment current player
+	int newPosition = (state_.currentPlayer_->getPlayerId() + 1) % 4;
+	state_.currentPlayer_ = state_.players_.at(newPosition);
 }
