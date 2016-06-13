@@ -18,6 +18,8 @@ public:
 	static Command startHumanTurn(Human&);
 	static void printPlayTurn(const Player&, const Command);
 	static void printDiscardTurn(const Player&, const Command);
+	static void printDeck();
+	static void printRageQuit(const Player&);
 };
 
 #endif
