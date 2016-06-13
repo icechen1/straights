@@ -87,3 +87,11 @@ void GameView::printDiscardTurn(const Player& player, const Command c) {
 	if (c.type_ != DISCARD) return;
 	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
 }
+
+void GameView::printDeck() {
+	
+}
+
+void GameView::printRageQuit(const Player& player) {
+	cout << "Player " << player.getPlayerId() << " ragequits. A computer will now take over." << endl;
+}
