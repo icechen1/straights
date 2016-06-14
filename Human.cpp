@@ -23,3 +23,8 @@ Command Human::play() {
 	GameView::printPlayTurn(*this, c);
 	return c;
 }
+
+Command Human::play(const Command _command) const {
+	GameView::printPlayTurn(*this, _command);
+	return _command;
+}

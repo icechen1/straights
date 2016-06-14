@@ -11,11 +11,12 @@ class GameController {
 	GameController(int);
 	void initPlayers();
 	void dealCards();
-	void initStartTurn();
+	void initStartRound();
 public:
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
 	GameState getState() const;
+	void startRound();
 	void handleTurn();
 	void playTurn(std::shared_ptr<Player>, Command);
 };

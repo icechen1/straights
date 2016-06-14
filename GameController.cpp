@@ -7,7 +7,7 @@ using namespace std;
 GameController::GameController(int seed) : state_(seed) {
 	initPlayers();
 	dealCards();
-	initStartTurn();
+	initStartRound();
 }
 
 void GameController::initPlayers() {
@@ -38,7 +38,7 @@ void GameController::dealCards() {
 	}
 }
 
-void GameController::initStartTurn() {
+void GameController::initStartRound() {
 	for (shared_ptr<Player> p : state_.players_) {
 		for (Card c : p->getHand()) {
 			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
@@ -66,7 +66,6 @@ GameState GameController::getState() const {
 void GameController::handleTurn() {
 	// check if we have reached end condition
 	shared_ptr<Player> p = state_.currentPlayer_;
-	GameView::startRound(p->getPlayerId());
 	if (p->getPlayerType() == COMPUTER) {
 		playTurn(p, p->play());
 	}
@@ -77,6 +76,21 @@ void GameController::handleTurn() {
 		playTurn(p, c);
 	}
 }
+
+void GameController::startRound() {
+	shared_ptr<Player> p = state_.currentPlayer_;
+	GameView::startRound(p->getPlayerId());
+	if (p->getPlayerType() == COMPUTER) {
+		Command c = Command();
+		c.type_ = PLAY;
+		c.card_ = Card(SPADE, SEVEN);
+		p->play(c);
+		playTurn(p, c);
+		return;
+	}
+	handleTurn();
+}
+
 
 void GameController::playTurn(shared_ptr<Player> player, Command command) {
 	// handle play
@@ -100,6 +114,6 @@ void GameController::playTurn(shared_ptr<Player> player, Command command) {
 		}
 	}
 	// increment current player
-	int newPosition = (state_.currentPlayer_->getPlayerId() + 1) % 4;
+	int newPosition = (state_.currentPlayer_->getPlayerId()) % 4;
 	state_.currentPlayer_ = state_.players_.at(newPosition);
 }

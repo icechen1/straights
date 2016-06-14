@@ -33,29 +33,22 @@ vector<Card> Player::getHand() const {
 	return cards_;
 }
 
-void Player::playCard(Card card)
-{
+void Player::playCard(Card card) {
 	int position = find(cards_.begin(), cards_.end(), card) - cards_.begin();
 	cards_.erase(cards_.begin() + position);
 }
 
-void Player::discardCard(Card card)
-{
+void Player::discardCard(Card card) {
 	playCard(card);
 	score_ += card.getRank();
 }
 
-Player::Player(int id) : id_(id)
-{
+Player::Player(int id) : id_(id){}
 
-}
-
-int Player::getPlayerId() const
-{
+int Player::getPlayerId() const {
 	return id_;
 }
 
-int Player::getScore() const
-{
+int Player::getScore() const {
 	return score_;
 }

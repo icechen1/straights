@@ -16,6 +16,7 @@ protected:
 public:
 	virtual PlayerType getPlayerType() const = 0;
 	virtual Command play() = 0;
+	virtual Command play(const Command) const = 0;
 	int getPlayerId() const;
 	int getScore() const;
 

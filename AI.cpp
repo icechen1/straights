@@ -8,6 +8,11 @@ PlayerType AI::getPlayerType() const {
 	return COMPUTER;
 }
 
+Command AI::play(const Command _command) const {
+	GameView::printPlayTurn(*this, _command);
+	return _command;
+}
+
 Command AI::play() {
 	vector<Card> legalMoves = getLegalMoves();
 	Command c = Command();
