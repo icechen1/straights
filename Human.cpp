@@ -12,7 +12,11 @@ Command Human::play() {
 	return Command();
 }
 
-Command Human::play(const Command _command) const {
-	GameView::printPlayTurn(*this, _command);
-	return _command;
+Command Human::playFirstTurn()
+{
+	Command c = Command();
+	c.type_ = PLAY;
+	c.card_ = Card(SPADE, SEVEN);
+	GameView::printPlayTurn(*this, c);
+	return Command();
 }

@@ -96,11 +96,7 @@ void GameController::startRound() {
 	shared_ptr<Player> p = state_.currentPlayer_;
 	GameView::startRound(p->getPlayerId());
 	if (p->getPlayerType() == COMPUTER) {
-		Command c = Command();
-		c.type_ = PLAY;
-		c.card_ = Card(SPADE, SEVEN);
-		p->play(c);
-		playTurn(p, c);
+		playTurn(p, p->playFirstTurn());
 		return;
 	}
 	handleTurn();
