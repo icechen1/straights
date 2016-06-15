@@ -54,6 +54,7 @@ bool GameController::isGameOver() {
 }
 
 void GameController::initStartRound() {
+	state_.playedCards_.clear();
 	for (shared_ptr<Player> p : state_.players_) {
 		for (Card c : p->getHand()) {
 			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
@@ -112,6 +113,7 @@ void GameController::playTurn(shared_ptr<Player> player, Command command) {
 	switch (command.type_) {
 	case PLAY:
 		player->playCard(command.card_);
+		state_.playedCards_.push_back(command.card_);
 		break;
 	case DISCARD:
 		player->discardCard(command.card_);

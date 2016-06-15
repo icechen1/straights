@@ -22,7 +22,10 @@ vector<Card> Player::getLegalMoves() const {
 			for (Card playedCard : played) {
 				// look for adjacent cards of same suit
 				if (playerCard.getSuit() == playedCard.getSuit()) {
-					/*TODO FINISH THIS*/
+					if (playerCard.getRank() == playedCard.getRank() + 1
+						|| playerCard.getRank() == playedCard.getRank() - 1) {
+						legals.push_back(playerCard);
+					}
 				}
 			}
 		}
