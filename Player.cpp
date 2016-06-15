@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "GameController.h"
+#include <algorithm>
+
 using namespace std;
 
 void Player::dealCard(Card c) {
@@ -34,13 +36,14 @@ vector<Card> Player::getHand() const {
 }
 
 void Player::playCard(Card card) {
-	int position = find(cards_.begin(), cards_.end(), card) - cards_.begin();
-	cards_.erase(cards_.begin() + position);
+	cards_.erase(remove(cards_.begin(), cards_.end(), card), cards_.end());
 }
 
 void Player::discardCard(Card card) {
 	playCard(card);
-	score_ += card.getRank();
+	discards_.push_back(card);
+	round_score_ += card.getRank();
+	total_score_ += card.getRank();
 }
 
 Player::Player(int id) : id_(id){}
@@ -49,6 +52,16 @@ int Player::getPlayerId() const {
 	return id_;
 }
 
-int Player::getScore() const {
-	return score_;
+void Player::nextRound() {
+	round_score_ = 0;
+	cards_.clear();
+	discards_.clear();
+}
+
+int Player::getRoundScore() const {
+	return round_score_;
+}
+
+int Player::getTotalScore() const {
+	return total_score_;
 }

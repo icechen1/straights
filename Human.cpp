@@ -9,19 +9,7 @@ PlayerType Human::getPlayerType() const {
 }
 
 Command Human::play() {
-	vector<Card> legalMoves = getLegalMoves();
-	Command c = Command();
-	if (legalMoves.size() > 0) {
-		// play the first legal move
-		c.type_ = PLAY;
-		c.card_ = legalMoves.at(0);
-	}
-	// discard first card
-	c.type_ = PLAY;
-	c.card_ = legalMoves.at(0);
-
-	GameView::printPlayTurn(*this, c);
-	return c;
+	return Command();
 }
 
 Command Human::play(const Command _command) const {

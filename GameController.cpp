@@ -11,7 +11,7 @@ GameController::GameController(int seed) : state_(seed) {
 }
 
 void GameController::initPlayers() {
-	for (int i = 1; i <= 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		// prompt to ask for player type
 		PlayerType type = GameView::invitePlayer(i);
 		shared_ptr<Player> player;
@@ -29,13 +29,28 @@ void GameController::initPlayers() {
 void GameController::dealCards() {
 	Deck deck = Deck(state_.seed_);
 	deck.shuffle();
-	deque<Card> cards = deck.getCards();
+	deque<shared_ptr<Card>> cards = deck.getCards();
 	for (shared_ptr<Player> p : state_.players_) {
 		for (int i = 0; i < 13; i++) {
-			p->dealCard(cards.at(0));
+			p->dealCard(*cards.at(0));
 			cards.pop_front();
 		}
 	}
+}
+
+void GameController::newRound() {
+	for (shared_ptr<Player> p : state_.players_) {
+		p->nextRound();
+	}
+}
+
+bool GameController::isGameOver() {
+	for (shared_ptr<Player> p : state_.players_) {
+		if (p->getTotalScore() >= 80) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void GameController::initStartRound() {
@@ -72,7 +87,6 @@ void GameController::handleTurn() {
 	else {
 		// human
 		Command c = GameView::startHumanTurn(*(state_.currentPlayer_));
-		p->play();
 		playTurn(p, c);
 	}
 }
@@ -108,12 +122,20 @@ void GameController::playTurn(shared_ptr<Player> player, Command command) {
 
 	// handle end condition
 	if (player->getHand().size() == 0) {
-		cout << "gameover" << endl;
-		for (;;) {
+		cout << "new round" << endl;
+		newRound();
+		if (!isGameOver()) {
+			dealCards();
+			initStartRound();
+		} else {
+			cout << "gameover" << endl;
+			for (;;) {
 
+			}
 		}
+
 	}
 	// increment current player
-	int newPosition = (state_.currentPlayer_->getPlayerId()) % 4;
+	int newPosition = (state_.currentPlayer_->getPlayerId() + 1) % 4;
 	state_.currentPlayer_ = state_.players_.at(newPosition);
 }

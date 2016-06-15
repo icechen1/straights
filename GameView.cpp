@@ -33,9 +33,9 @@ void GameView::printSuit(vector<Card> _cards) {
 
 PlayerType GameView::invitePlayer(int _number) {
 	char playerType;
-	cout << "Is player " << _number << " a human(h) or a computer(c)?" << endl;
+	cout << "Is player " << _number + 1 << " a human(h) or a computer(c)?" << endl;
 	cin >> playerType;
-	
+
 	if (playerType == 'h') {
 		return HUMAN;
 	}
@@ -46,7 +46,7 @@ PlayerType GameView::invitePlayer(int _number) {
 }
 
 void GameView::startRound(int _playerNumber) {
-	cout << "A new round begins. It's player " << _playerNumber << "'s turn to play." << endl;
+	cout << "A new round begins. It's player " << _playerNumber + 1 << "'s turn to play." << endl;
 }
 
 Command GameView::startHumanTurn(Player& _human) {
@@ -74,18 +74,19 @@ Command GameView::startHumanTurn(Player& _human) {
 	printList(_human.getLegalMoves());
 
 	Command command;
+	cin.ignore();
 	cin >> command;
 	return command;
 }
 
 void GameView::printPlayTurn(const Player& player, const Command c) {
 	if (c.type_ != PLAY) return;
-	cout << "Player " << player.getPlayerId() << " plays " << c.card_ << endl;
+	cout << "Player " << player.getPlayerId() + 1 << " plays " << c.card_ << endl;
 }
 
 void GameView::printDiscardTurn(const Player& player, const Command c) {
 	if (c.type_ != DISCARD) return;
-	cout << "Player " << player.getPlayerId() << " discards " << c.card_ << endl;
+	cout << "Player " << player.getPlayerId() + 1 << " discards " << c.card_ << endl;
 }
 
 void GameView::printDeck() {
@@ -93,5 +94,5 @@ void GameView::printDeck() {
 }
 
 void GameView::printRageQuit(const Player& player) {
-	cout << "Player " << player.getPlayerId() << " ragequits. A computer will now take over." << endl;
+	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
 }

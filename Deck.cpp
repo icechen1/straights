@@ -13,7 +13,8 @@ Deck::Deck(int _seed) : seed_(_seed) {
 		// go through the 4 suits
 		for (int j = 0; j < 13; j++) {
 			// 13 ranks per suit
-			cards_.push_back(Card(suits[i], ranks[j]));
+			shared_ptr<Card> c(new Card(suits[i], ranks[j]));
+			cards_.push_back(c);
 		}
 	}
 }
@@ -32,19 +33,19 @@ void Deck::shuffle() {
 	while (n > 1) {
 		int k = (int)(rng() % n);
 		--n;
-		Card *c = &(cards_[n]);
+		shared_ptr<Card> c = (cards_[n]);
 		cards_[n] = cards_[k];
-		cards_[k] = *c;
+		cards_[k] = c;
 	}
 }
 
-deque<Card> Deck::getCards() const {
+deque<shared_ptr<Card>> Deck::getCards() const {
 	return cards_;
 }
 
 std::ostream &operator<<(std::ostream &out, const Deck &deck) {
 	int count = 0;
-	for (Card card : deck.getCards()) {
+	for (shared_ptr<Card> card : deck.getCards()) {
 		out << card;
 		count++;
 

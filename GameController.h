@@ -11,6 +11,8 @@ class GameController {
 	GameController(int);
 	void initPlayers();
 	void dealCards();
+	void newRound();
+	bool isGameOver();
 	void initStartRound();
 public:
 	static std::shared_ptr<GameController> createInstance(int);

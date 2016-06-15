@@ -8,7 +8,8 @@ enum PlayerType { HUMAN, COMPUTER };
 
 class Player {
 protected:
-	int score_ = 0;
+	int round_score_ = 0;
+	int total_score_ = 0;
 	std::vector<Card> discards_;
 	std::vector<Card> cards_;
 	int id_ = -1;
@@ -18,7 +19,9 @@ public:
 	virtual Command play() = 0;
 	virtual Command play(const Command) const = 0;
 	int getPlayerId() const;
-	int getScore() const;
+	void nextRound();
+	int getRoundScore() const;
+	int getTotalScore() const;
 
 	void dealCard(Card c);
 
