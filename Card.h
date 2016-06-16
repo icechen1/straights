@@ -18,6 +18,7 @@ public:
 	Card(Suit, Rank);
 	Suit getSuit() const;
 	Rank getRank() const;
+	int getPointValue() const; // return the scoring value for the card
 
 private:
 	Suit suit_;

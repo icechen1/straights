@@ -16,6 +16,11 @@ Rank Card::getRank() const{
 	return rank_;
 }
 
+int Card::getPointValue() const
+{
+	return getRank() + 1;
+}
+
 bool operator==(const Card &a, const Card &b){
 	return a.getSuit() == b.getSuit() && a.getRank() == b.getRank();
 }

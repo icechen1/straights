@@ -66,7 +66,7 @@ vector<Card> Player::getDiscards() const {
 int Player::getRoundScore() const {
 	int round_score = 0;
 	for (Card c : discards_) {
-		round_score += c.getRank();
+		round_score += c.getPointValue();
 	}
 
 	return round_score;
