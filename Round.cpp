@@ -40,6 +40,7 @@ void Round::handleTurn() {
 }
 
 void Round::playRound() {
+	GameView::startRound(currentPlayer_->getPlayerId() + 1);
 	while (currentPlayer_->getHand().size() != 0) {
 		handleTurn();
 	}

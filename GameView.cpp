@@ -93,7 +93,7 @@ void GameView::startHumanTurn(Player& _human) {
 
 	cout << "Your hand: ";
 	printList(_human.getHand());
-	cout << "Legal plays:";
+	cout << "Legal plays: ";
 	printList(_human.getLegalMoves());
 
 }
