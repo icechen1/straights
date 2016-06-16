@@ -57,6 +57,15 @@ void Player::discardCard(Card card) {
 
 Player::Player(int id) : id_(id){}
 
+Player::Player(Player &other)
+{
+	total_score_ = other.total_score_;
+	discards_ = vector<Card>(other.discards_);
+	cards_ = vector<Card>(other.cards_);
+	legalMoves_ = vector<Card>(other.legalMoves_);
+	id_ = other.id_;
+}
+
 int Player::getPlayerId() const {
 	return id_;
 }

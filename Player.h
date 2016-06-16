@@ -14,6 +14,7 @@ protected:
 	std::vector<Card> legalMoves_;
 	int id_ = -1;
 	Player(int id);
+	Player(Player&); // copy constructor
 public:
 	virtual PlayerType getPlayerType() const = 0;
 	virtual Command play() = 0;

@@ -8,6 +8,7 @@ public:
 	PlayerType getPlayerType() const override;
 	Command play() override;
 	AI(int id) : Player(id) {};
+	AI(Player& other) : Player(other) {};
 };
 
 #endif
