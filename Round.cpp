@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Round::Round(GameState& const _state) : gameState_(_state) {
+Round::Round(const GameState& _state) : gameState_(_state) {
 	dealCards();
 	findStartingPlayer();
 }
@@ -82,6 +82,10 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		break;
 	case DECK:
 		GameView::printDeck(*(gameState_.deck_));
+		break;
+	case RAGEQUIT:
+	case QUIT:
+	case BAD_COMMAND:
 		break;
 	}
 
