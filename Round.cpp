@@ -32,7 +32,6 @@ void Round::dealCards() {
 }
 
 void Round::handleTurn() {
-	// check if we have reached end condition
 	shared_ptr<Player> p = currentPlayer_;
 	p->computeLegalMoves(firstTurn_);
 
@@ -60,11 +59,11 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		player->discardCard(command.card_);
 		GameView::printDiscardTurn(*player, command);
 		break;
-	case DECK:
 	case RAGEQUIT:
 		currentPlayer_ = GameController::getInstance()->handleRageQuit(*player);
 		handleTurn();	//Let the PC to play the turn instead of continuing the turn by human
 		return;
+	case DECK:
 	case QUIT:
 	case BAD_COMMAND:
 		break;
