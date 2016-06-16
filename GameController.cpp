@@ -60,6 +60,26 @@ void GameController::initStartRound() {
 	}
 }
 
+void GameController::printWinner() const {
+	int min = state_.players_[0]->getTotalScore();
+	vector<shared_ptr<Player>> winningPlayers;
+	for (shared_ptr<Player> p : state_.players_) {
+		//find winner
+		if (p->getTotalScore() < min) {
+			winningPlayers.clear();
+			winningPlayers.push_back(p);
+			min = p->getTotalScore();
+		} else if(p->getTotalScore() == min) {
+			winningPlayers.push_back(p);
+		}
+	}
+
+	// print out all winning players
+	for (shared_ptr<Player> p : winningPlayers) {
+		GameView::printPostGame(*p);
+	}
+}
+
 void GameController::endRound() {
 	// print post round information and clear hands
 	for (shared_ptr<Player> p : state_.players_) {
@@ -72,7 +92,8 @@ void GameController::endRound() {
 		playGame();
 	}
 	else {
-		cout << "gameover" << endl;
+		printWinner();
+		//REMOVE LATER
 		for (;;) {
 
 		}
