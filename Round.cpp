@@ -13,14 +13,15 @@ void Round::handleTurn() {
 		firstTurn();
 	}
 	else {
+		Command c;
 		if (p->getPlayerType() == COMPUTER) {
-			playTurn(p, p->play());
+			c = p->play();
 		}
 		else {
 			// human
-			Command c = GameView::startHumanTurn(*(currentPlayer_));
-			playTurn(p, c);
+			c = GameView::startHumanTurn(*(currentPlayer_));
 		}
+		playTurn(p, c);
 	}
 }
 
@@ -35,12 +36,7 @@ void Round::firstTurn() {
 	shared_ptr<Player> p = currentPlayer_;
 	GameView::startRound(p->getPlayerId());
 
-	if (p->getPlayerType() == COMPUTER) {
-		playTurn(p, p->playFirstTurn());
-	}
-	else {
-		// TODO change human playfirstturn
-	}
+	playTurn(p, p->playFirstTurn());
 
 	firstTurn_ = false;
 }
@@ -52,10 +48,12 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 	switch (command.type_) {
 	case PLAY:
 		player->playCard(command.card_);
+		GameView::printPlayTurn(*player, command);
 		playedCards_.push_back(command.card_);
 		break;
 	case DISCARD:
 		player->discardCard(command.card_);
+		GameView::printDiscardTurn(*player, command);
 		break;
 	}
 
