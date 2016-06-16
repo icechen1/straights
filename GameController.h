@@ -21,6 +21,7 @@ class GameController {
 	void endRound();
 	bool isGameOver();
 	void initStartRound();
+	void printWinner() const;
 public:
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
