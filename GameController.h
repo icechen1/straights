@@ -22,7 +22,7 @@ class GameController {
 	void initStartRound();
 	void printWinner() const;
 public:
-	void handleRageQuit(Player & player);
+	std::shared_ptr<Player> handleRageQuit(Player & player);
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
 	std::shared_ptr<Round> getCurrentRound() const;

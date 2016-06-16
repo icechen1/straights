@@ -41,7 +41,8 @@ void GameController::playGame() {
 }
 
 void GameController::initStartRound() {
-	currentRound_ = shared_ptr<Round>(new Round(state_));
+	shared_ptr<GameState> state(&state_);
+	currentRound_ = shared_ptr<Round>(new Round(state));
 }
 
 void GameController::printWinner() const {
@@ -83,12 +84,13 @@ void GameController::endRound() {
 	}
 }
 
-void GameController::handleRageQuit(Player& player) {
+shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 	// (╯°□°)╯︵ ┻━┻
 	int playerId = player.getPlayerId();
 	shared_ptr<Player> ai(new AI(playerId));
 	state_.players_.erase(state_.players_.begin() + playerId);
 	state_.players_.insert(state_.players_.begin() + playerId, ai);
+	return ai;
 	// ┬──┬ ノ(゜-゜ノ)
 }
 
