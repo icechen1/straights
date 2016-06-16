@@ -19,12 +19,12 @@ void GameView::printList(vector<T> _cards) {
 }
 
 void GameView::printSuit(vector<Card> _cards) {
-	vector<Rank> cardsRankList;
+	vector<string> cardsRankList;
 	string ranks[RANK_COUNT] = { "A", "2", "3", "4", "5", "6",
 		"7", "8", "9", "10", "J", "Q", "K" };
 
 	for (int n = 0; n < _cards.size(); n++) {
-		cardsRankList.push_back(_cards[n].getRank());
+		cardsRankList.push_back(ranks[_cards[n].getRank()]);
 	}
 	sort(cardsRankList.begin(), cardsRankList.end());
 
