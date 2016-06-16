@@ -46,7 +46,7 @@ deque<shared_ptr<Card>> Deck::getCards() const {
 std::ostream &operator<<(std::ostream &out, const Deck &deck) {
 	int count = 0;
 	for (shared_ptr<Card> card : deck.getCards()) {
-		out << card;
+		out << *card;
 		count++;
 
 		if (count != 13) {

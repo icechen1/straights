@@ -20,7 +20,7 @@ public:
 	static Command startHumanTurn(Player&);
 	static void printPlayTurn(const Player&, const Command);
 	static void printDiscardTurn(const Player&, const Command);
-	static void printDeck();
+	static void printDeck(const Deck&);
 	static void printRageQuit(const Player&);
 };
 

@@ -2,8 +2,33 @@
 
 using namespace std;
 
-Round::Round(std::shared_ptr<Player> _p, GameState& const _state) : 
-	currentPlayer_(_p), gameState_(_state), firstTurn_(true) {}
+Round::Round(GameState& const _state) : gameState_(_state) {
+	dealCards();
+	findStartingPlayer();
+}
+
+void Round::findStartingPlayer() {
+	for (shared_ptr<Player> p : gameState_.players_) {
+		for (Card c : p->getHand()) {
+			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
+				// this player starts
+				currentPlayer_ = p;
+				return;
+			}
+		}
+	}
+}
+
+void Round::dealCards() {
+	gameState_.deck_->shuffle();
+	deque<shared_ptr<Card>> cards = gameState_.deck_->getCards();
+	for (shared_ptr<Player> p : gameState_.players_) {
+		for (int i = 0; i < 13; i++) {
+			p->dealCard(*cards.at(0));
+			cards.pop_front();
+		}
+	}
+}
 
 void Round::handleTurn() {
 	// check if we have reached end condition
@@ -56,6 +81,9 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		break;
 	case DISCARD:
 		player->discardCard(command.card_);
+		break;
+	case DECK:
+		GameView::printDeck(*(gameState_.deck_));
 		break;
 	}
 

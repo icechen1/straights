@@ -112,8 +112,8 @@ void GameView::printDiscardTurn(const Player& player, const Command c) {
 	cout << "Player " << player.getPlayerId() + 1 << " discards " << c.card_ << "." << endl;
 }
 
-void GameView::printDeck() {
-	
+void GameView::printDeck(const Deck& deck) {
+	cout << deck << endl;
 }
 
 void GameView::printRageQuit(const Player& player) {

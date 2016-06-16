@@ -5,15 +5,17 @@
 #include <memory>
 #include "Player.h"
 #include "GameView.h"
+#include "Deck.h"
 
 class Round {
-	bool firstTurn_;
+	bool firstTurn_ = true;
 	std::shared_ptr<Player> currentPlayer_;
 	std::vector<Card> playedCards_;
 	const GameState& gameState_;
-
+	void findStartingPlayer();
+	void dealCards();
 public:
-	Round(std::shared_ptr<Player>, GameState& const);
+	Round(GameState& const);
 	void playRound();
 	void firstTurn();
 	void handleTurn();

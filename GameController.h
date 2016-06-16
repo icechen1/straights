@@ -17,7 +17,6 @@ class GameController {
 	GameController(int);
 	
 	void initPlayers();
-	void dealCards();
 	void endRound();
 	bool isGameOver();
 	void initStartRound();

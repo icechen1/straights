@@ -10,8 +10,11 @@ shared_ptr<GameController> GameController::createInstance(int seed) {
 }
 
 GameController::GameController(int seed) : state_(seed), currentRound_(nullptr) {
+	// create the deck we're going to use for this game
+	shared_ptr<Deck> t(new Deck(seed));
+	state_.deck_ = t;
+
 	initPlayers();
-	dealCards();
 }
 
 void GameController::initPlayers() {
@@ -30,18 +33,6 @@ void GameController::initPlayers() {
 	}
 }
 
-void GameController::dealCards() {
-	Deck deck = Deck(state_.seed_);
-	deck.shuffle();
-	deque<shared_ptr<Card>> cards = deck.getCards();
-	for (shared_ptr<Player> p : state_.players_) {
-		for (int i = 0; i < 13; i++) {
-			p->dealCard(*cards.at(0));
-			cards.pop_front();
-		}
-	}
-}
-
 void GameController::playGame() {
 	initStartRound();
 	currentRound_->playRound();
@@ -49,15 +40,7 @@ void GameController::playGame() {
 }
 
 void GameController::initStartRound() {
-	for (shared_ptr<Player> p : state_.players_) {
-		for (Card c : p->getHand()) {
-			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
-				// this player starts
-				currentRound_ = shared_ptr<Round>(new Round(p, state_));
-				return;
-			}
-		}
-	}
+	currentRound_ = shared_ptr<Round>(new Round(state_));
 }
 
 void GameController::printWinner() const {
@@ -88,7 +71,6 @@ void GameController::endRound() {
 	}
 	if (!isGameOver()) {
 		// start another round
-		dealCards();
 		playGame();
 	}
 	else {
