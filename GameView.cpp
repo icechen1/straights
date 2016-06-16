@@ -47,7 +47,7 @@ PlayerType GameView::invitePlayer(int _number) {
 }
 
 void GameView::startRound(int _playerNumber) {
-	cout << "A new round begins. It's player " << _playerNumber + 1 << "'s turn to play." << endl;
+	cout << "A new round begins. It's player " << _playerNumber << "'s turn to play." << endl;
 }
 
 void GameView::printPostGame(const Player& _player) {
@@ -116,7 +116,7 @@ void GameView::printDiscardTurn(const Player& player, const Command c) {
 }
 
 void GameView::printDeck(const Deck& deck) {
-	cout << deck << endl;
+	cout << deck;
 }
 
 void GameView::printRageQuit(const Player& player) {
