@@ -12,6 +12,8 @@ int main(int argc, char *argv[]) {
 		seed = atoi(argv[0]);
 	}
 
+	seed = 1;
+
 	shared_ptr<GameController> controller = GameController::createInstance(seed);
 
 	controller->playGame();

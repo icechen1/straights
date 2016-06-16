@@ -45,7 +45,6 @@ void Player::playCard(Card card) {
 void Player::discardCard(Card card) {
 	playCard(card);
 	discards_.push_back(card);
-	total_score_ += card.getRank();
 }
 
 Player::Player(int id) : id_(id){}
@@ -55,6 +54,7 @@ int Player::getPlayerId() const {
 }
 
 void Player::clearHand() {
+	total_score_ += getRoundScore();
 	cards_.clear();
 	discards_.clear();
 }

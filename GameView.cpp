@@ -66,9 +66,9 @@ void GameView::printPostRound(const Player& _player) {
 	int sum = roundScore + totalScore;
 
 	cout << "Player " << _player.getPlayerId() + 1 << "'s score: ";
-	cout << roundScore;
-	cout << " + ";
 	cout << totalScore;
+	cout << " + ";
+	cout << roundScore;
 	cout << " = " << sum << endl;
 }
 

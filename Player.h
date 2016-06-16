@@ -8,7 +8,6 @@ enum PlayerType { HUMAN, COMPUTER };
 
 class Player {
 protected:
-	int round_score_ = 0;
 	int total_score_ = 0;
 	std::vector<Card> discards_;
 	std::vector<Card> cards_;
