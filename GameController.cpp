@@ -61,14 +61,13 @@ void GameController::initStartRound() {
 }
 
 void GameController::endRound() {
-
+	// print post round information and clear hands
+	for (shared_ptr<Player> p : state_.players_) {
+		GameView::printPostRound(*p);
+		p->clearHand();
+	}
 	if (!isGameOver()) {
-		cout << "new round" << endl;
-		
-		for (shared_ptr<Player> p : state_.players_) {
-			p->clearHand();
-		}
-
+		// start another round
 		dealCards();
 		playGame();
 	}
