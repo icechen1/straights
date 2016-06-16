@@ -18,6 +18,7 @@ class GameController {
 	
 	void initPlayers();
 	void endRound();
+	void handleRageQuit(Player & player);
 	bool isGameOver();
 	void initStartRound();
 	void printWinner() const;

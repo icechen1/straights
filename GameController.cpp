@@ -1,4 +1,4 @@
-#include "GameController.h"
+﻿#include "GameController.h"
 #include "GameView.h"
 #include "Deck.h"
 
@@ -80,6 +80,15 @@ void GameController::endRound() {
 
 		}
 	}
+}
+
+void GameController::handleRageQuit(Player& player) {
+	// (╯°□°)╯︵ ┻━┻
+	int playerId = player.getPlayerId();
+	shared_ptr<Player> ai(new AI(playerId));
+	state_.players_.erase(state_.players_.begin() + playerId);
+	state_.players_.insert(state_.players_.begin() + playerId + 1, ai);
+	// ┬──┬ ノ(゜-゜ノ)
 }
 
 bool GameController::isGameOver() {
