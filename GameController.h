@@ -10,7 +10,7 @@
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	static std::shared_ptr<GameController> instance_;
-	GameState state_;
+	std::shared_ptr<GameState> state_;
 
 	std::shared_ptr<Round> currentRound_;
 	
@@ -26,7 +26,7 @@ public:
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
 	std::shared_ptr<Round> getCurrentRound() const;
-	GameState getState() const;
+	std::shared_ptr<GameState> getState() const;
 	void playGame();
 };
 

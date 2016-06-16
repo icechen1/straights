@@ -11,11 +11,11 @@ class Round {
 	bool firstTurn_ = true;
 	std::shared_ptr<Player> currentPlayer_;
 	std::vector<Card> playedCards_;
-	const std::shared_ptr<GameState> gameState_;
+	std::shared_ptr<GameState> gameState_;
 	void findStartingPlayer();
 	void dealCards();
 public:
-	Round(const std::shared_ptr<GameState>);
+	Round(std::shared_ptr<GameState>);
 	void playRound();
 	void handleTurn();
 	void playTurn(std::shared_ptr<Player>, Command);

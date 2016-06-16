@@ -12,7 +12,7 @@ PlayerType Human::getPlayerType() const {
 Command Human::play() {
 	GameView::startHumanTurn(*this);
 	Command c = GameView::readHumanCommand();
-	shared_ptr<Deck> deck = GameController::getInstance()->getState().deck_;
+	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
 
 	bool validMove = false;
 

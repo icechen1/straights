@@ -9,10 +9,12 @@ shared_ptr<GameController> GameController::createInstance(int seed) {
 	return instance_;
 }
 
-GameController::GameController(int seed) : state_(seed), currentRound_(nullptr) {
+GameController::GameController(int seed) : currentRound_(nullptr) {
+	// create game state
+	state_ = shared_ptr<GameState>(new GameState(seed));
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
-	state_.deck_ = t;
+	state_->deck_ = t;
 
 	initPlayers();
 	cin.ignore();
@@ -25,11 +27,11 @@ void GameController::initPlayers() {
 		shared_ptr<Player> player;
 		if (type == HUMAN) {
 			shared_ptr<Player> player(new Human(i));
-			state_.players_.push_back(player);
+			state_->players_.push_back(player);
 		}
 		else {
 			shared_ptr<Player> player(new AI(i));
-			state_.players_.push_back(player);
+			state_->players_.push_back(player);
 		}
 	}
 }
@@ -41,14 +43,13 @@ void GameController::playGame() {
 }
 
 void GameController::initStartRound() {
-	shared_ptr<GameState> state(&state_);
-	currentRound_ = shared_ptr<Round>(new Round(state));
+	currentRound_ = shared_ptr<Round>(new Round(state_));
 }
 
 void GameController::printWinner() const {
-	int min = state_.players_[0]->getTotalScore();
+	int min = state_->players_[0]->getTotalScore();
 	vector<shared_ptr<Player>> winningPlayers;
-	for (shared_ptr<Player> p : state_.players_) {
+	for (shared_ptr<Player> p : state_->players_) {
 		//find winner
 		if (p->getTotalScore() < min) {
 			winningPlayers.clear();
@@ -67,7 +68,7 @@ void GameController::printWinner() const {
 
 void GameController::endRound() {
 	// print post round information and clear hands
-	for (shared_ptr<Player> p : state_.players_) {
+	for (shared_ptr<Player> p : state_->players_) {
 		GameView::printPostRound(*p);
 		p->clearHand();
 	}
@@ -77,10 +78,6 @@ void GameController::endRound() {
 	}
 	else {
 		printWinner();
-		//REMOVE LATER
-		for (;;) {
-
-		}
 	}
 }
 
@@ -95,7 +92,7 @@ shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 }
 
 bool GameController::isGameOver() {
-	for (shared_ptr<Player> p : state_.players_) {
+	for (shared_ptr<Player> p : state_->players_) {
 		if (p->getTotalScore() >= 80) {
 			return true;
 		}
@@ -107,7 +104,7 @@ shared_ptr<GameController> GameController::getInstance() {
 	return instance_;
 }
 
-GameState GameController::getState() const {
+shared_ptr<GameState> GameController::getState() const {
 	return state_;
 }
 

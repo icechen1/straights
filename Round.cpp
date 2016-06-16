@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Round::Round(const shared_ptr<GameState> _state) : gameState_(_state) {
+Round::Round(shared_ptr<GameState> _state) : gameState_(_state) {
 	dealCards();
 	findStartingPlayer();
 }
