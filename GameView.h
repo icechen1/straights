@@ -5,7 +5,7 @@
 #include "Command.h"
 #include "Player.h"
 #include "GameState.h"
-#include "human.h"
+#include "Human.h"
 #include "AI.h"
 
 class GameView {

@@ -18,6 +18,6 @@ int main(int argc, char *argv[]) {
 
 	controller->playGame();
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
