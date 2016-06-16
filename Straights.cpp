@@ -14,10 +14,8 @@ int main(int argc, char *argv[]) {
 
 	shared_ptr<GameController> controller = GameController::createInstance(seed);
 
-	controller->startRound();
-	while (true) {
-		controller->handleTurn();
-	}
+	controller->playGame();
 
+	system("pause");
 	return 0;
 }

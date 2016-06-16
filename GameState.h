@@ -6,8 +6,6 @@
 
 struct GameState {
 	std::vector<std::shared_ptr<Player>> players_;
-	std::shared_ptr<Player> currentPlayer_;
-	std::vector<Card> playedCards_;
 	int seed_;
 
 	GameState(int _seed) : seed_(_seed) {};

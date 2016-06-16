@@ -1,26 +1,32 @@
 #ifndef _GAMECONTROLLER_
 #define _GAMECONTROLLER_
-#include<memory>
-#include"GameState.h"
-#include"Command.h"
+
+#include <memory>
+#include <vector>
+#include "GameState.h"
+#include "Command.h"
+#include "Round.h"
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	static std::shared_ptr<GameController> instance_;
 	GameState state_;
+
+	std::shared_ptr<Round> currentRound_;
+	
 	GameController(int);
+	
 	void initPlayers();
 	void dealCards();
-	void newRound();
+	void endRound();
 	bool isGameOver();
 	void initStartRound();
 public:
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
+	std::shared_ptr<Round> getCurrentRound() const;
 	GameState getState() const;
-	void startRound();
-	void handleTurn();
-	void playTurn(std::shared_ptr<Player>, Command);
+	void playGame();
 };
 
 #endif

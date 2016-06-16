@@ -74,7 +74,7 @@ void GameView::printPostRound(const Player& _player) {
 
 Command GameView::startHumanTurn(Player& _human) {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	vector<Card> played = instance->getState().playedCards_;
+	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
 	map<Suit, vector<Card>> playedCardsMap;
 
 	for (Card card : played) {

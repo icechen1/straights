@@ -72,6 +72,7 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Round.cpp" />
     <ClCompile Include="Straights.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,7 @@
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Round.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

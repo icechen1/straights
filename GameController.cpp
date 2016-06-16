@@ -4,10 +4,14 @@
 
 using namespace std;
 
-GameController::GameController(int seed) : state_(seed) {
+shared_ptr<GameController> GameController::createInstance(int seed) {
+	instance_ = shared_ptr<GameController>(new GameController(seed));
+	return instance_;
+}
+
+GameController::GameController(int seed) : state_(seed), currentRound_(nullptr) {
 	initPlayers();
 	dealCards();
-	initStartRound();
 }
 
 void GameController::initPlayers() {
@@ -38,10 +42,41 @@ void GameController::dealCards() {
 	}
 }
 
-void GameController::newRound() {
+void GameController::playGame() {
+	initStartRound();
+	currentRound_->playRound();
+	endRound();
+}
+
+void GameController::initStartRound() {
 	for (shared_ptr<Player> p : state_.players_) {
-		GameView::printPostRound(*p);
-		p->nextRound();
+		for (Card c : p->getHand()) {
+			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
+				// this player starts
+				currentRound_ = shared_ptr<Round>(new Round(p, state_));
+				return;
+			}
+		}
+	}
+}
+
+void GameController::endRound() {
+
+	if (!isGameOver()) {
+		cout << "new round" << endl;
+		
+		for (shared_ptr<Player> p : state_.players_) {
+			p->clearHand();
+		}
+
+		dealCards();
+		playGame();
+	}
+	else {
+		cout << "gameover" << endl;
+		for (;;) {
+
+		}
 	}
 }
 
@@ -54,24 +89,6 @@ bool GameController::isGameOver() {
 	return false;
 }
 
-void GameController::initStartRound() {
-	state_.playedCards_.clear();
-	for (shared_ptr<Player> p : state_.players_) {
-		for (Card c : p->getHand()) {
-			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
-				// this player starts
-				state_.currentPlayer_ = p;
-				return;
-			}
-		}
-	}
-}
-
-shared_ptr<GameController> GameController::createInstance(int seed) {
-	instance_ = shared_ptr<GameController>(new GameController(seed));
-	return instance_;
-}
-
 shared_ptr<GameController> GameController::getInstance() {
 	return instance_;
 }
@@ -80,62 +97,6 @@ GameState GameController::getState() const {
 	return state_;
 }
 
-void GameController::handleTurn() {
-	// check if we have reached end condition
-	shared_ptr<Player> p = state_.currentPlayer_;
-	if (p->getPlayerType() == COMPUTER) {
-		playTurn(p, p->play());
-	}
-	else {
-		// human
-		Command c = GameView::startHumanTurn(*(state_.currentPlayer_));
-		playTurn(p, c);
-	}
-}
-
-void GameController::startRound() {
-	shared_ptr<Player> p = state_.currentPlayer_;
-	GameView::startRound(p->getPlayerId());
-	if (p->getPlayerType() == COMPUTER) {
-		playTurn(p, p->playFirstTurn());
-		return;
-	}
-	handleTurn();
-}
-
-
-void GameController::playTurn(shared_ptr<Player> player, Command command) {
-	// handle play
-	// TODO input check
-	switch (command.type_) {
-	case PLAY:
-		player->playCard(command.card_);
-		state_.playedCards_.push_back(command.card_);
-		break;
-	case DISCARD:
-		player->discardCard(command.card_);
-		break;
-	}
-
-	// handle discard
-
-	// handle end condition
-	if (player->getHand().size() == 0) {
-		newRound();
-		if (!isGameOver()) {
-			dealCards();
-			initStartRound();
-			startRound();
-		} else {
-			//GameView::printPostGame(*p);
-			cout << "someone wins" << endl;
-			for (;;) {
-
-			}
-		}
-
-	}
-	// increment current player
-	int newPosition = (state_.currentPlayer_->getPlayerId() + 1) % 4;
-	state_.currentPlayer_ = state_.players_.at(newPosition);
+shared_ptr<Round> GameController::getCurrentRound() const {
+	return currentRound_;
 }

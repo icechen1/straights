@@ -11,7 +11,7 @@ void Player::dealCard(Card c) {
 vector<Card> Player::getLegalMoves() const {
 	vector<Card> legals;
 	shared_ptr<GameController> instance = GameController::getInstance();
-	vector<Card> played = instance->getState().playedCards_;
+	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
 
 	for (Card playerCard : cards_) {
 		if (playerCard.getRank() == Rank::SEVEN) {
@@ -54,7 +54,7 @@ int Player::getPlayerId() const {
 	return id_;
 }
 
-void Player::nextRound() {
+void Player::clearHand() {
 	cards_.clear();
 	discards_.clear();
 }
