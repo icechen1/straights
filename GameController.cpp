@@ -15,6 +15,7 @@ GameController::GameController(int seed) : state_(seed), currentRound_(nullptr) 
 	state_.deck_ = t;
 
 	initPlayers();
+	cin.ignore();
 }
 
 void GameController::initPlayers() {

@@ -23,11 +23,3 @@ Command AI::play() {
 
 	return c;
 }
-
-Command AI::playFirstTurn()
-{
-	Command c = Command();
-	c.type_ = PLAY;
-	c.card_ = Card(SPADE, SEVEN);
-	return c;
-}
