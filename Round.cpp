@@ -1,4 +1,5 @@
 #include "Round.h"
+#include "GameController.h"
 
 using namespace std;
 
@@ -33,39 +34,19 @@ void Round::dealCards() {
 void Round::handleTurn() {
 	// check if we have reached end condition
 	shared_ptr<Player> p = currentPlayer_;
+	p->computeLegalMoves(firstTurn_);
+	firstTurn_ = false;
 
-	if (firstTurn_ == true) {
-		firstTurn();
-	}
-	else {
-		Command c;
-		if (p->getPlayerType() == COMPUTER) {
-			c = p->play();
-		}
-		else {
-			// human
-			c = GameView::startHumanTurn(*(currentPlayer_));
-		}
-		playTurn(p, c);
-	}
+	Command c = p->play();
+	playTurn(p, c);
 }
 
 void Round::playRound() {
-	while (currentPlayer_->getHand().size() != 0){
+	while (currentPlayer_->getHand().size() != 0) {
 		handleTurn();
 	}
 	return;
 }
-
-void Round::firstTurn() {
-	shared_ptr<Player> p = currentPlayer_;
-	GameView::startRound(p->getPlayerId());
-
-	playTurn(p, p->playFirstTurn());
-
-	firstTurn_ = false;
-}
-
 
 void Round::playTurn(shared_ptr<Player> player, Command command) {
 	// handle play
@@ -81,9 +62,10 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		GameView::printDiscardTurn(*player, command);
 		break;
 	case DECK:
-		GameView::printDeck(*(gameState_.deck_));
-		break;
 	case RAGEQUIT:
+		GameController::getInstance()->handleRageQuit(*player);
+		handleTurn();
+		break;
 	case QUIT:
 	case BAD_COMMAND:
 		break;

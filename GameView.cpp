@@ -72,7 +72,7 @@ void GameView::printPostRound(const Player& _player) {
 	cout << " = " << sum << endl;
 }
 
-Command GameView::startHumanTurn(Player& _human) {
+void GameView::startHumanTurn(Player& _human) {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
 	map<Suit, vector<Card>> playedCardsMap;
@@ -96,8 +96,11 @@ Command GameView::startHumanTurn(Player& _human) {
 	cout << "Legal plays:";
 	printList(_human.getLegalMoves());
 
+}
+
+Command GameView::readHumanCommand() {
+	cout << ">";
 	Command command;
-	cin.ignore();
 	cin >> command;
 	return command;
 }

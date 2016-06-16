@@ -17,11 +17,12 @@ public:
 	static void startRound(int);
 	static void printPostGame(const Player & _player);
 	static void printPostRound(const Player&);
-	static Command startHumanTurn(Player&);
+	static void startHumanTurn(Player&);
 	static void printPlayTurn(const Player&, const Command);
 	static void printDiscardTurn(const Player&, const Command);
 	static void printDeck(const Deck&);
 	static void printRageQuit(const Player&);
+	static Command readHumanCommand();
 };
 
 #endif

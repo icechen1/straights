@@ -8,15 +8,21 @@ void Player::dealCard(Card c) {
 	cards_.push_back(c);
 }
 
-vector<Card> Player::getLegalMoves() const {
-	vector<Card> legals;
+void Player::computeLegalMoves(bool firstTurn_) {
+	legalMoves_.clear();
 	shared_ptr<GameController> instance = GameController::getInstance();
 	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
+
+	if (firstTurn_ == true) {
+		Card sevenSpade = Card(SPADE, SEVEN);
+		legalMoves_.push_back(sevenSpade);
+		return;
+	}
 
 	for (Card playerCard : cards_) {
 		if (playerCard.getRank() == Rank::SEVEN) {
 			// any seven of any suit is a legal move
-			legals.push_back(playerCard);
+			legalMoves_.push_back(playerCard);
 		}
 		else {
 			for (Card playedCard : played) {
@@ -24,14 +30,16 @@ vector<Card> Player::getLegalMoves() const {
 				if (playerCard.getSuit() == playedCard.getSuit()) {
 					if (playerCard.getRank() == playedCard.getRank() + 1
 						|| playerCard.getRank() == playedCard.getRank() - 1) {
-						legals.push_back(playerCard);
+						legalMoves_.push_back(playerCard);
 					}
 				}
 			}
 		}
 	}
+}
 
-	return legals;
+std::vector<Card> Player::getLegalMoves() const {
+	return legalMoves_;
 }
 
 vector<Card> Player::getHand() const {

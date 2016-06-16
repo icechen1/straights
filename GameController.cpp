@@ -15,6 +15,7 @@ GameController::GameController(int seed) : state_(seed), currentRound_(nullptr) 
 	state_.deck_ = t;
 
 	initPlayers();
+	cin.ignore();
 }
 
 void GameController::initPlayers() {
@@ -87,7 +88,7 @@ void GameController::handleRageQuit(Player& player) {
 	int playerId = player.getPlayerId();
 	shared_ptr<Player> ai(new AI(playerId));
 	state_.players_.erase(state_.players_.begin() + playerId);
-	state_.players_.insert(state_.players_.begin() + playerId + 1, ai);
+	state_.players_.insert(state_.players_.begin() + playerId, ai);
 	// ┬──┬ ノ(゜-゜ノ)
 }
 

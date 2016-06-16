@@ -18,11 +18,11 @@ class GameController {
 	
 	void initPlayers();
 	void endRound();
-	void handleRageQuit(Player & player);
 	bool isGameOver();
 	void initStartRound();
 	void printWinner() const;
 public:
+	void handleRageQuit(Player & player);
 	static std::shared_ptr<GameController> createInstance(int);
 	static std::shared_ptr<GameController> getInstance();
 	std::shared_ptr<Round> getCurrentRound() const;

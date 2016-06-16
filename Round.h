@@ -17,7 +17,6 @@ class Round {
 public:
 	Round(const GameState&);
 	void playRound();
-	void firstTurn();
 	void handleTurn();
 	void playTurn(std::shared_ptr<Player>, Command);
 	std::vector<Card> getPlayedCard() const;
