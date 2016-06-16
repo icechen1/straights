@@ -40,6 +40,7 @@ void GameController::dealCards() {
 
 void GameController::newRound() {
 	for (shared_ptr<Player> p : state_.players_) {
+		GameView::printPostRound(*p);
 		p->nextRound();
 	}
 }
@@ -120,13 +121,14 @@ void GameController::playTurn(shared_ptr<Player> player, Command command) {
 
 	// handle end condition
 	if (player->getHand().size() == 0) {
-		cout << "new round" << endl;
 		newRound();
 		if (!isGameOver()) {
 			dealCards();
 			initStartRound();
+			startRound();
 		} else {
-			cout << "gameover" << endl;
+			//GameView::printPostGame(*p);
+			cout << "someone wins" << endl;
 			for (;;) {
 
 			}

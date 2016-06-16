@@ -20,6 +20,7 @@ public:
 	virtual Command playFirstTurn() = 0;
 	int getPlayerId() const;
 	void nextRound();
+	std::vector<Card> getDiscards() const;
 	int getRoundScore() const;
 	int getTotalScore() const;
 

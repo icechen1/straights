@@ -34,6 +34,7 @@ void GameView::printSuit(vector<Card> _cards) {
 PlayerType GameView::invitePlayer(int _number) {
 	char playerType;
 	cout << "Is player " << _number + 1 << " a human(h) or a computer(c)?" << endl;
+	cout << ">";
 	cin >> playerType;
 
 	if (playerType == 'h') {
@@ -47,6 +48,28 @@ PlayerType GameView::invitePlayer(int _number) {
 
 void GameView::startRound(int _playerNumber) {
 	cout << "A new round begins. It's player " << _playerNumber + 1 << "'s turn to play." << endl;
+}
+
+void GameView::printPostGame(const Player& _player) {
+	cout << "Player " << _player.getPlayerId() + 1 << " wins!";
+}
+
+void GameView::printPostRound(const Player& _player) {
+	cout << "Player " << _player.getPlayerId() + 1 << "'s discards:";
+	for (Card c : _player.getDiscards()) {
+		cout << " " << c;
+	}
+	cout << endl;
+
+	int roundScore = _player.getRoundScore();
+	int totalScore = _player.getTotalScore();
+	int sum = roundScore + totalScore;
+
+	cout << "Player " << _player.getPlayerId() + 1 << "'s score: ";
+	cout << roundScore;
+	cout << " + ";
+	cout << totalScore;
+	cout << " = " << sum << endl;
 }
 
 Command GameView::startHumanTurn(Player& _human) {
@@ -81,12 +104,12 @@ Command GameView::startHumanTurn(Player& _human) {
 
 void GameView::printPlayTurn(const Player& player, const Command c) {
 	if (c.type_ != PLAY) return;
-	cout << "Player " << player.getPlayerId() + 1 << " plays " << c.card_ << endl;
+	cout << "Player " << player.getPlayerId() + 1 << " plays " << c.card_ << "." <<endl;
 }
 
 void GameView::printDiscardTurn(const Player& player, const Command c) {
 	if (c.type_ != DISCARD) return;
-	cout << "Player " << player.getPlayerId() + 1 << " discards " << c.card_ << endl;
+	cout << "Player " << player.getPlayerId() + 1 << " discards " << c.card_ << "." << endl;
 }
 
 void GameView::printDeck() {

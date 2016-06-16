@@ -45,7 +45,6 @@ void Player::playCard(Card card) {
 void Player::discardCard(Card card) {
 	playCard(card);
 	discards_.push_back(card);
-	round_score_ += card.getRank();
 	total_score_ += card.getRank();
 }
 
@@ -56,13 +55,21 @@ int Player::getPlayerId() const {
 }
 
 void Player::nextRound() {
-	round_score_ = 0;
 	cards_.clear();
 	discards_.clear();
 }
 
+vector<Card> Player::getDiscards() const {
+	return discards_;
+}
+
 int Player::getRoundScore() const {
-	return round_score_;
+	int round_score = 0;
+	for (Card c : discards_) {
+		round_score += c.getRank();
+	}
+
+	return round_score;
 }
 
 int Player::getTotalScore() const {
