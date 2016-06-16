@@ -15,7 +15,7 @@ class Round {
 	void findStartingPlayer();
 	void dealCards();
 public:
-	Round(GameState& const);
+	Round(GameState&);
 	void playRound();
 	void firstTurn();
 	void handleTurn();
