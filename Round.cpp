@@ -34,7 +34,6 @@ void Round::dealCards() {
 void Round::handleTurn() {
 	shared_ptr<Player> p = currentPlayer_;
 	p->computeLegalMoves(firstTurn_);
-	firstTurn_ = false;
 
 	Command c = p->play();
 	playTurn(p, c);
@@ -62,8 +61,8 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		break;
 	case RAGEQUIT:
 		currentPlayer_ = GameController::getInstance()->handleRageQuit(*player);
-		handleTurn();
-		break;
+		handleTurn();	//Let the PC to play the turn instead of continuing the turn by human
+		return;
 	case DECK:
 	case QUIT:
 	case BAD_COMMAND:
@@ -73,6 +72,8 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 	// handle discard
 
 	// increment current player
+	firstTurn_ = false;
+
 	int newPosition = (currentPlayer_->getPlayerId() + 1) % 4;
 	currentPlayer_ = gameState_->players_.at(newPosition);
 }
