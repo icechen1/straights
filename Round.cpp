@@ -1,4 +1,5 @@
 #include "Round.h"
+#include "GameController.h"
 
 using namespace std;
 
@@ -61,9 +62,10 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		GameView::printDiscardTurn(*player, command);
 		break;
 	case DECK:
-		GameView::printDeck(*(gameState_.deck_));
-		break;
 	case RAGEQUIT:
+		GameController::getInstance()->handleRageQuit(*player);
+		handleTurn();
+		break;
 	case QUIT:
 	case BAD_COMMAND:
 		break;

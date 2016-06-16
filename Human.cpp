@@ -12,12 +12,14 @@ PlayerType Human::getPlayerType() const {
 Command Human::play() {
 	GameView::startHumanTurn(*this);
 	Command c = GameView::readHumanCommand();
+	shared_ptr<Deck> deck = GameController::getInstance()->getState().deck_;
+
 	bool validMove = false;
 
 	while (true) {
 		switch (c.type_) {
 		case PLAY:
-			if (find(legalMoves_.begin(), legalMoves_.end(), c.card_) == legalMoves_.end()){
+			if (find(legalMoves_.begin(), legalMoves_.end(), c.card_) != legalMoves_.end()){
 				validMove = true;
 			}
 			else {
@@ -33,14 +35,14 @@ Command Human::play() {
 			}
 			break;
 		case DECK:
-			shared_ptr<Deck> deck = GameController::getInstance()->getState().deck_;
 			GameView::printDeck(*deck);
-			validMove = true;
 			break;
 		case QUIT:
-			validMove = true;
+			throw c;
+			break;
 		case RAGEQUIT:
 			validMove = true;
+			break;
 		default:
 			break;
 		}

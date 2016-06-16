@@ -16,8 +16,14 @@ int main(int argc, char *argv[]) {
 
 	shared_ptr<GameController> controller = GameController::createInstance(seed);
 
-	controller->playGame();
+	try {
+		controller->playGame();
+	}
+	catch (Command c) {
+		if (c.type_ == QUIT) {
+			return 0;
+		}
+	}
 
-	//system("pause");
 	return 0;
 }
