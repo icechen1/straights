@@ -4,10 +4,16 @@
 
 using namespace std;
 
+// requires: a valid card
+// modifies: adds the card to the set of cards that the player has
+// ensures: the card is added to the end of the cards list
 void Player::dealCard(Card c) {
 	cards_.push_back(c);
 }
 
+// requires: first turn or not (rules are different)
+// modifies: a list of valid moves is populated
+// ensures: ordering of the moves is deterministic
 void Player::computeLegalMoves(bool firstTurn_) {
 	legalMoves_.clear();
 	shared_ptr<GameController> instance = GameController::getInstance();
@@ -38,25 +44,43 @@ void Player::computeLegalMoves(bool firstTurn_) {
 	}
 }
 
+// requires: legal moves must be populated by computeLegalMoves()
+// ensures: does not edit the class state
+// returns: list of legal moves
 std::vector<Card> Player::getLegalMoves() const {
 	return legalMoves_;
 }
 
+// requires: hand must have been first dealt by Round
+// ensures: does not edit the class state
+// returns: list of cards in hand
 vector<Card> Player::getHand() const {
 	return cards_;
 }
 
+// requires: a valid card in the player's hand
+// modifies: removed specified card from list of cards on hand
+// ensures: the ordering of the list is preserved
 void Player::playCard(Card card) {
 	cards_.erase(remove(cards_.begin(), cards_.end(), card), cards_.end());
 }
 
+// requires: a valid card in the player's hand
+// modifies: removed specified card from list of cards on hand, adds the card to discard list
+// ensures: the ordering of the list is preserved
 void Player::discardCard(Card card) {
 	playCard(card);
 	discards_.push_back(card);
 }
 
+// requires: valid integer id between 0 to 3
+// ensures: set initial player id and empty hand
+// returns: a constructed Player object with specified id 
 Player::Player(int id) : id_(id){}
 
+// requires: valid other to copy from
+// ensures: copies all player properties over
+// returns: a constructed Player object with specified id and state
 Player::Player(Player &other)
 {
 	total_score_ = other.total_score_;
@@ -66,20 +90,27 @@ Player::Player(Player &other)
 	id_ = other.id_;
 }
 
+// ensures: does not edit the class state
+// returns: player id
 int Player::getPlayerId() const {
 	return id_;
 }
 
+// modifies: clears list of cards and discards after a round. adds round score to total
 void Player::clearHand() {
 	total_score_ += getRoundScore();
 	cards_.clear();
 	discards_.clear();
 }
 
+// ensures: does not edit the class state
+// returns: list of discarded cards
 vector<Card> Player::getDiscards() const {
 	return discards_;
 }
 
+// ensures: does not edit the class state
+// returns: score for this round for the given player
 int Player::getRoundScore() const {
 	int round_score = 0;
 	for (Card c : discards_) {
@@ -89,6 +120,8 @@ int Player::getRoundScore() const {
 	return round_score;
 }
 
+// ensures: does not edit the class state
+// returns: score for all rounds for the given player
 int Player::getTotalScore() const {
 	return total_score_;
 }
