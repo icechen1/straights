@@ -3,12 +3,21 @@
 
 #include <memory>
 #include <vector>
-#include "GameState.h"
 #include "Command.h"
 #include "Round.h"
+#include "Player.h"
+#include "Deck.h"
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
+
+	struct GameState {									// Struct that holds the information about the game
+		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
+		std::shared_ptr<Deck> deck_;					// Hold the pointers to the Deck that is used
+		int seed_;										// Hold the seed number
+		GameState(int _seed) : seed_(_seed) {};			// Construct the GameState
+	};
+
 	static std::shared_ptr<GameController> instance_;	// Hold the instance of the GameController
 	std::shared_ptr<GameState> state_;					// Hold information about the state of the Game
 														// including players, deck, seed number

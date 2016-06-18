@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 //returns: a pointer to an instance of GameController
 shared_ptr<GameController> GameController::createInstance(int seed) {
 	instance_ = shared_ptr<GameController>(new GameController(seed));
@@ -60,7 +59,7 @@ void GameController::playRound() {
 
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
-	currentRound_ = shared_ptr<Round>(new Round(state_));
+	currentRound_ = shared_ptr<Round>(new Round());
 }
 
 // requires: a player has more than 80 points
@@ -133,7 +132,7 @@ shared_ptr<GameController> GameController::getInstance() {
 }
 
 // returns: a pointer to the game state
-shared_ptr<GameState> GameController::getState() const {
+shared_ptr<GameController::GameState> GameController::getState() const {
 	return state_;
 }
 

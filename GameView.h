@@ -4,9 +4,9 @@
 #include <iostream>
 #include "Command.h"
 #include "Player.h"
-#include "GameState.h"
 #include "Human.h"
 #include "AI.h"
+#include "Deck.h"
 
 class GameView {
 	template <typename T>
