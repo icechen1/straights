@@ -5,10 +5,10 @@
 
 class AI : public Player {
 public:
-	PlayerType getPlayerType() const override;
-	Command play() override;
-	AI(int id) : Player(id) {};
-	AI(Player& other) : Player(other) {};
+	PlayerType getPlayerType() const override; // returns COMPUTER
+	Command play() override;  // play a move
+	AI(int id) : Player(id) {} // constructs AI player with given ID
+	AI(Player& other) : Player(other) {}; // copy constructor so AI can take over a human player over ragequit
 };
 
 #endif

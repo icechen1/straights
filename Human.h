@@ -6,9 +6,9 @@
 
 class Human : public Player {
 public:
-	PlayerType getPlayerType() const override;
-	Command play() override;
-	Human(int id) : Player(id) {};
+	PlayerType getPlayerType() const override; // returns HUMAN
+	Command play() override; // play a move
+	Human(int id) : Player(id) {}; // constructs Human player with given ID
 };
 
 #endif
