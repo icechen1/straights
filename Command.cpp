@@ -3,6 +3,8 @@
 #include <sstream>
 using namespace std;
 
+// ensures: command is valid - bad command hits an assert
+// returns: creates a command from cin input
 istream &operator>>(istream &in, Command &c){
 	c.type_ = BAD_COMMAND;
 
