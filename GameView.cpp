@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -44,15 +45,17 @@ void GameView::printSuit(const vector<Card> _cards) {
 
 // return: type of player for the given player number
 PlayerType GameView::invitePlayer(const int _number) {
-	char playerType;
+	char c;
 	cout << "Is player " << _number + 1 << " a human(h) or a computer(c)?" << endl;
 	cout << ">";
-	cin >> playerType;
+	cin >> c;
 
-	if (playerType == 'h') {
+	assert(c == 'h' || c == 'c');
+
+	if (c == 'h') {
 		return HUMAN;
 	}
-	else if (playerType == 'c') {
+	else if (c == 'c') {
 		return COMPUTER;
 	}
 	return COMPUTER;	// Assume that the user enter a correct value for between h/c
