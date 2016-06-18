@@ -5,19 +5,22 @@
 #include <istream>
 #define CARD_COUNT 52
 
+// enum of possible suits in game
 enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
+
+// enum of possible ranks for cards
 enum Rank {
 	ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 	EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT
 };
 
 class Card{
-	friend std::istream &operator>>(std::istream &, Card &);
+	friend std::istream &operator>>(std::istream &, Card &); // defines card creation from cin
 
 public:
-	Card(Suit, Rank);
-	Suit getSuit() const;
-	Rank getRank() const;
+	Card(Suit, Rank); // creates card with given suit and rank
+	Suit getSuit() const; // returns suit
+	Rank getRank() const; // returns rank
 	int getPointValue() const; // return the scoring value for the card
 
 private:

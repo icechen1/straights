@@ -3,28 +3,35 @@
 #include <cassert>
 using namespace std;
 
+// returns: a Card with given suit and rank
 Card::Card(Suit s, Rank r){
 	suit_ = s;
 	rank_ = r;
 }
 
+// returns the associated suit with card
 Suit Card::getSuit() const{
 	return suit_;
 }
 
+// returns the associated rank with card
 Rank Card::getRank() const{
 	return rank_;
 }
 
+// returns: associated game point value for the card (rank + 1)
 int Card::getPointValue() const
 {
 	return getRank() + 1;
 }
 
+// ensures: compares a card by suit and rank value - only return true if absolutely identical
+// returns: is a == b
 bool operator==(const Card &a, const Card &b){
 	return a.getSuit() == b.getSuit() && a.getRank() == b.getRank();
 }
 
+// returns: outputs rank and suit in that order to cout
 ostream &operator<<(ostream &out, const Card &c){
 	string suits[SUIT_COUNT] = { "C", "D", "H", "S" };
 	string ranks[RANK_COUNT] = { "A", "2", "3", "4", "5", "6",
@@ -35,6 +42,9 @@ ostream &operator<<(ostream &out, const Card &c){
 	return out;
 }
 
+// throws: asserts if input is valid in order to create card
+// ensures: input is valid
+// returns: constructed card from cin data
 istream &operator>>(istream &in, Card &c){
 	string suits = "CDHS", ranks = "A234567891JQK";
 
