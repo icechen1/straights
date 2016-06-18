@@ -58,7 +58,7 @@ void Round::handleTurn() {
 // ensures: a full round is played after the function runs
 void Round::playRound() {
 	// print round start message
-	GameView::startRound(currentPlayer_->getPlayerId() + 1);
+	GameView::startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
 	while (currentPlayer_->getHand().size() != 0) {
 		handleTurn();
