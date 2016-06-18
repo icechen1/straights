@@ -1,5 +1,4 @@
 #include "Human.h"
-#include "Command.h"
 #include "GameView.h"
 #include "GameController.h"
 
