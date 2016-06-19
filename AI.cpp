@@ -1,6 +1,4 @@
 #include "AI.h"
-#include "Command.h"
-#include "GameView.h"
 
 using namespace std;
 

@@ -1,9 +1,9 @@
 #include "Deck.h"
-#include "Card.h"
 #include <random>
 
 using namespace std;
 
+// returns a ordered Deck with with a seed number
 Deck::Deck(int _seed) : seed_(_seed) {
 	Suit suits[4] = { CLUB, DIAMOND, HEART, SPADE };
 	Rank ranks[13] = { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
@@ -25,6 +25,9 @@ the given program, use this shuffling algorithm.
 CARD_COUNT is the constant 52
 cards_ is an array of pointers to cards
 */
+
+// requires: a valid Deck objects containing 52 cards
+// modifies: change the order of Cards in the Deck
 void Deck::shuffle() {
 	static mt19937 rng(seed_);
 
@@ -39,10 +42,14 @@ void Deck::shuffle() {
 	}
 }
 
+// requires: a valid Deck objects containing 52 cards
+// returns: a deque of Cards in the Deck
 deque<shared_ptr<Card>> Deck::getCards() const {
 	return cards_;
 }
 
+// requires: a valid Deck objects containing 52 cards
+// returns: output all the Cards in the Deck, 13 cards per row
 std::ostream &operator<<(std::ostream &out, const Deck &deck) {
 	int count = 0;
 	for (shared_ptr<Card> card : deck.getCards()) {

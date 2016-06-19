@@ -5,7 +5,7 @@ using namespace std;
 
 // ensures: set initial random dealt cards and starting player
 // returns: a constructed Round object
-Round::Round(shared_ptr<GameState> _state) : gameState_(_state) {
+Round::Round() {
 	dealCards();
 	findStartingPlayer();
 }
@@ -14,7 +14,8 @@ Round::Round(shared_ptr<GameState> _state) : gameState_(_state) {
 // modifies: sets the currentPlayer_ to the player with a 7S
 // ensures: does not modify the players
 void Round::findStartingPlayer() {
-	for (shared_ptr<Player> p : gameState_->players_) {
+	vector<shared_ptr<Player>> players = GameController::getInstance()->getState()->players_;
+	for (shared_ptr<Player> p : players) {
 		for (Card c : p->getHand()) {
 			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
 				// this player starts
@@ -30,9 +31,10 @@ void Round::findStartingPlayer() {
 // modifies: deals 13 random cards to each player (class field)
 // ensures: does not modify the game state
 void Round::dealCards() {
-	gameState_->deck_->shuffle();
-	deque<shared_ptr<Card>> cards = gameState_->deck_->getCards();
-	for (shared_ptr<Player> p : gameState_->players_) {
+	shared_ptr<GameController> instance = GameController::getInstance();
+	instance->getState()->deck_->shuffle();
+	deque<shared_ptr<Card>> cards = instance->getState()->deck_->getCards();
+	for (shared_ptr<Player> p : instance->getState()->players_) {
 		for (int i = 0; i < 13; i++) {
 			p->dealCard(*cards.at(0));
 			cards.pop_front();
@@ -58,7 +60,7 @@ void Round::handleTurn() {
 // ensures: a full round is played after the function runs
 void Round::playRound() {
 	// print round start message
-	GameView::startRound(currentPlayer_->getPlayerId() + 1);
+	GameView::startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
 	while (currentPlayer_->getHand().size() != 0) {
 		handleTurn();
@@ -70,6 +72,8 @@ void Round::playRound() {
 // modifies: plays the action, modifies the player and the Round with the action taken, may end the round
 // ensures: the next player will become the current player
 void Round::playTurn(shared_ptr<Player> player, Command command) {
+	shared_ptr<GameController> instance = GameController::getInstance();
+	
 	// handle play
 	switch (command.type_) {
 	case PLAY:
@@ -97,7 +101,7 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 	firstTurn_ = false;
 
 	int newPosition = (currentPlayer_->getPlayerId() + 1) % 4;
-	currentPlayer_ = gameState_->players_.at(newPosition);
+	currentPlayer_ = instance->getState()->players_.at(newPosition);
 }
 
 // requires: a list of played cards
