@@ -108,7 +108,8 @@ void GameController::endRound() {
 shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 	// (╯°□°)╯︵ ┻━┻
 	int playerId = player.getPlayerId();
-	shared_ptr<Player> ai(new AI(player));
+	shared_ptr<Player> ai(new AI(player)); 
+	GameView::printRageQuit(player);
 	state_->players_.erase(state_->players_.begin() + playerId);
 	state_->players_.insert(state_->players_.begin() + playerId, ai);
 	return ai;

@@ -68,7 +68,7 @@ void GameView::startRound(const Player& _player) {
 
 // ensures: ouput a string saying which player won the game
 void GameView::printWinner(const Player& _player) {
-	cout << "Player " << _player.getPlayerId() + 1 << " wins!";
+	cout << "Player " << _player.getPlayerId() + 1 << " wins!" << endl;
 }
 
 // ensures: ouput a string giving the score for the player
