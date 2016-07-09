@@ -1,10 +1,12 @@
 CXX = g++ # variables and initialization
-CXXFLAGS = -std=c++11 -g -Wall -MMD # builds dependency lists in .d files
+CXXFLAGS = -std=c++11 -g -Wall -MMD `pkg-config gtkmm-3.0 --cflags` # builds dependency lists in .d files
+LDLIBS = -lpthread `pkg-config gtkmm-3.0 --libs`
+
 OBJECTS = AI.o Command.o Card.o Deck.o GameController.o GameView.o Human.o Player.o Round.o Straights.o
 DEPENDS = ${OBJECTS:.o=.d} # substitute ".o" with ".d"
 EXEC = straights
 ${EXEC} : ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} $(LDLIBS)
 clean :
 	rm -rf ${DEPENDS} ${OBJECTS} ${EXEC}
 -include ${DEPENDS} # reads the .d fil
