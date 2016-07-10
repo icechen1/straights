@@ -45,6 +45,12 @@
     <ClCompile Include="Round.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Observable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -72,6 +78,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Round.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

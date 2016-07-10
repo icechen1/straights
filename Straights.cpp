@@ -37,5 +37,8 @@ int main(int argc, char *argv[])
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
 	Gtk::Window *win;
 	builder->get_widget("window1", win);
+
+	Gtk::Button *button;
+	builder->get_widget("button1", button);
 	return app->run(*win);
 }
