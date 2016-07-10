@@ -1,10 +1,11 @@
-#ifndef _OBSERVABLE_
-#define _OBSERVABLE_
+#ifndef _SUBJECT_
+#define _SUBJECT_
 #include "View.h"
 #include <memory>
 #include <vector>
 #include <algorithm>
-class Observable {
+
+class Subject {
 public:
 	void subscribe(std::shared_ptr<View>);
 	void unsubscribe(const std::shared_ptr<View>);

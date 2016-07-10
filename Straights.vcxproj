@@ -126,7 +126,7 @@
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Human.cpp" />
-    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="Straights.cpp" />
@@ -140,7 +140,7 @@
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Human.h" />
-    <ClInclude Include="Observable.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="View.h" />
