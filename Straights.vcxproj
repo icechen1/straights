@@ -130,7 +130,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="Straights.cpp" />
-    <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
@@ -143,7 +142,7 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Round.h" />
-    <ClInclude Include="View.h" />
+    <ClInclude Include="Observer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
