@@ -171,7 +171,7 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
-	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app));
+	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app, std::shared_ptr<GameView>(this)));
 }
 
 void GameView::handleQuit()

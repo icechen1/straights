@@ -6,6 +6,17 @@ using namespace std;
 //returns: a pointer to an instance of GameController
 shared_ptr<GameController> GameController::createInstance(int seed, shared_ptr<GameView> view) {
 	instance_ = shared_ptr<GameController>(new GameController(seed, view));
+	instance_->initPlayers();
+	// Ignore a cin read after reading the player information
+	// Ready to read commands
+	cin.ignore();
+	return instance_;
+}
+
+//returns: a pointer to an instance of GameController
+shared_ptr<GameController> GameController::createInstance(int seed, bool computers[], shared_ptr<GameView> view) {
+	instance_ = shared_ptr<GameController>(new GameController(seed, view));
+	instance_->setPlayers(computers);
 	return instance_;
 }
 
@@ -19,12 +30,20 @@ GameController::GameController(int seed, shared_ptr<GameView> view) : currentRou
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
 	state_->deck_ = t;
+}
 
-	initPlayers();
-
-	// Ignore a cin read after reading the player information
-	// Ready to read commands
-	cin.ignore();
+void GameController::setPlayers(bool computers[]) {
+	for (int i = 0; i < 4; i++) {
+		shared_ptr<Player> player;
+		if (!computers[i]) {
+			shared_ptr<Player> player(new Human(i));
+			state_->players_.push_back(player);
+		}
+		else {
+			shared_ptr<Player> player(new AI(i));
+			state_->players_.push_back(player);
+		}
+	}
 }
 
 // requires: no round has started, no player has been initialized
@@ -54,7 +73,6 @@ void GameController::playRound() {
 	initStartRound();
 	currentRound_->playRound();
 	endRound();
-	notify();
 }
 
 // modifies: create a new round object and set it as currentRound_

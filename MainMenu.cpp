@@ -1,5 +1,4 @@
 #include "MainMenu.h"
-#include <iostream>
 using namespace std;
 
 void MainMenu::startGame() {
@@ -8,7 +7,10 @@ void MainMenu::startGame() {
 		computer[i]= switches_[i]->get_active();
 	}
 	string seed = entrySeed_->get_text();
-	//callback_(computer);
+	shared_ptr<GameController> instance = GameController::getInstance();
+	instance = instance->createInstance(std::stoi(seed), computer, view_);
+	view_->subscribeController(instance);
+	instance->playRound();
 	quit();
 }
 
@@ -16,7 +18,7 @@ void MainMenu::quit() {
 	assistant_->hide();
 }
 
-MainMenu::MainMenu(Glib::RefPtr<Gtk::Application> app) : app_(app) {
+MainMenu::MainMenu(Glib::RefPtr<Gtk::Application> app, std::shared_ptr<GameView> view) : view_(view), app_(app) {
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("mainmenu.glade");
 	builder->get_widget("menu", assistant_);
 	// set references to switches

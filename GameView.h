@@ -12,6 +12,7 @@
 #include "MainMenu.h"
 #include "GameController.h"
 class GameController;
+class MainMenu;
 
 class GameView : public Observer {
 	template <typename T>
