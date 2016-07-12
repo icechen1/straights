@@ -7,6 +7,8 @@ void MainMenu::startGame() {
 	for (int i = 0; i < 4; i++) {
 		computer[i]= switches_[i]->get_active();
 	}
+	string seed = entrySeed_->get_text();
+	//callback_(computer);
 	quit();
 }
 
@@ -22,14 +24,16 @@ MainMenu::MainMenu(Glib::RefPtr<Gtk::Application> app) : app_(app) {
 		string name = "switch" + std::to_string(i + 1);
 		builder->get_widget(name, switches_[i]);
 	}
+	builder->get_widget("entry_seed", entrySeed_);
+
 	assistant_->signal_cancel().connect(sigc::mem_fun(*this, &MainMenu::quit));
 	// assistant_->signal_close().connect(sigc::mem_fun(*this, &MainMenu::quit));
 	assistant_->signal_apply().connect(sigc::mem_fun(*this, &MainMenu::startGame));
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		assistant_->set_page_complete(*(assistant_->get_nth_page(i)), true);
 	}
-	assistant_->set_page_type(*(assistant_->get_nth_page(1)), Gtk::AssistantPageType::ASSISTANT_PAGE_CONFIRM);
+	assistant_->set_page_type(*(assistant_->get_nth_page(2)), Gtk::AssistantPageType::ASSISTANT_PAGE_CONFIRM);
 }
 
 void MainMenu::run() {

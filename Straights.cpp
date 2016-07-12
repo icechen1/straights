@@ -1,6 +1,5 @@
 #include "GameController.h"
 #include "GameView.h"
-#include "MainMenu.h"
 #include <memory>
 #include <iostream>
 #include <gtkmm.h>
@@ -20,15 +19,6 @@ int main(int argc, char *argv[]) {
 		Gtk::Application::create(argc, argv,
 			"org.straights");
 	shared_ptr<GameView> gameView = shared_ptr<GameView>(new GameView(app));
-	MainMenu mainMenu(app);
-	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
-	Gtk::Window *win;
-	builder->get_widget("window1", win);
-	win->hide();
-	mainMenu.run();
-
-	//Gtk::Button *button;
-	//builder->get_widget("quit_btn", button);
 	/*
 
 	shared_ptr<GameController> controller = GameController::createInstance(seed, gameView);
@@ -42,6 +32,5 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	*/
-	// button->signal_clicked().connect(sigc::mem_fun(*gameView, &GameView::handleQuit));
-	return app->run(*win);
+	return gameView->run();
 }

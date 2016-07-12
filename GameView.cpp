@@ -1,5 +1,6 @@
 #include "GameView.h"
 #include "GameController.h"
+#include "MainMenu.h"
 #include <map>
 #include <algorithm>
 #include <string>
@@ -41,10 +42,6 @@ void GameView::printSuit(const vector<Card> _cards) {
 	}
 
 	printList(output);
-}
-
-GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
-{
 }
 
 // return: type of player for the given player number
@@ -157,7 +154,32 @@ void GameView::printRageQuit(const Player& player) {
 	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
 }
 
+GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
+{
+	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
+	builder->get_widget("window1", window_);
+
+	Gtk::Button *quitBtn, *newGameBtn;
+	builder->get_widget("quit_btn", quitBtn);
+	builder->get_widget("new_game_btn", newGameBtn);
+
+	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
+	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
+
+	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app));
+
+}
+
 void GameView::handleQuit()
 {
 	app_->quit();
 }
+
+void GameView::openMenu(){
+	mainMenu_->run();
+}
+
+int GameView::run() {
+	return app_->run(*window_);
+}
+

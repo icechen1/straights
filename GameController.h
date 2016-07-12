@@ -7,6 +7,7 @@
 #include "Round.h"
 #include "Player.h"
 #include "Deck.h"
+#include "Observer.h"
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
