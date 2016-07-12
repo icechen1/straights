@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "GameView.h"
 #include <memory>
 #include <iostream>
 #include <gtkmm.h>
@@ -17,15 +18,19 @@ int main(int argc, char *argv[]) {
 	auto app =
 		Gtk::Application::create(argc, argv,
 			"org.gtkmm.examples.base");
+	shared_ptr<GameView> gameView = shared_ptr<GameView>(new GameView(app));
+
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
 	Gtk::Window *win;
 	builder->get_widget("window1", win);
 
 	Gtk::Button *button;
-	builder->get_widget("button1", button);
+	builder->get_widget("quit_btn", button);
+	button->signal_clicked().connect(sigc::mem_fun(*gameView, &GameView::handleQuit));
+
 	int code = app->run(*win);
 
-	shared_ptr<GameController> controller = GameController::createInstance(seed);
+	shared_ptr<GameController> controller = GameController::createInstance(seed, gameView);
 	try {
 		controller->playRound();
 	}

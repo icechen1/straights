@@ -60,7 +60,7 @@ void Round::handleTurn() {
 // ensures: a full round is played after the function runs
 void Round::playRound() {
 	// print round start message
-	GameView::startRound(*currentPlayer_);
+	GameController::getInstance()->getView()->startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
 	while (currentPlayer_->getHand().size() != 0) {
 		handleTurn();
@@ -78,12 +78,12 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 	switch (command.type_) {
 	case PLAY:
 		player->playCard(command.card_);
-		GameView::printPlayTurn(*player, command);
+		instance->getView()->printPlayTurn(*player, command);
 		playedCards_.push_back(command.card_);
 		break;
 	case DISCARD:
 		player->discardCard(command.card_);
-		GameView::printDiscardTurn(*player, command);
+		instance->getView()->printDiscardTurn(*player, command);
 		break;
 	case RAGEQUIT:
 		currentPlayer_ = GameController::getInstance()->handleRageQuit(*player);

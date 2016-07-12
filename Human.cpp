@@ -13,8 +13,8 @@ PlayerType Human::getPlayerType() const {
 // ensures: always returns a move
 // returns: move (command) for this turn
 Command Human::play() {
-	GameView::startHumanTurn(*this);
-	Command c = GameView::readHumanCommand();
+	GameController::getInstance()->getView()->startHumanTurn(*this);
+	Command c = GameController::getInstance()->getView()->readHumanCommand();
 	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
 
 	bool validMove = false;
@@ -38,7 +38,7 @@ Command Human::play() {
 			}
 			break;
 		case DECK:
-			GameView::printDeck(*deck);
+			GameController::getInstance()->getView()->printDeck(*deck);
 			break;
 		case QUIT:
 			throw c;
@@ -54,7 +54,7 @@ Command Human::play() {
 			break;
 		}
 		else {
-			c = GameView::readHumanCommand();
+			c = GameController::getInstance()->getView()->readHumanCommand();
 		}
 	}
 	return c;

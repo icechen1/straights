@@ -10,6 +10,7 @@
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
+	std::shared_ptr<GameView> view_;
 
 	struct GameState {									// Struct that holds the information about the game
 		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
@@ -24,7 +25,7 @@ class GameController {
 
 	std::shared_ptr<Round> currentRound_;				// Hold the information about the current round that being played
 	
-	GameController(int);								// Initialize a GameController object
+	GameController(int, std::shared_ptr<GameView>);			// Initialize a GameController object
 	void initPlayers();									// Initialize a list of 4 players
 	void initStartRound();								// Initialize a new round, by creating a round object
 	void endRound();									// Proceed to end the round and print the correct information
@@ -32,10 +33,11 @@ class GameController {
 	void printWinner() const;							// print the information about the winner
 public:
 	std::shared_ptr<Player> handleRageQuit(Player & player);	// Replace a human player with an AI player
-	static std::shared_ptr<GameController> createInstance(int);	// Create an instance of GameController and save it as static to this class
+	static std::shared_ptr<GameController> createInstance(int, std::shared_ptr<GameView>);	// Create an instance of GameController and save it as static to this class
 	static std::shared_ptr<GameController> getInstance();		// Accessor -  get the unique instance of GameController
 	std::shared_ptr<Round> getCurrentRound() const;				// Accessor - get the current round information
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
+	std::shared_ptr<GameView> getView() const;				    // Accessor - get the view of the game
 	void playRound();											// Play a full round (create, play and end the round)
 };
 

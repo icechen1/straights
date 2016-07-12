@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <cassert>
-
+#include <gtkmm.h>
 using namespace std;
 
 // requires: T must have a << operator
@@ -41,6 +41,10 @@ void GameView::printSuit(const vector<Card> _cards) {
 	}
 
 	printList(output);
+}
+
+GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
+{
 }
 
 // return: type of player for the given player number
@@ -151,4 +155,9 @@ void GameView::printDeck(const Deck& deck) {
 // ensures: ouput message for ragequit
 void GameView::printRageQuit(const Player& player) {
 	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
+}
+
+void GameView::handleQuit()
+{
+	app_->quit();
 }
