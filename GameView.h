@@ -10,15 +10,20 @@
 #include "AI.h"
 #include "Deck.h"
 #include "MainMenu.h"
+#include "GameController.h"
+class GameController;
 
-class GameView {
+class GameView : public Observer {
 	template <typename T>
 	void printList(std::vector<T>);							// Print a list of object T
 	void printSuit(std::vector<Card>);						// Map each card to the correct Suit and print Cards per Suit ordered by Rank
 	Glib::RefPtr<Gtk::Application> app_;
 	Gtk::Window *window_;
+	Gtk::Label *scores_[4];
+	Gtk::Label *discards_[4];
 	std::shared_ptr<MainMenu> mainMenu_;
-
+protected:
+	void update();
 public:
 	GameView(Glib::RefPtr<Gtk::Application> app);
 	PlayerType invitePlayer(int);							// Prompt the user to determine if a player is human or AI
@@ -34,6 +39,7 @@ public:
 	
 	void handleQuit();
 	void openMenu();
+	void subscribeController(std::shared_ptr<GameController>);
 	int run();
 };
 

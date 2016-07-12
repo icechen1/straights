@@ -19,18 +19,16 @@ int main(int argc, char *argv[]) {
 		Gtk::Application::create(argc, argv,
 			"org.straights");
 	shared_ptr<GameView> gameView = shared_ptr<GameView>(new GameView(app));
-	/*
-
 	shared_ptr<GameController> controller = GameController::createInstance(seed, gameView);
+	gameView->subscribeController(controller);
 	try {
 		controller->playRound();
 	}
 	catch (Command c) {
 		// quit game if quit command has been issued
 		if (c.type_ == QUIT) {
-			return code;
+			return 1;
 		}
 	}
-	*/
 	return gameView->run();
 }

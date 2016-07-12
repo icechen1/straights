@@ -54,6 +54,7 @@ void GameController::playRound() {
 	initStartRound();
 	currentRound_->playRound();
 	endRound();
+	notify();
 }
 
 // modifies: create a new round object and set it as currentRound_

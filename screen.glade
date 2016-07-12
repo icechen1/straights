@@ -419,7 +419,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label5">
+                          <object class="GtkLabel" id="score1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -431,7 +431,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label6">
+                          <object class="GtkLabel" id="discards1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -491,7 +491,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label7">
+                          <object class="GtkLabel" id="score2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -503,7 +503,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label8">
+                          <object class="GtkLabel" id="discards2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -562,7 +562,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label9">
+                          <object class="GtkLabel" id="score3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -574,7 +574,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label10">
+                          <object class="GtkLabel" id="discards3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -635,7 +635,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label11">
+                          <object class="GtkLabel" id="score4">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>
@@ -647,7 +647,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label12">
+                          <object class="GtkLabel" id="discards4">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">label</property>

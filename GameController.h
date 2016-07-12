@@ -8,9 +8,11 @@
 #include "Player.h"
 #include "Deck.h"
 #include "Observer.h"
+class GameView;
+class Round;
 
 // GameController is a singleton entity representing the controller for the Straights game
-class GameController {
+class GameController : public Subject {
 	std::shared_ptr<GameView> view_;
 
 	struct GameState {									// Struct that holds the information about the game

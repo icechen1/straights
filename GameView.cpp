@@ -163,15 +163,21 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 	builder->get_widget("quit_btn", quitBtn);
 	builder->get_widget("new_game_btn", newGameBtn);
 
+	for (int i = 0; i < 4; i++) {
+		builder->get_widget("score" + std::to_string(i + 1), scores_[i]);
+		builder->get_widget("discards" + std::to_string(i + 1), discards_[i]);
+	}
+
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
 	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app));
-
 }
 
 void GameView::handleQuit()
 {
+	shared_ptr<GameController> instance = GameController::getInstance();
+	instance->unsubscribe(this);
 	app_->quit();
 }
 
@@ -179,7 +185,21 @@ void GameView::openMenu(){
 	mainMenu_->run();
 }
 
+void GameView::subscribeController(std::shared_ptr<GameController> ctrl)
+{
+	ctrl->subscribe(this);
+}
+
 int GameView::run() {
 	return app_->run(*window_);
 }
 
+void GameView::update()
+{
+	shared_ptr<GameController> instance = GameController::getInstance();
+
+	for (int i = 0; i < 4; i++) {
+		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
+		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
+	}
+}
