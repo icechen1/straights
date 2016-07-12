@@ -85,9 +85,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -126,6 +128,7 @@
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Human.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Round.cpp" />
@@ -139,6 +142,7 @@
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Human.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Round.h" />
