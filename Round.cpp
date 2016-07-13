@@ -96,7 +96,7 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 	}
 
 	// update
-	instance->notify();
+	instance->getState()->notify();
 
 	// increment current player
 	firstTurn_ = false;

@@ -177,17 +177,12 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 void GameView::handleQuit()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	instance->unsubscribe(this);
+	//instance->unsubscribe(this);
 	app_->quit();
 }
 
 void GameView::openMenu(){
 	mainMenu_->run();
-}
-
-void GameView::subscribeController(std::shared_ptr<GameController> ctrl)
-{
-	ctrl->subscribe(this);
 }
 
 int GameView::run() {

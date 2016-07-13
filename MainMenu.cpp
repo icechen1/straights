@@ -9,7 +9,6 @@ void MainMenu::startGame() {
 	string seed = entrySeed_->get_text();
 	shared_ptr<GameController> instance = GameController::getInstance();
 	instance = instance->createInstance(std::stoi(seed), computer, view_);
-	view_->subscribeController(instance);
 	instance->playRound();
 	quit();
 }

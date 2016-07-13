@@ -27,6 +27,7 @@ shared_ptr<GameController> GameController::createInstance(int seed, bool compute
 GameController::GameController(int seed, shared_ptr<GameView> view) : view_(view) {
 	// create game state
 	state_ = shared_ptr<GameState>(new GameState(seed));
+	state_->subscribe(view.get());
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
 	state_->deck_ = t;

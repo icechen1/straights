@@ -40,7 +40,6 @@ public:
 	
 	void handleQuit();
 	void openMenu();
-	void subscribeController(std::shared_ptr<GameController>);
 	int run();
 };
 
