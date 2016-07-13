@@ -612,8 +612,6 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">12</property>
-                <property name="right_attach">13</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -625,8 +623,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">11</property>
-                <property name="right_attach">12</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -638,8 +636,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">10</property>
-                <property name="right_attach">11</property>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -651,8 +649,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">9</property>
-                <property name="right_attach">10</property>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -664,8 +662,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">8</property>
-                <property name="right_attach">9</property>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -677,8 +675,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">7</property>
-                <property name="right_attach">8</property>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -703,8 +701,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">5</property>
-                <property name="right_attach">6</property>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -716,8 +714,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">4</property>
-                <property name="right_attach">5</property>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -729,8 +727,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">3</property>
-                <property name="right_attach">4</property>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -742,8 +740,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">2</property>
-                <property name="right_attach">3</property>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -755,8 +753,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
@@ -768,6 +766,8 @@
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
