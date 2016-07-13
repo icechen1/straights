@@ -154,7 +154,7 @@ void GameView::printRageQuit(const Player& player) {
 	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
 }
 
-GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
+GameView::GameView()
 {
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
 	builder->get_widget("window1", window_);
@@ -190,22 +190,22 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
-	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app, std::shared_ptr<GameView>(this)));
+	mainMenu_ = new MainMenu(this);
 }
 
 void GameView::handleQuit()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	//instance->unsubscribe(this);
-	app_->quit();
+	window_->hide();
 }
 
 void GameView::openMenu(){
 	mainMenu_->run();
 }
 
-int GameView::run() {
-	return app_->run(*window_);
+int GameView::run(Glib::RefPtr<Gtk::Application> app) {
+	return app->run(*window_);
 }
 
 void GameView::update()

@@ -18,20 +18,19 @@ class GameView : public Observer {
 	template <typename T>
 	void printList(std::vector<T>);							// Print a list of object T
 	void printSuit(std::vector<Card>);						// Map each card to the correct Suit and print Cards per Suit ordered by Rank
-	Glib::RefPtr<Gtk::Application> app_;
 	Gtk::Window *window_;
 	Gtk::Label *scores_[4];
 	Gtk::Label *discards_[4];
 	Gtk::Image *cardGrid_[4][13];
 	Gtk::Button *hand_[13];
 	Gtk::Image *handImage_[13];
-	std::shared_ptr<MainMenu> mainMenu_;
+	MainMenu* mainMenu_;
 	void hideAllCards();
 	void clearHand();
 protected:
 	void update();
 public:
-	GameView(Glib::RefPtr<Gtk::Application> app);
+	GameView();
 	PlayerType invitePlayer(int);							// Prompt the user to determine if a player is human or AI
 	void startRound(const Player&);							// Print a message to indicate the start of a round and which player starts
 	void printWinner(const Player &);						// Print a message to indicate which player wins
@@ -45,7 +44,7 @@ public:
 	
 	void handleQuit();
 	void openMenu();
-	int run();
+	int run(Glib::RefPtr<Gtk::Application> app);
 	void startGameWithSettings(int seed, bool computers[]);
 
 };
