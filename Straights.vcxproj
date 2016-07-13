@@ -131,7 +131,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Round.cpp" />
+    <ClCompile Include="RoundController.cpp" />
     <ClCompile Include="Straights.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,10 +145,11 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Round.h" />
+    <ClInclude Include="RoundController.h" />
     <ClInclude Include="Observer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

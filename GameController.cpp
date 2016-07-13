@@ -70,9 +70,9 @@ void GameController::initPlayers() {
 // modifies: Create a round, play the round and end the round
 //			 Players score
 // ensures: Players score are correctly updated
-void GameController::playRound() {
+void GameController::playAITurns() {
 	initStartRound();
-	state_->currentRound_->playRound();
+	state_->currentRound_->playAITurns();
 	if (state_->currentRound_->getRoundOver()) {
 		endRound();
 	}
@@ -80,7 +80,7 @@ void GameController::playRound() {
 
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
-	state_->currentRound_ = shared_ptr<Round>(new Round());
+	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
 }
 
 // requires: a player has more than 80 points
@@ -116,7 +116,7 @@ void GameController::endRound() {
 	}
 	if (!isGameOver()) {
 		// start another round
-		playRound();
+		playAITurns();
 	}
 	else {
 		printWinner();
@@ -164,6 +164,6 @@ std::shared_ptr<GameView> GameController::getView() const
 }
 
 // returns: a pointer to the current game round
-shared_ptr<Round> GameController::getCurrentRound() const {
+shared_ptr<RoundController> GameController::getCurrentRound() const {
 	return state_->currentRound_;
 }

@@ -4,12 +4,12 @@
 #include <memory>
 #include <vector>
 #include "Command.h"
-#include "Round.h"
+#include "RoundController.h"
 #include "Player.h"
 #include "Deck.h"
 #include "Observer.h"
 class GameView;
-class Round;
+class RoundController;
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
@@ -18,10 +18,10 @@ class GameController {
 	struct GameState : public Subject {									// Struct that holds the information about the game
 		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
 		std::shared_ptr<Deck> deck_;					// Hold the pointers to the Deck that is used
-		std::shared_ptr<Round> currentRound_;			// Hold the information about the current round that being played
+		std::shared_ptr<RoundController> currentRound_;			// Hold the information about the current round that being played
 		int seed_;										// Hold the seed number
 		GameState(int _seed) : seed_(_seed) {};			// Construct the GameState
-		friend class Round;
+		friend class RoundController;
 	};
 
 	static std::shared_ptr<GameController> instance_;	// Hold the instance of the GameController
@@ -39,10 +39,10 @@ public:
 	static std::shared_ptr<GameController> createInstance(int, bool[], std::shared_ptr<GameView>);	// A Facade method to create a new GameController and use pre set human/computer settings
 	static std::shared_ptr<GameController> createInstance(int, std::shared_ptr<GameView>);	// Create an instance of GameController and save it as static to this class
 	static std::shared_ptr<GameController> getInstance();		// Accessor -  get the unique instance of GameController
-	std::shared_ptr<Round> getCurrentRound() const;				// Accessor - get the current round information
+	std::shared_ptr<RoundController> getCurrentRound() const;				// Accessor - get the current round information
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
 	std::shared_ptr<GameView> getView() const;				    // Accessor - get the view of the game
-	void playRound();											// Play a full round (create, play and end the round)
+	void playAITurns();											// Play a full round (create, play and end the round)
 	void initStartRound();								// Initialize a new round, by creating a round object
 };
 

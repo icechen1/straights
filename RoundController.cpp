@@ -1,11 +1,11 @@
-#include "Round.h"
+#include "RoundController.h"
 #include "GameController.h"
 
 using namespace std;
 
 // ensures: set initial random dealt cards and starting player
 // returns: a constructed Round object
-Round::Round() {
+RoundController::RoundController() {
 	dealCards();
 	findStartingPlayer();
 }
@@ -13,7 +13,7 @@ Round::Round() {
 // requires: gameState_ is not empty, and has players
 // modifies: sets the currentPlayer_ to the player with a 7S
 // ensures: does not modify the players
-void Round::findStartingPlayer() {
+void RoundController::findStartingPlayer() {
 	vector<shared_ptr<Player>> players = GameController::getInstance()->getState()->players_;
 	for (shared_ptr<Player> p : players) {
 		for (Card c : p->getHand()) {
@@ -30,7 +30,7 @@ void Round::findStartingPlayer() {
 // requires: there are cards in the deck
 // modifies: deals 13 random cards to each player (class field)
 // ensures: does not modify the game state
-void Round::dealCards() {
+void RoundController::dealCards() {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	instance->getState()->deck_->shuffle();
 	deque<shared_ptr<Card>> cards = instance->getState()->deck_->getCards();
@@ -45,7 +45,7 @@ void Round::dealCards() {
 // requires: valid player and command
 // modifies: list of legal moves
 // ensures: player.play() gets called
-void Round::handleTurn() {
+void RoundController::handleTurn() {
 	shared_ptr<Player> p = currentPlayer_;
 	// compute the list of legal moves
 	p->computeLegalMoves(firstTurn_);
@@ -58,10 +58,13 @@ void Round::handleTurn() {
 // requires: valid player
 // modifies: state about current round
 // ensures: a full round is played after the function runs
-void Round::playRound() {
+void RoundController::playAITurns() {
 	// print round start message
 	GameController::getInstance()->getView()->startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
+
+	
+
 	while (!roundOver_ && currentPlayer_->getPlayerType() == COMPUTER) {
 		handleTurn();
 		roundOver_ = true;
@@ -78,7 +81,7 @@ void Round::playRound() {
 // requires: valid player and command
 // modifies: plays the action, modifies the player and the Round with the action taken, may end the round
 // ensures: the next player will become the current player
-void Round::playTurn(shared_ptr<Player> player, Command command) {
+void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	
 	// handle play
@@ -115,16 +118,16 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 // requires: a list of played cards
 // ensures: nothing is modified
 // returns: list of cards that have been played this round
-vector<Card> Round::getPlayedCard() const {
+vector<Card> RoundController::getPlayedCard() const {
 	return playedCards_;
 }
 
-std::shared_ptr<Player> Round::getCurrentPlayer() const
+std::shared_ptr<Player> RoundController::getCurrentPlayer() const
 {
 	return currentPlayer_;
 }
 
-bool Round::getRoundOver() const
+bool RoundController::getRoundOver() const
 {
 	return roundOver_;
 }
