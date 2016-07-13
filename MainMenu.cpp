@@ -15,7 +15,7 @@ void MainMenu::quit() {
 	assistant_->hide();
 }
 
-MainMenu::MainMenu(Glib::RefPtr<Gtk::Application> app, std::shared_ptr<GameView> view) : view_(view), app_(app) {
+MainMenu::MainMenu(GameView* view) : view_(view) {
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("mainmenu.glade");
 	builder->get_widget("menu", assistant_);
 	// set references to switches

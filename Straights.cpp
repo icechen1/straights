@@ -12,9 +12,8 @@ std::shared_ptr<GameController> GameController::instance_; // WHYYY?
 // returns: 0 if game properly runs
 int main(int argc, char *argv[]) {
 	auto app = Gtk::Application::create(argc, argv, "org.straights");
-	shared_ptr<GameView> gameView = shared_ptr<GameView>(new GameView(app));
-	//shared_ptr<GameController> controller = GameController::createInstance(seed, gameView);
-	return gameView->run();
+	GameView gameView;
+	return gameView.run(app);
 }
 
 // bonus ideas:

@@ -154,7 +154,7 @@ void GameView::printRageQuit(const Player& player) {
 	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
 }
 
-GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
+GameView::GameView()
 {
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
 	builder->get_widget("window1", window_);
@@ -190,22 +190,22 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
-	mainMenu_ = std::shared_ptr<MainMenu>(new MainMenu(app, std::shared_ptr<GameView>(this)));
+	mainMenu_ = new MainMenu(this);
 }
 
 void GameView::handleQuit()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	//instance->unsubscribe(this);
-	app_->quit();
+	window_->hide();
 }
 
 void GameView::openMenu(){
 	mainMenu_->run();
 }
 
-int GameView::run() {
-	return app_->run(*window_);
+int GameView::run(Glib::RefPtr<Gtk::Application> app) {
+	return app->run(*window_);
 }
 
 void GameView::update()
@@ -229,11 +229,21 @@ void GameView::update()
 	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
 	// update hand
 	// TODO: get a helper function for this
-	vector<Card> hand = instance->getState()->currentRound_->getCurrentPlayer()->getHand();
+	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
+	vector<Card> hand = p->getHand();
+	vector<Card> legalMoves = p->getLegalMoves();
+
 	for (int i = 0; i < hand.size(); i++) {
 		Card c = hand.at(i);
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		handImage_[i]->set(filename);
+		// check if it is a legal move
+		if (std::find(legalMoves.begin(), legalMoves.end(), c) != legalMoves.end()) {
+			hand_[i]->set_opacity(1);
+		}
+		else {
+			hand_[i]->set_opacity(0.5f);
+		}
 	}
 
 	// show card state
