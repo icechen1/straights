@@ -16,3 +16,8 @@ int main(int argc, char *argv[]) {
 	//shared_ptr<GameController> controller = GameController::createInstance(seed, gameView);
 	return gameView->run();
 }
+
+// bonus ideas:
+// leaderboard
+// textbox with player actions
+// achievements

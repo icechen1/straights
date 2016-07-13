@@ -30,7 +30,6 @@ class GameController {
 
 	GameController(int, std::shared_ptr<GameView>);			// Initialize a GameController object
 	void initPlayers();									// Initialize a list of 4 players
-	void initStartRound();								// Initialize a new round, by creating a round object
 	void endRound();									// Proceed to end the round and print the correct information
 	bool isGameOver();									// Check if the game is over
 	void printWinner() const;							// print the information about the winner
@@ -44,6 +43,7 @@ public:
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
 	std::shared_ptr<GameView> getView() const;				    // Accessor - get the view of the game
 	void playRound();											// Play a full round (create, play and end the round)
+	void initStartRound();								// Initialize a new round, by creating a round object
 };
 
 #endif

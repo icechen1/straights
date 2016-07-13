@@ -46,6 +46,8 @@ public:
 	void handleQuit();
 	void openMenu();
 	int run();
+	void startGameWithSettings(int seed, bool computers[]);
+
 };
 
 #endif

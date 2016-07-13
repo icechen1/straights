@@ -255,3 +255,9 @@ void GameView::clearHand() {
 	}
 }
 
+void GameView::startGameWithSettings(int seed, bool computers[]) {
+	shared_ptr<GameController> instance = GameController::getInstance();
+	instance = instance->createInstance(seed, computers, shared_ptr<GameView>(this));
+	instance->playRound();
+}
+

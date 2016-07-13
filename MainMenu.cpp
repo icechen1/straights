@@ -7,10 +7,8 @@ void MainMenu::startGame() {
 		computer[i]= switches_[i]->get_active();
 	}
 	string seed = entrySeed_->get_text();
-	shared_ptr<GameController> instance = GameController::getInstance();
-	instance = instance->createInstance(std::stoi(seed), computer, view_);
-	instance->playRound();
 	quit();
+	view_->startGameWithSettings(std::stoi(seed), computer);
 }
 
 void MainMenu::quit() {
