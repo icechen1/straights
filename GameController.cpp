@@ -24,7 +24,7 @@ shared_ptr<GameController> GameController::createInstance(int seed, bool compute
 //			 initialize a new deck
 //			 initialize 4 players
 // returns:	A game controller object to be used for the full game
-GameController::GameController(int seed, shared_ptr<GameView> view) : currentRound_(nullptr), view_(view) {
+GameController::GameController(int seed, shared_ptr<GameView> view) : view_(view) {
 	// create game state
 	state_ = shared_ptr<GameState>(new GameState(seed));
 	// create the deck we're going to use for this game
@@ -71,13 +71,13 @@ void GameController::initPlayers() {
 // ensures: Players score are correctly updated
 void GameController::playRound() {
 	initStartRound();
-	currentRound_->playRound();
+	state_->currentRound_->playRound();
 	endRound();
 }
 
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
-	currentRound_ = shared_ptr<Round>(new Round());
+	state_->currentRound_ = shared_ptr<Round>(new Round());
 }
 
 // requires: a player has more than 80 points
@@ -162,5 +162,5 @@ std::shared_ptr<GameView> GameController::getView() const
 
 // returns: a pointer to the current game round
 shared_ptr<Round> GameController::getCurrentRound() const {
-	return currentRound_;
+	return state_->currentRound_;
 }

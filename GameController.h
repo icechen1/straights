@@ -18,6 +18,7 @@ class GameController : public Subject {
 	struct GameState {									// Struct that holds the information about the game
 		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
 		std::shared_ptr<Deck> deck_;					// Hold the pointers to the Deck that is used
+		std::shared_ptr<Round> currentRound_;			// Hold the information about the current round that being played
 		int seed_;										// Hold the seed number
 		GameState(int _seed) : seed_(_seed) {};			// Construct the GameState
 	};
@@ -26,8 +27,6 @@ class GameController : public Subject {
 	std::shared_ptr<GameState> state_;					// Hold information about the state of the Game
 														// including players, deck, seed number
 
-	std::shared_ptr<Round> currentRound_;				// Hold the information about the current round that being played
-	
 	GameController(int, std::shared_ptr<GameView>);			// Initialize a GameController object
 	void initPlayers();									// Initialize a list of 4 players
 	void initStartRound();								// Initialize a new round, by creating a round object
