@@ -22,7 +22,9 @@ class GameView : public Observer {
 	Gtk::Window *window_;
 	Gtk::Label *scores_[4];
 	Gtk::Label *discards_[4];
+	Gtk::Image *cardGrid_[4][13];
 	std::shared_ptr<MainMenu> mainMenu_;
+	void hideAllCards();
 protected:
 	void update();
 public:

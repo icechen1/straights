@@ -168,6 +168,16 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 		builder->get_widget("discards" + std::to_string(i + 1), discards_[i]);
 	}
 
+	string suits[] = { "C", "D", "H", "S" };
+	string ranks[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 13; j++) {
+			builder->get_widget(suits[i] + ranks[j], cardGrid_[i][j]);
+		}
+	}
+	hideAllCards();
+
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
@@ -193,8 +203,26 @@ void GameView::update()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
 
+	// show points
 	for (int i = 0; i < 4; i++) {
 		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
 		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
+	}
+
+	// show card state
+	hideAllCards();
+	vector<Card> cards = instance->getState()->currentRound_->getPlayedCard();
+	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
+	for (Card c : cards) {
+		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
+		cardGrid_[c.getSuit()][c.getRank()]->set(filename);
+	}
+}
+
+void GameView::hideAllCards() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 13; j++) {
+			cardGrid_[i][j]->set("img/nothing.png");
+		}
 	}
 }
