@@ -212,6 +212,11 @@ void GameView::update()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
 
+	// allow human to make a move
+	if (instance->getState()->currentRound_->getCurrentPlayer()->getPlayerType() == HUMAN) {
+
+	}
+
 	// show points
 	for (int i = 0; i < 4; i++) {
 		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");

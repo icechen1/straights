@@ -73,7 +73,9 @@ void GameController::initPlayers() {
 void GameController::playRound() {
 	initStartRound();
 	state_->currentRound_->playRound();
-	endRound();
+	if (state_->currentRound_->getRoundOver()) {
+		endRound();
+	}
 }
 
 // modifies: create a new round object and set it as currentRound_

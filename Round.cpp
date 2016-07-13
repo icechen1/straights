@@ -62,9 +62,16 @@ void Round::playRound() {
 	// print round start message
 	GameController::getInstance()->getView()->startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
-	while (currentPlayer_->getHand().size() != 0) {
+	while (!roundOver_ && currentPlayer_->getPlayerType() == COMPUTER) {
 		handleTurn();
+		roundOver_ = true;
+		for (shared_ptr<Player> p : GameController::getInstance()->getState()->players_) {
+			if (p->getHand().size() > 0) {
+				roundOver_ = false;
+			}
+		}
 	}
+
 	return;
 }
 
@@ -95,14 +102,14 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 		break;
 	}
 
-	// update
-	instance->getState()->notify();
-
 	// increment current player
 	firstTurn_ = false;
 
 	int newPosition = (currentPlayer_->getPlayerId() + 1) % 4;
 	currentPlayer_ = instance->getState()->players_.at(newPosition);
+
+	// update
+	instance->getState()->notify();
 }
 
 // requires: a list of played cards
@@ -115,4 +122,9 @@ vector<Card> Round::getPlayedCard() const {
 std::shared_ptr<Player> Round::getCurrentPlayer() const
 {
 	return currentPlayer_;
+}
+
+bool Round::getRoundOver() const
+{
+	return roundOver_;
 }
