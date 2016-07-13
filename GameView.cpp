@@ -176,7 +176,16 @@ GameView::GameView(Glib::RefPtr<Gtk::Application> app) : app_(app)
 			builder->get_widget(suits[i] + ranks[j], cardGrid_[i][j]);
 		}
 	}
+
+	for (int k = 0; k < 13; k++) {
+		string hand = "hand" + std::to_string(k + 1);
+		string handImage = "hand_image" + std::to_string(k + 1);
+		builder->get_widget(hand, hand_[k]);
+		builder->get_widget(handImage, handImage_[k]);
+	}
+
 	hideAllCards();
+	clearHand();
 
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
@@ -208,17 +217,30 @@ void GameView::update()
 		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
 		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
 	}
+	
+	clearHand();
+
+	// use an array to convert rank ordinal to file name
+	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
+	// update hand
+	// TODO: get a helper function for this
+	vector<Card> hand = instance->getState()->currentRound_->getCurrentPlayer()->getHand();
+	for (int i = 0; i < hand.size(); i++) {
+		Card c = hand.at(i);
+		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
+		handImage_[i]->set(filename);
+	}
 
 	// show card state
 	hideAllCards();
 	vector<Card> cards = instance->getState()->currentRound_->getPlayedCard();
-	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
 	for (Card c : cards) {
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		cardGrid_[c.getSuit()][c.getRank()]->set(filename);
 	}
 }
 
+// hides all cards in screen
 void GameView::hideAllCards() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 13; j++) {
@@ -226,3 +248,10 @@ void GameView::hideAllCards() {
 		}
 	}
 }
+
+void GameView::clearHand() {
+	for (int j = 0; j < 13; j++) {
+		handImage_[j]->set("img/nothing.png");
+	}
+}
+

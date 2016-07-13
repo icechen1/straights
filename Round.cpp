@@ -111,3 +111,8 @@ void Round::playTurn(shared_ptr<Player> player, Command command) {
 vector<Card> Round::getPlayedCard() const {
 	return playedCards_;
 }
+
+std::shared_ptr<Player> Round::getCurrentPlayer() const
+{
+	return currentPlayer_;
+}

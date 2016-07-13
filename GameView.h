@@ -23,8 +23,11 @@ class GameView : public Observer {
 	Gtk::Label *scores_[4];
 	Gtk::Label *discards_[4];
 	Gtk::Image *cardGrid_[4][13];
+	Gtk::Button *hand_[13];
+	Gtk::Image *handImage_[13];
 	std::shared_ptr<MainMenu> mainMenu_;
 	void hideAllCards();
+	void clearHand();
 protected:
 	void update();
 public:

@@ -19,6 +19,7 @@ public:
 	void playRound(); // plays round to completion
 	void handleTurn(); // handle a turn, call the associated player for move
 	void playTurn(std::shared_ptr<Player>, Command); // performs the command the player chooses
+	std::shared_ptr<Player> getCurrentPlayer() const;
 	std::vector<Card> getPlayedCard() const; // returns list of played cards for round
 };
 
