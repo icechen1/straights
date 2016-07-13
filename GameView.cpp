@@ -229,11 +229,21 @@ void GameView::update()
 	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
 	// update hand
 	// TODO: get a helper function for this
-	vector<Card> hand = instance->getState()->currentRound_->getCurrentPlayer()->getHand();
+	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
+	vector<Card> hand = p->getHand();
+	vector<Card> legalMoves = p->getLegalMoves();
+
 	for (int i = 0; i < hand.size(); i++) {
 		Card c = hand.at(i);
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		handImage_[i]->set(filename);
+		// check if it is a legal move
+		if (std::find(legalMoves.begin(), legalMoves.end(), c) != legalMoves.end()) {
+			hand_[i]->set_opacity(1);
+		}
+		else {
+			hand_[i]->set_opacity(0.5f);
+		}
 	}
 
 	// show card state
