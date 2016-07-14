@@ -118,3 +118,40 @@ int Player::getRoundScore() const {
 int Player::getTotalScore() const {
 	return total_score_;
 }
+
+bool Player::verify(Command c)
+{
+	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
+	vector<Card> legalMoves = getLegalMoves();
+	bool validMove = false;
+	switch (c.type_) {
+	case PLAY:
+		if (find(legalMoves.begin(), legalMoves.end(), c.card_) != legalMoves.end()) {
+			validMove = true;
+		}
+		else {
+			cout << "This is not a legal play." << endl;
+		}
+		break;
+	case DISCARD:
+		if (legalMoves.empty()) {
+			validMove = true;
+		}
+		else {
+			cout << "You have a legal play. You may not discard." << endl;
+		}
+		break;
+	case DECK:
+		GameController::getInstance()->getView()->printDeck(*deck);
+		break;
+	case QUIT:
+		throw c;
+		break;
+	case RAGEQUIT:
+		validMove = true;
+		break;
+	default:
+		break;
+	}
+	return validMove;
+}

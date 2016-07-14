@@ -44,6 +44,7 @@ public:
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
 	std::shared_ptr<GameView> getView() const;				    // Accessor - get the view of the game
 	void playAITurns();											// Play a full round (create, play and end the round)
+	bool playHumanCard(Card);
 	void initStartRound();								// Initialize a new round, by creating a round object
 };
 

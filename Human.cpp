@@ -15,41 +15,10 @@ PlayerType Human::getPlayerType() const {
 Command Human::play() {
 	GameController::getInstance()->getView()->startHumanTurn(*this);
 	Command c = GameController::getInstance()->getView()->readHumanCommand();
-	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
-	vector<Card> legalMoves;
-
 	bool validMove = false;
 
 	while (true) {
-		switch (c.type_) {
-		case PLAY:
-			if (find(legalMoves.begin(), legalMoves.end(), c.card_) != legalMoves.end()){
-				validMove = true;
-			}
-			else {
-				cout << "This is not a legal play." << endl;
-			}
-			break;
-		case DISCARD:
-			if (legalMoves.empty()) {
-				validMove = true;
-			}
-			else {
-				cout << "You have a legal play. You may not discard." << endl;
-			}
-			break;
-		case DECK:
-			GameController::getInstance()->getView()->printDeck(*deck);
-			break;
-		case QUIT:
-			throw c;
-			break;
-		case RAGEQUIT:
-			validMove = true;
-			break;
-		default:
-			break;
-		}
+		validMove = verify(c);
 
 		if (validMove == true) {
 			break;

@@ -288,20 +288,10 @@ void GameView::rageQuit(int n) {
 void GameView::selectHand(int n) {
 	shared_ptr<Player> player = GameController::getInstance()->getState()->currentRound_->getCurrentPlayer();
 	vector<Card> hand = player->getHand();
-	vector<Card> validMoves = player->getLegalMoves();
 	Card selectedCard = hand.at(n);
-	Command c;
-
-	if (std::find(validMoves.begin(), validMoves.end(), selectedCard) != validMoves.end()) {
-		c.type_ = PLAY;
-		c.card_ = selectedCard;
+	bool valid = GameController::getInstance()->playHumanCard(selectedCard);
+	if (!valid) {
+		cout << "Bad move" << endl;
 	}
-	else {
-		c.type_ = DISCARD;
-		c.card_ = selectedCard;
-	}
-
-	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
-	GameController::getInstance()->getState()->currentRound_->playAITurns();
 }
 

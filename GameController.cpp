@@ -78,6 +78,31 @@ void GameController::playAITurns() {
 	}
 }
 
+bool GameController::playHumanCard(Card card) {
+	shared_ptr<Player> player = getState()->currentRound_->getCurrentPlayer();
+	vector<Card> hand = player->getHand();
+	vector<Card> validMoves = player->getLegalMoves();
+
+	Command c;
+
+	if (std::find(validMoves.begin(), validMoves.end(), card) != validMoves.end()) {
+		c.type_ = PLAY;
+		c.card_ = card;
+	}
+	else {
+		c.type_ = DISCARD;
+		c.card_ = card;
+	}
+	//verify
+	if (player->verify(c)) {
+		state_->currentRound_->playTurn(player, c);
+		state_->currentRound_->playAITurns();
+		return true;
+	}
+	// invalid move
+	return false;
+}
+
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
 	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
