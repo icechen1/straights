@@ -27,6 +27,8 @@ class GameView : public Observer {
 	Gtk::Image *handImage_[13];
 	MainMenu* mainMenu_;
 	void hideAllCards();
+	void disableHandButtons();
+	void disableRageButtons();
 	void clearHand();
 protected:
 	void update();

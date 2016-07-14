@@ -159,12 +159,14 @@ void GameView::printRageQuit(const Player& player) {
 
 GameView::GameView()
 {
+	Gtk::Button *quitBtn, *newGameBtn;
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
 	builder->get_widget("window1", window_);
-
-	Gtk::Button *quitBtn, *newGameBtn;
 	builder->get_widget("quit_btn", quitBtn);
 	builder->get_widget("new_game_btn", newGameBtn);
+
+	string suits[] = { "C", "D", "H", "S" };
+	string ranks[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
 	for (int i = 0; i < 4; i++) {
 		builder->get_widget("score" + std::to_string(i + 1), scores_[i]);
@@ -172,9 +174,6 @@ GameView::GameView()
 		builder->get_widget("rage" + std::to_string(i + 1), rageQuit_[i]);
 		rageQuit_[i]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::rageQuit), i));
 	}
-
-	string suits[] = { "C", "D", "H", "S" };
-	string ranks[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 13; j++) {
@@ -190,9 +189,13 @@ GameView::GameView()
 		hand_[k]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::selectHand), k));
 	}
 
+	// disable UI elements when game is not in progress
 	hideAllCards();
 	clearHand();
+	disableHandButtons();
+	disableRageButtons();
 
+	// connect handlers to new game and quit buttons
 	quitBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::handleQuit));
 	newGameBtn->signal_clicked().connect(sigc::mem_fun(*this, &GameView::openMenu));
 
@@ -217,11 +220,20 @@ int GameView::run(Glib::RefPtr<Gtk::Application> app) {
 void GameView::update()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
+	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
+	vector<shared_ptr<Player>> players = instance->getState()->players_;
 
-	// show points
+	disableRageButtons();
+	// update score board
 	for (int i = 0; i < 4; i++) {
+		// show points
 		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
 		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
+		// enable rage button
+		if (players.at(i) == p) {
+			// enable rage button for current 
+			rageQuit_[i]->set_sensitive(true);
+		}
 	}
 	
 	clearHand();
@@ -230,10 +242,10 @@ void GameView::update()
 	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
 	// update hand
 	// TODO: get a helper function for this
-	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
 	vector<Card> hand = p->getHand();
 	vector<Card> legalMoves = p->getLegalMoves();
 
+	disableHandButtons();
 	for (int i = 0; i < hand.size(); i++) {
 		Card c = hand.at(i);
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
@@ -243,8 +255,9 @@ void GameView::update()
 			hand_[i]->set_opacity(1);
 		}
 		else {
-			hand_[i]->set_opacity(0.5f);
+			hand_[i]->set_opacity(0.3f);
 		}
+		hand_[i]->set_sensitive(true);
 	}
 
 	// show card state
@@ -262,6 +275,18 @@ void GameView::hideAllCards() {
 		for (int j = 0; j < 13; j++) {
 			cardGrid_[i][j]->set("img/nothing.png");
 		}
+	}
+}
+
+void GameView::disableHandButtons() {
+	for (int j = 0; j < 13; j++) {
+		hand_[j]->set_sensitive(false);
+	}
+}
+
+void GameView::disableRageButtons() {
+	for (int j = 0; j < 4; j++) {
+		rageQuit_[j]->set_sensitive(false);
 	}
 }
 
@@ -298,4 +323,6 @@ void GameView::selectHand(int n) {
 		int result = dialog.run();
 	}
 }
+
+
 
