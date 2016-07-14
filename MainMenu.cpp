@@ -7,6 +7,9 @@ void MainMenu::startGame() {
 		computer[i]= switches_[i]->get_active();
 	}
 	string seed = entrySeed_->get_text();
+	if (seed == "") {
+		seed = "0";
+	}
 	quit();
 	view_->startGameWithSettings(std::stoi(seed), computer);
 }
