@@ -54,6 +54,8 @@ public:
 
 	void selectHand(int n);
 
+	void showRoundEndDialog(bool isGameEnd);
+
 };
 
 #endif

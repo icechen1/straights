@@ -356,5 +356,30 @@ void GameView::selectHand(int n) {
 	}
 }
 
+void GameView::showRoundEndDialog(bool isGameEnd) {
+	vector<shared_ptr<Player>> players = GameController::getInstance()->getState()->players_;
+	string title = isGameEnd ? "Game over" : "Round over";
+	Gtk::MessageDialog dialog(*window_, title, false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK);
+	std::ostringstream stream; // pipe output to an output stream for now
+	for (shared_ptr<Player> player : players) {
+		stream << "Player " << player->getPlayerId() + 1 << "'s discards:";
+		for (Card c : player->getDiscards()) {
+			stream << " " << c;
+		}
+		stream << endl;
+
+		int roundScore = player->getRoundScore();
+		int totalScore = player->getTotalScore();
+		int sum = roundScore + totalScore;
+
+		stream << "Player " << player->getPlayerId() + 1 << "'s score: ";
+		stream << totalScore;
+		stream << " + ";
+		stream << roundScore;
+		stream << " = " << sum << endl;
+	}
+	dialog.set_secondary_text(stream.str());
+	int result = dialog.run();
+}
 
 
