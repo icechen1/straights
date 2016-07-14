@@ -223,6 +223,10 @@ void GameView::update()
 	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
 	vector<shared_ptr<Player>> players = instance->getState()->players_;
 
+	if (instance->isRoundEnd() == true) {
+		return;
+	}
+
 	disableRageButtons();
 	// update score board
 	for (int i = 0; i < 4; i++) {
@@ -315,7 +319,7 @@ void GameView::selectHand(int n) {
 	shared_ptr<Player> player = GameController::getInstance()->getState()->currentRound_->getCurrentPlayer();
 	vector<Card> hand = player->getHand();
 	Card selectedCard = hand.at(n);
-	bool valid = GameController::getInstance()->playHumanCard(selectedCard);
+	bool valid = GameController::getInstance()->playHumanTurn(selectedCard);
 	if (!valid) {
 		// show invalid move error dialog
 		Gtk::MessageDialog dialog(*window_, "Invalid move", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);

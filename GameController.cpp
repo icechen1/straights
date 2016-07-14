@@ -72,12 +72,12 @@ void GameController::initPlayers() {
 // ensures: Players score are correctly updated
 void GameController::playAITurns() {
 	state_->currentRound_->playAITurns();
-	if (state_->currentRound_->getRoundOver()) {
+	if (isRoundEnd() == true) {
 		endRound();
 	}
 }
 
-bool GameController::playHumanCard(Card card) {
+bool GameController::playHumanTurn(Card card) {
 	shared_ptr<Player> player = getState()->currentRound_->getCurrentPlayer();
 	vector<Card> hand = player->getHand();
 	vector<Card> validMoves = player->getLegalMoves();
@@ -106,6 +106,13 @@ bool GameController::playHumanCard(Card card) {
 void GameController::initStartRound() {
 	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
 	state_->notify();
+}
+
+bool GameController::isRoundEnd() {
+	if (state_->currentRound_->getCurrentPlayer()->getHand().size() > 0) {
+		return false;
+	}
+	return true;
 }
 
 // requires: a player has more than 80 points
