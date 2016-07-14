@@ -22,6 +22,7 @@ class GameController {
 		int seed_;										// Hold the seed number
 		GameState(int _seed) : seed_(_seed) {};			// Construct the GameState
 		friend class RoundController;
+		friend class GameController;
 	};
 
 	static std::shared_ptr<GameController> instance_;	// Hold the instance of the GameController

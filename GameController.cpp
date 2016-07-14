@@ -81,6 +81,7 @@ void GameController::playAITurns() {
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
 	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
+	state_->notify();
 }
 
 // requires: a player has more than 80 points

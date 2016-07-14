@@ -11,7 +11,6 @@ protected:
 	int total_score_ = 0; // total score for all rounds for given player
 	std::vector<Card> discards_; // list of discards for the player in the current round
 	std::vector<Card> cards_; // list of cards on hand for the player in the current round
-	std::vector<Card> legalMoves_; // list of legal moves for the player in the current round
 	int id_ = -1; // player id in the range from 0 to 3
 	Player(int id); // constructs player with assigned id
 	Player(Player&); // copy constructor
@@ -24,7 +23,6 @@ public:
 	int getRoundScore() const; // computes current round score
 	int getTotalScore() const; // returns total score
 	void dealCard(Card c); // adds a card c to current hand
-	void computeLegalMoves(bool); // computes list of legal moves for the upcoming turn
 	std::vector<Card> getLegalMoves() const; // returns list of legal moves for the turn
 	std::vector<Card> getHand() const; // returns list of cards on hand
 	void playCard(Card); // removes card from list of cards

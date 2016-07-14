@@ -22,6 +22,7 @@ public:
 	void playTurn(std::shared_ptr<Player>, Command); // performs the command the player chooses
 	std::shared_ptr<Player> getCurrentPlayer() const;
 	bool getRoundOver() const;
+	bool getFirstTurn() const;
 	std::vector<Card> getPlayedCard() const; // returns list of played cards for round
 };
 

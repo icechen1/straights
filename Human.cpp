@@ -16,13 +16,14 @@ Command Human::play() {
 	GameController::getInstance()->getView()->startHumanTurn(*this);
 	Command c = GameController::getInstance()->getView()->readHumanCommand();
 	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
+	vector<Card> legalMoves;
 
 	bool validMove = false;
 
 	while (true) {
 		switch (c.type_) {
 		case PLAY:
-			if (find(legalMoves_.begin(), legalMoves_.end(), c.card_) != legalMoves_.end()){
+			if (find(legalMoves.begin(), legalMoves.end(), c.card_) != legalMoves.end()){
 				validMove = true;
 			}
 			else {
@@ -30,7 +31,7 @@ Command Human::play() {
 			}
 			break;
 		case DISCARD:
-			if (legalMoves_.empty()) {
+			if (legalMoves.empty()) {
 				validMove = true;
 			}
 			else {

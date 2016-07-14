@@ -47,8 +47,6 @@ void RoundController::dealCards() {
 // ensures: player.play() gets called
 void RoundController::handleTurn() {
 	shared_ptr<Player> p = currentPlayer_;
-	// compute the list of legal moves
-	p->computeLegalMoves(firstTurn_);
 	// ask the player to make a move
 	Command c = p->play();
 	// play move
@@ -62,9 +60,6 @@ void RoundController::playAITurns() {
 	// print round start message
 	GameController::getInstance()->getView()->startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
-
-	
-
 	while (!roundOver_ && currentPlayer_->getPlayerType() == COMPUTER) {
 		handleTurn();
 		roundOver_ = true;
@@ -83,7 +78,6 @@ void RoundController::playAITurns() {
 // ensures: the next player will become the current player
 void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	
 	// handle play
 	switch (command.type_) {
 	case PLAY:
@@ -130,4 +124,9 @@ std::shared_ptr<Player> RoundController::getCurrentPlayer() const
 bool RoundController::getRoundOver() const
 {
 	return roundOver_;
+}
+
+bool RoundController::getFirstTurn() const
+{
+	return firstTurn_;
 }

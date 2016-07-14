@@ -12,23 +12,23 @@ void Player::dealCard(Card c) {
 }
 
 // requires: first turn or not (rules are different)
-// modifies: a list of valid moves is populated
-// ensures: ordering of the moves is deterministic
-void Player::computeLegalMoves(bool firstTurn_) {
-	legalMoves_.clear();
+// ensures: does not edit the class state
+// returns: list of legal moves
+std::vector<Card> Player::getLegalMoves() const {
+	vector<Card> legalMoves;
 	shared_ptr<GameController> instance = GameController::getInstance();
 	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
 
-	if (firstTurn_ == true) {
+	if (instance->getCurrentRound()->getFirstTurn() == true) {
 		Card sevenSpade = Card(SPADE, SEVEN);
-		legalMoves_.push_back(sevenSpade);
-		return;
+		legalMoves.push_back(sevenSpade);
+		return legalMoves;
 	}
 
 	for (Card playerCard : cards_) {
 		if (playerCard.getRank() == Rank::SEVEN) {
 			// any seven of any suit is a legal move
-			legalMoves_.push_back(playerCard);
+			legalMoves.push_back(playerCard);
 		}
 		else {
 			for (Card playedCard : played) {
@@ -36,19 +36,13 @@ void Player::computeLegalMoves(bool firstTurn_) {
 				if (playerCard.getSuit() == playedCard.getSuit()) {
 					if (playerCard.getRank() == playedCard.getRank() + 1
 						|| playerCard.getRank() == playedCard.getRank() - 1) {
-						legalMoves_.push_back(playerCard);
+						legalMoves.push_back(playerCard);
 					}
 				}
 			}
 		}
 	}
-}
-
-// requires: legal moves must be populated by computeLegalMoves()
-// ensures: does not edit the class state
-// returns: list of legal moves
-std::vector<Card> Player::getLegalMoves() const {
-	return legalMoves_;
+	return legalMoves;
 }
 
 // requires: hand must have been first dealt by Round
@@ -86,7 +80,6 @@ Player::Player(Player &other)
 	total_score_ = other.total_score_;
 	discards_ = vector<Card>(other.discards_);
 	cards_ = vector<Card>(other.cards_);
-	legalMoves_ = vector<Card>(other.legalMoves_);
 	id_ = other.id_;
 }
 
