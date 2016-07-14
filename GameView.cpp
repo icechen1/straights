@@ -291,7 +291,10 @@ void GameView::selectHand(int n) {
 	Card selectedCard = hand.at(n);
 	bool valid = GameController::getInstance()->playHumanCard(selectedCard);
 	if (!valid) {
-		cout << "Bad move" << endl;
+		// show invalid move error dialog
+		Gtk::MessageDialog dialog(*window_, "Invalid move", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
+		dialog.set_secondary_text("You may not discard a card when there's a legal move in hand.");
+		int result = dialog.run();
 	}
 }
 
