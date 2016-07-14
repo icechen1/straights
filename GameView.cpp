@@ -161,6 +161,13 @@ GameView::GameView()
 {
 	Gtk::Button *quitBtn, *newGameBtn;
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
+	auto css = Gtk::CssProvider::create();
+	// try to load button styles
+	if (!css->load_from_path("style.css")) {
+		cerr << "Failed to load css\n";
+		std::exit(1);
+	}
+
 	builder->get_widget("window1", window_);
 	builder->get_widget("quit_btn", quitBtn);
 	builder->get_widget("new_game_btn", newGameBtn);
@@ -182,12 +189,17 @@ GameView::GameView()
 			builder->get_widget(suits[i] + ranks[j], cardGrid_[i][j]);
 		}
 	}
+	auto screen = Gdk::Screen::get_default();
 
 	for (int k = 0; k < 13; k++) {
 		string hand = "hand" + std::to_string(k + 1);
 		string handImage = "hand_image" + std::to_string(k + 1);
 		builder->get_widget(hand, hand_[k]);
 		builder->get_widget(handImage, handImage_[k]);
+		// set style
+		auto context = hand_[k]->get_style_context();
+		context->add_provider_for_screen(screen, css, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		// set handler for hand buttons
 		hand_[k]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::selectHand), k));
 	}
 
@@ -248,16 +260,29 @@ void GameView::update()
 	vector<Card> legalMoves = p->getLegalMoves();
 
 	disableHandButtons();
+
+	Gdk::RGBA green;
+	green.set("#00ff00");
+	Gdk::RGBA red;
+	red.set("#ff0000");
+
 	for (int i = 0; i < hand.size(); i++) {
 		Card c = hand.at(i);
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		handImage_[i]->set(filename);
 		// check if it is a legal move
+		auto context = hand_[i]->get_style_context();
 		if (std::find(legalMoves.begin(), legalMoves.end(), c) != legalMoves.end()) {
+			// has legal moves
 			hand_[i]->set_opacity(1);
+			context->remove_class("invalid");
+			context->add_class("play");
 		}
-		else {
-			hand_[i]->set_opacity(0.3f);
+		else if (legalMoves.size() == 0) {
+			// no legal moves, can only discard
+			hand_[i]->set_opacity(1);
+			context->remove_class("invalid");
+			context->add_class("discard");
 		}
 		hand_[i]->set_sensitive(true);
 	}
@@ -283,6 +308,11 @@ void GameView::hideAllCards() {
 void GameView::disableHandButtons() {
 	for (int j = 0; j < 13; j++) {
 		hand_[j]->set_sensitive(false);
+		hand_[j]->set_opacity(0.3f);
+		auto context = hand_[j]->get_style_context();
+		context->remove_class("play");
+		context->remove_class("discard");
+		context->add_class("invalid");
 	}
 }
 
