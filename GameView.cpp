@@ -172,6 +172,8 @@ GameView::GameView()
 		builder->get_widget("score" + std::to_string(i + 1), scores_[i]);
 		builder->get_widget("discards" + std::to_string(i + 1), discards_[i]);
 		builder->get_widget("rage" + std::to_string(i + 1), rageQuit_[i]);
+		scores_[i]->set_text("0 point");
+		discards_[i]->set_text("0 discards");
 		rageQuit_[i]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::rageQuit), i));
 	}
 

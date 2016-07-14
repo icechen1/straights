@@ -7,7 +7,7 @@
       <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Introduction page</property>
+        <property name="label" translatable="yes">Straights is a game of wits and desterity.</property>
       </object>
       <packing>
         <property name="page_type">intro</property>
