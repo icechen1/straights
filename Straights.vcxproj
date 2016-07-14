@@ -125,6 +125,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="GameRecord.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Human.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="GameController.h" />
+    <ClInclude Include="GameRecord.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="MainMenu.h" />

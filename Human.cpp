@@ -13,8 +13,8 @@ PlayerType Human::getPlayerType() const {
 // ensures: always returns a move
 // returns: move (command) for this turn
 Command Human::play() {
-	GameController::getInstance()->getView()->startHumanTurn(*this);
-	Command c = GameController::getInstance()->getView()->readHumanCommand();
+	GameController::getInstance()->getRecord()->startHumanTurn(*this);
+	Command c = GameController::getInstance()->getRecord()->readHumanCommand();
 	bool validMove = false;
 
 	while (true) {
@@ -24,7 +24,7 @@ Command Human::play() {
 			break;
 		}
 		else {
-			c = GameController::getInstance()->getView()->readHumanCommand();
+			c = GameController::getInstance()->getRecord()->readHumanCommand();
 		}
 	}
 	return c;

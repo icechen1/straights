@@ -8,12 +8,15 @@
 #include "Player.h"
 #include "Deck.h"
 #include "Observer.h"
+#include "GameRecord.h"
 class GameView;
+class GameRecord;
 class RoundController;
 
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	GameView* view_;
+	std::unique_ptr<GameRecord> record_;
 	
 	struct GameState : public Subject {									// Struct that holds the information about the game
 		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
@@ -30,7 +33,6 @@ class GameController {
 														// including players, deck, seed number
 
 	GameController(int, GameView*);			// Initialize a GameController object
-	void initPlayers();									// Initialize a list of 4 players
 	void endRound();									// Proceed to end the round and print the correct information
 	bool isGameOver();									// Check if the game is over
 	void printWinner() const;							// print the information about the winner
@@ -38,11 +40,11 @@ class GameController {
 public:
 	std::shared_ptr<Player> handleRageQuit(Player & player);	// Replace a human player with an AI player
 	static std::shared_ptr<GameController> createInstance(int, bool[], GameView*);	// A Facade method to create a new GameController and use pre set human/computer settings
-	static std::shared_ptr<GameController> createInstance(int, GameView*);	// Create an instance of GameController and save it as static to this class
 	static std::shared_ptr<GameController> getInstance();		// Accessor -  get the unique instance of GameController
 	std::shared_ptr<RoundController> getCurrentRound() const;				// Accessor - get the current round information
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
 	GameView* getView() const;				    // Accessor - get the view of the game
+	GameRecord* getRecord() const;				    // Accessor - get the record buffer of the game
 	void playAITurns();											// Play a full round (create, play and end the round)
 	bool playHumanCard(Card);
 	void initStartRound();								// Initialize a new round, by creating a round object
