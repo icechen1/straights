@@ -2,31 +2,6 @@
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkToggleAction" id="toggleaction1"/>
-  <object class="GtkImage" id="hand_image5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="hand_image6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="hand_image7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="hand_image8">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="hand_image9">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
   <object class="GtkImage" id="hand_image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -63,6 +38,31 @@
     <property name="stock">gtk-missing-image</property>
   </object>
   <object class="GtkImage" id="hand_image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="hand_image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="hand_image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="hand_image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="hand_image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-missing-image</property>
+  </object>
+  <object class="GtkImage" id="hand_image9">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-missing-image</property>
@@ -107,7 +107,7 @@
             </child>
             <child>
               <object class="GtkButton" id="quit_btn">
-                <property name="label" translatable="yes">gg</property>
+                <property name="label" translatable="yes">Quit</property>
                 <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -802,7 +802,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="GtkButton" id="rage1">
-                            <property name="label" translatable="yes">raeg</property>
+                            <property name="label" translatable="yes">Rage Quit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -874,7 +874,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="GtkButton" id="rage2">
-                            <property name="label" translatable="yes">raeg</property>
+                            <property name="label" translatable="yes">Rage Quit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -945,7 +945,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="GtkButton" id="rage3">
-                            <property name="label" translatable="yes">raeg</property>
+                            <property name="label" translatable="yes">Rage Quit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1018,7 +1018,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="GtkButton" id="rage4">
-                            <property name="label" translatable="yes">raeg</property>
+                            <property name="label" translatable="yes">Rage Quit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
