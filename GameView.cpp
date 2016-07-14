@@ -187,6 +187,7 @@ GameView::GameView()
 		string handImage = "hand_image" + std::to_string(k + 1);
 		builder->get_widget(hand, hand_[k]);
 		builder->get_widget(handImage, handImage_[k]);
+		hand_[k]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::selectHand), k));
 	}
 
 	hideAllCards();
@@ -285,6 +286,26 @@ void GameView::rageQuit(int n) {
 	Command c;
 	c.type_ = RAGEQUIT;
 	shared_ptr<Player> player = GameController::getInstance()->getState()->players_[n];
+	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
+	GameController::getInstance()->getState()->currentRound_->playAITurns();
+}
+
+void GameView::selectHand(int n) {
+	shared_ptr<Player> player = GameController::getInstance()->getState()->currentRound_->getCurrentPlayer();
+	vector<Card> hand = player->getHand();
+	vector<Card> validMoves = player->getLegalMoves();
+	Card selectedCard = hand.at(n);
+	Command c;
+
+	if (std::find(validMoves.begin(), validMoves.end(), selectedCard) != validMoves.end()) {
+		c.type_ = PLAY;
+		c.card_ = selectedCard;
+	}
+	else {
+		c.type_ = DISCARD;
+		c.card_ = selectedCard;
+	}
+
 	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
 	GameController::getInstance()->getState()->currentRound_->playAITurns();
 }

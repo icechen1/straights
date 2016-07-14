@@ -50,6 +50,8 @@ public:
 
 	void rageQuit(int n);
 
+	void selectHand(int n);
+
 };
 
 #endif
