@@ -1,0 +1,14 @@
+GtkEntry.invalid {
+    background-color: #ffaaaa;
+    background: #ffaaaa;
+}
+
+GtkButton.play {
+    background-color: #A5C882;
+    background: #A5C882;
+}
+
+GtkButton.discard {
+    background-color: #BA6E6E;
+    background: #BA6E6E;
+}
