@@ -154,6 +154,9 @@ void GameView::printRageQuit(const Player& player) {
 	cout << "Player " << player.getPlayerId() + 1 << " ragequits. A computer will now take over." << endl;
 }
 
+
+//-------------------------------BEGIN-----------------------------------------------------------BEGIN----------------------------------------------------------
+
 GameView::GameView()
 {
 	Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("screen.glade");
@@ -166,6 +169,8 @@ GameView::GameView()
 	for (int i = 0; i < 4; i++) {
 		builder->get_widget("score" + std::to_string(i + 1), scores_[i]);
 		builder->get_widget("discards" + std::to_string(i + 1), discards_[i]);
+		builder->get_widget("rage" + std::to_string(i + 1), rageQuit_[i]);
+		rageQuit_[i]->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameView::rageQuit), i));
 	}
 
 	string suits[] = { "C", "D", "H", "S" };
@@ -274,5 +279,13 @@ void GameView::startGameWithSettings(int seed, bool computers[]) {
 	GameController::createInstance(seed, computers, shared_ptr<GameView>(this));
 	shared_ptr<GameController> instance = GameController::getInstance();
 	instance->playAITurns();
+}
+
+void GameView::rageQuit(int n) {
+	Command c;
+	c.type_ = RAGEQUIT;
+	shared_ptr<Player> player = GameController::getInstance()->getState()->players_[n];
+	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
+	GameController::getInstance()->getState()->currentRound_->playAITurns();
 }
 

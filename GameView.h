@@ -23,6 +23,7 @@ class GameView : public Observer {
 	Gtk::Label *discards_[4];
 	Gtk::Image *cardGrid_[4][13];
 	Gtk::Button *hand_[13];
+	Gtk::Button *rageQuit_[4];
 	Gtk::Image *handImage_[13];
 	MainMenu* mainMenu_;
 	void hideAllCards();
@@ -46,6 +47,8 @@ public:
 	void openMenu();
 	int run(Glib::RefPtr<Gtk::Application> app);
 	void startGameWithSettings(int seed, bool computers[]);
+
+	void rageQuit(int n);
 
 };
 
