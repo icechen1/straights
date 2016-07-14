@@ -297,7 +297,7 @@ void GameView::clearHand() {
 }
 
 void GameView::startGameWithSettings(int seed, bool computers[]) {
-	GameController::createInstance(seed, computers, shared_ptr<GameView>(this));
+	GameController::createInstance(seed, computers, this);
 	shared_ptr<GameController> instance = GameController::getInstance();
 	instance->initStartRound();
 	instance->playAITurns();

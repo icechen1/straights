@@ -4,7 +4,7 @@
 using namespace std;
 
 //returns: a pointer to an instance of GameController
-shared_ptr<GameController> GameController::createInstance(int seed, shared_ptr<GameView> view) {
+shared_ptr<GameController> GameController::createInstance(int seed, GameView* view) {
 	instance_ = shared_ptr<GameController>(new GameController(seed, view));
 	instance_->initPlayers();
 	// Ignore a cin read after reading the player information
@@ -14,7 +14,7 @@ shared_ptr<GameController> GameController::createInstance(int seed, shared_ptr<G
 }
 
 //returns: a pointer to an instance of GameController
-shared_ptr<GameController> GameController::createInstance(int seed, bool computers[], shared_ptr<GameView> view) {
+shared_ptr<GameController> GameController::createInstance(int seed, bool computers[], GameView* view) {
 	instance_ = shared_ptr<GameController>(new GameController(seed, view));
 	instance_->setPlayers(computers);
 	return instance_;
@@ -24,10 +24,10 @@ shared_ptr<GameController> GameController::createInstance(int seed, bool compute
 //			 initialize a new deck
 //			 initialize 4 players
 // returns:	A game controller object to be used for the full game
-GameController::GameController(int seed, shared_ptr<GameView> view) : view_(view) {
+GameController::GameController(int seed, GameView* view) : view_(view) {
 	// create game state
 	state_ = shared_ptr<GameState>(new GameState(seed));
-	state_->subscribe(view.get());
+	state_->subscribe(view);
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
 	state_->deck_ = t;
@@ -184,7 +184,7 @@ shared_ptr<GameController::GameState> GameController::getState() const {
 	return state_;
 }
 
-std::shared_ptr<GameView> GameController::getView() const
+GameView* GameController::getView() const
 {
 	return view_;
 }
