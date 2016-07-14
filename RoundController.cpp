@@ -57,8 +57,6 @@ void RoundController::handleTurn() {
 // modifies: state about current round
 // ensures: a full round is played after the function runs
 void RoundController::playAITurns() {
-	// print round start message
-	GameController::getInstance()->getRecord()->startRound(*currentPlayer_);
 	// play turns until a player runs out of cards
 	while (currentPlayer_->getHand().size() > 0 && currentPlayer_->getPlayerType() == COMPUTER) {
 		handleTurn();

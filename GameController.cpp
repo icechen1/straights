@@ -78,6 +78,8 @@ bool GameController::playHumanTurn(Card card) {
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
 	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
+	// print round start message
+	record_->startRound(*(state_->currentRound_->getCurrentPlayer()));
 	state_->notify();
 }
 
