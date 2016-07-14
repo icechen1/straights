@@ -386,11 +386,11 @@ void GameView::showRoundEndDialog(bool isGameEnd) {
 		if (isGameEnd) {
 			if (player->getTotalScore() < min) {
 				winningPlayers.clear();
-				winningPlayers.push_back(p);
-				min = p->getTotalScore();
+				winningPlayers.push_back(player);
+				min = player->getTotalScore();
 			}
 			else if (player->getTotalScore() == min) {
-				winningPlayers.push_back(p);
+				winningPlayers.push_back(player);
 			}
 		}
 
