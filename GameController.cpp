@@ -4,16 +4,6 @@
 using namespace std;
 
 //returns: a pointer to an instance of GameController
-shared_ptr<GameController> GameController::createInstance(int seed, GameView* view) {
-	instance_ = shared_ptr<GameController>(new GameController(seed, view));
-	instance_->initPlayers();
-	// Ignore a cin read after reading the player information
-	// Ready to read commands
-	cin.ignore();
-	return instance_;
-}
-
-//returns: a pointer to an instance of GameController
 shared_ptr<GameController> GameController::createInstance(int seed, bool computers[], GameView* view) {
 	instance_ = shared_ptr<GameController>(new GameController(seed, view));
 	instance_->setPlayers(computers);
@@ -31,31 +21,14 @@ GameController::GameController(int seed, GameView* view) : view_(view) {
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
 	state_->deck_ = t;
+	// create a game record keeping stream
+	record_ = unique_ptr<GameRecord>(new GameRecord());
 }
 
 void GameController::setPlayers(bool computers[]) {
 	for (int i = 0; i < 4; i++) {
 		shared_ptr<Player> player;
 		if (!computers[i]) {
-			shared_ptr<Player> player(new Human(i));
-			state_->players_.push_back(player);
-		}
-		else {
-			shared_ptr<Player> player(new AI(i));
-			state_->players_.push_back(player);
-		}
-	}
-}
-
-// requires: no round has started, no player has been initialized
-// modifies: create 4 players, each player either controlled by human or AI
-// ensures: each player start with a score of 0
-void GameController::initPlayers() {
-	for (int i = 0; i < 4; i++) {
-		// prompt to ask for player type
-		PlayerType type = getView()->invitePlayer(i);
-		shared_ptr<Player> player;
-		if (type == HUMAN) {
 			shared_ptr<Player> player(new Human(i));
 			state_->players_.push_back(player);
 		}
@@ -132,7 +105,7 @@ void GameController::printWinner() const {
 
 	// print out all winning players
 	for (shared_ptr<Player> p : winningPlayers) {
-		getView()->printWinner(*p);
+		record_->printWinner(*p);
 	}
 }
 
@@ -143,7 +116,7 @@ void GameController::printWinner() const {
 void GameController::endRound() {
 	// print post round information and clear hands
 	for (shared_ptr<Player> p : state_->players_) {
-		getView()->printPostRound(*p);
+		record_->printPostRound(*p);
 		p->clearHand();
 	}
 	if (!isGameOver()) {
@@ -167,7 +140,7 @@ shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 	// (╯°□°)╯︵ ┻━┻
 	int playerId = player.getPlayerId();
 	shared_ptr<Player> ai(new AI(player));
-	getView()->printRageQuit(player);
+	record_->printRageQuit(player);
 	state_->players_.erase(state_->players_.begin() + playerId);
 	state_->players_.insert(state_->players_.begin() + playerId, ai);
 	return ai;
@@ -197,6 +170,11 @@ shared_ptr<GameController::GameState> GameController::getState() const {
 GameView* GameController::getView() const
 {
 	return view_;
+}
+
+GameRecord * GameController::getRecord() const
+{
+	return record_.get();
 }
 
 // returns: a pointer to the current game round

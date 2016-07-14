@@ -142,7 +142,7 @@ bool Player::verify(Command c)
 		}
 		break;
 	case DECK:
-		GameController::getInstance()->getView()->printDeck(*deck);
+		GameController::getInstance()->getRecord()->printDeck(*deck);
 		break;
 	case QUIT:
 		throw c;

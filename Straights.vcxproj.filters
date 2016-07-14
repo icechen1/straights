@@ -57,6 +57,9 @@
     <ClCompile Include="RoundController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameRecord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameView.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="RoundController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
