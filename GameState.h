@@ -28,28 +28,28 @@ private:
 public:
 	static std::shared_ptr<GameState> createInstance(int seed);	// A Facade method to create a new GameState and use pre set seed
 	static std::shared_ptr<GameState> getInstance();		// Accessor -  get the unique instance of GameState
-	void setSeed(int);
-	int getSeed() const;
+	void setSeed(int);										// Accessor - sets the game seed
+	int getSeed() const;									// Mutator - sets the game seed
 
-	void setFirstTurn(bool);
-	int getFirstTurn() const;
+	void setFirstTurn(bool); // sets the first turn flag of the game
+	int getFirstTurn() const; // retrives the first turn flag of the game
 
-	void setPlayers(std::vector<std::shared_ptr<Player>>);
-	std::vector<std::shared_ptr<Player>> getPlayers() const;
+	void setPlayers(std::vector<std::shared_ptr<Player>>); // sets the list of players in current game
+	std::vector<std::shared_ptr<Player>> getPlayers() const; // retrieves the list of players in current game
 
-	void setCurrentPlayer(std::shared_ptr<Player>);
-	std::shared_ptr<Player> getCurrentPlayer() const;
+	void setCurrentPlayer(std::shared_ptr<Player>); // sets the player in current turn
+	std::shared_ptr<Player> getCurrentPlayer() const; // gets the player in current turn
 
-	void setDeck(std::shared_ptr<Deck>);
-	std::shared_ptr<Deck> getDeck() const;
+	void setDeck(std::shared_ptr<Deck>); // sets the game deck
+	std::shared_ptr<Deck> getDeck() const; // gets the game deck
 
-	void setPlayedCards(std::vector<Card>);
-	std::vector<Card> getPlayedCards() const;
+	void setPlayedCards(std::vector<Card>); // sets the list of played cards in game
+	std::vector<Card> getPlayedCards() const; // gets the list of played cards
 
+	// the following methods are facade methods that retrieves a field from a given Player in game (using their index)
 	std::vector<Card> getPlayerDiscards(int);
 	std::vector<Card> getPlayerHand(int);
 	std::vector<Card> getPlayerLegalMoves(int);
-
 	int getPlayerTotalScore(int);
 	PlayerType getPlayerType(int);
 	int getPlayerId(int);

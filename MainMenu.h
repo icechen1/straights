@@ -6,17 +6,21 @@
 #include "GameView.h"
 class GameView;
 
+// the main menu is the window the user must use to create a new game
 class MainMenu {
 private:
+	// references to gui elements
 	Gtk::Assistant *assistant_;
 	Gtk::Switch* switches_[4];
 	Gtk::Entry* entrySeed_;
+
+	// reference to the main game menu
 	GameView* view_;
 
-	void startGame();
-	void quit();
+	void startGame(); // handler when the apply button is pressed
+	void quit(); // handler for quitting the new game menu
 public:
-	MainMenu(GameView*);
-	void run();
+	MainMenu(GameView*); // constructor for main menu using glade layout and grabs relevant refeces
+	void run(); // runs (shows) the menu
 };
 #endif

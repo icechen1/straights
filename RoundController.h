@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "Deck.h"
 
+// secondary controller that handles game round logic (passing turns, etc)
 class RoundController {
 	void findStartingPlayer(); // finds player with 7S and mark as starting player
 	void dealCards(); // deals 13 random cards to each player
