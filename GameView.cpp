@@ -274,6 +274,7 @@ void GameView::clearHand() {
 void GameView::startGameWithSettings(int seed, bool computers[]) {
 	GameController::createInstance(seed, computers, shared_ptr<GameView>(this));
 	shared_ptr<GameController> instance = GameController::getInstance();
+	instance->initStartRound();
 	instance->playAITurns();
 }
 
@@ -282,7 +283,7 @@ void GameView::rageQuit(int n) {
 	c.type_ = RAGEQUIT;
 	shared_ptr<Player> player = GameController::getInstance()->getState()->players_[n];
 	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
-	GameController::getInstance()->getState()->currentRound_->playAITurns();
+	GameController::getInstance()->playAITurns();
 }
 
 void GameView::selectHand(int n) {

@@ -71,7 +71,6 @@ void GameController::initPlayers() {
 //			 Players score
 // ensures: Players score are correctly updated
 void GameController::playAITurns() {
-	initStartRound();
 	state_->currentRound_->playAITurns();
 	if (state_->currentRound_->getRoundOver()) {
 		endRound();
@@ -96,7 +95,7 @@ bool GameController::playHumanCard(Card card) {
 	//verify
 	if (player->verify(c)) {
 		state_->currentRound_->playTurn(player, c);
-		state_->currentRound_->playAITurns();
+		playAITurns();
 		return true;
 	}
 	// invalid move
@@ -142,6 +141,7 @@ void GameController::endRound() {
 	}
 	if (!isGameOver()) {
 		// start another round
+		initStartRound();
 		playAITurns();
 	}
 	else {

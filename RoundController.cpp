@@ -66,6 +66,7 @@ void RoundController::playAITurns() {
 		for (shared_ptr<Player> p : GameController::getInstance()->getState()->players_) {
 			if (p->getHand().size() > 0) {
 				roundOver_ = false;
+				break;
 			}
 		}
 	}
