@@ -1,5 +1,4 @@
 ﻿#include "GameController.h"
-#include "GameView.h"
 
 using namespace std;
 
@@ -16,27 +15,30 @@ shared_ptr<GameController> GameController::createInstance(int seed, bool compute
 // returns:	A game controller object to be used for the full game
 GameController::GameController(int seed, GameView* view) : view_(view) {
 	// create game state
-	state_ = shared_ptr<GameState>(new GameState(seed));
-	state_->subscribe(view);
+	shared_ptr<GameState> state = GameState::createInstance(seed);
+	state->subscribe(view);
 	// create the deck we're going to use for this game
 	shared_ptr<Deck> t(new Deck(seed));
-	state_->deck_ = t;
+	state->setDeck(t);
 	// create a game record keeping stream
 	record_ = unique_ptr<GameRecord>(new GameRecord());
 }
 
 void GameController::setPlayers(bool computers[]) {
+	shared_ptr<GameState> state = GameState::getInstance();
+	vector<shared_ptr<Player>> playerList;
 	for (int i = 0; i < 4; i++) {
 		shared_ptr<Player> player;
 		if (!computers[i]) {
 			shared_ptr<Player> player(new Human(i));
-			state_->players_.push_back(player);
+			playerList.push_back(player);
 		}
 		else {
 			shared_ptr<Player> player(new AI(i));
-			state_->players_.push_back(player);
+			playerList.push_back(player);
 		}
 	}
+	state->setPlayers(playerList);
 }
 
 // requires: a valid GameState objects in GameController
@@ -44,14 +46,17 @@ void GameController::setPlayers(bool computers[]) {
 //			 Players score
 // ensures: Players score are correctly updated
 void GameController::playAITurns() {
-	state_->currentRound_->playAITurns();
+	shared_ptr<GameState> state = GameState::getInstance();
+	roundController_->playAITurns();
 	if (isRoundEnd() == true) {
 		endRound();
 	}
 }
 
 bool GameController::playHumanTurn(Card card) {
-	shared_ptr<Player> player = getState()->currentRound_->getCurrentPlayer();
+	shared_ptr<GameState> state = GameState::getInstance();
+
+	shared_ptr<Player> player = state->getCurrentPlayer();
 	vector<Card> hand = player->getHand();
 	vector<Card> validMoves = player->getLegalMoves();
 
@@ -67,7 +72,7 @@ bool GameController::playHumanTurn(Card card) {
 	}
 	//verify
 	if (player->verify(c)) {
-		state_->currentRound_->playTurn(player, c);
+		roundController_->playTurn(player, c);
 		playAITurns();
 		return true;
 	}
@@ -77,14 +82,16 @@ bool GameController::playHumanTurn(Card card) {
 
 // modifies: create a new round object and set it as currentRound_
 void GameController::initStartRound() {
-	state_->currentRound_ = shared_ptr<RoundController>(new RoundController());
+	roundController_ = unique_ptr<RoundController>(new RoundController());
 	// print round start message
-	record_->startRound(*(state_->currentRound_->getCurrentPlayer()));
-	state_->notify();
+	record_->startRound(*(GameState::getInstance()->getCurrentPlayer()));
+	GameState::getInstance()->notify();
 }
 
 bool GameController::isRoundEnd() {
-	if (state_->currentRound_->getCurrentPlayer()->getHand().size() > 0) {
+	shared_ptr<GameState> state = GameState::getInstance();
+	int id = state->getCurrentPlayer()->getPlayerId();
+	if (state->getPlayerHand(id).size() > 0) {
 		return false;
 	}
 	return true;
@@ -92,9 +99,10 @@ bool GameController::isRoundEnd() {
 
 // requires: a player has more than 80 points
 void GameController::printWinner() const {
-	int min = state_->players_[0]->getTotalScore();
+	shared_ptr<GameState> state = GameState::getInstance();
+	int min = state->getPlayerTotalScore(0);
 	vector<shared_ptr<Player>> winningPlayers;
-	for (shared_ptr<Player> p : state_->players_) {
+	for (shared_ptr<Player> p : state->getPlayers()) {
 		//find winner
 		if (p->getTotalScore() < min) {
 			winningPlayers.clear();
@@ -116,8 +124,9 @@ void GameController::printWinner() const {
 //			 end the game or to play another round depending on the score
 // ensures: player's score stay the same
 void GameController::endRound() {
+	shared_ptr<GameState> state = GameState::getInstance();
 	// print post round information and clear hands
-	for (shared_ptr<Player> p : state_->players_) {
+	for (shared_ptr<Player> p : state->getPlayers()) {
 		record_->printPostRound(*p);
 		p->clearHand();
 	}
@@ -130,7 +139,7 @@ void GameController::endRound() {
 	else {
 		printWinner();
 		view_->showRoundEndDialog(true);
-		state_->notify();
+		state->notify();
 	}
 }
 
@@ -140,18 +149,23 @@ void GameController::endRound() {
 // return: a pointer to the new AI player
 shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 	// (╯°□°)╯︵ ┻━┻
+	shared_ptr<GameState> state = GameState::getInstance();
+
 	int playerId = player.getPlayerId();
 	shared_ptr<Player> ai(new AI(player));
 	record_->printRageQuit(player);
-	state_->players_.erase(state_->players_.begin() + playerId);
-	state_->players_.insert(state_->players_.begin() + playerId, ai);
+	vector<shared_ptr<Player>> players = state->getPlayers();
+	players.erase(players.begin() + playerId);
+	players.insert(players.begin() + playerId, ai);
+	state->setPlayers(players);
 	return ai;
 	// ┬──┬ ノ(゜-゜ノ)
 }
 
 // returns: a boolean to indicate if the game is over
 bool GameController::isGameOver() {
-	for (shared_ptr<Player> p : state_->players_) {
+	shared_ptr<GameState> state = GameState::getInstance();
+	for (shared_ptr<Player> p : state->getPlayers()) {
 		if (p->getTotalScore() >= 80) {
 			return true;
 		}
@@ -165,8 +179,8 @@ shared_ptr<GameController> GameController::getInstance() {
 }
 
 // returns: a pointer to the game state
-shared_ptr<GameController::GameState> GameController::getState() const {
-	return state_;
+shared_ptr<GameState> GameController::getState() const {
+	return GameState::getInstance();
 }
 
 GameView* GameController::getView() const
@@ -180,6 +194,6 @@ GameRecord * GameController::getRecord() const
 }
 
 // returns: a pointer to the current game round
-shared_ptr<RoundController> GameController::getCurrentRound() const {
-	return state_->currentRound_;
+RoundController* GameController::getCurrentRound() const {
+	return roundController_.get();
 }

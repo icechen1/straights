@@ -16,10 +16,10 @@ void Player::dealCard(Card c) {
 // returns: list of legal moves
 std::vector<Card> Player::getLegalMoves() const {
 	vector<Card> legalMoves;
-	shared_ptr<GameController> instance = GameController::getInstance();
-	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
+	shared_ptr<GameState> instance = GameState::getInstance();
+	vector<Card> played = instance->getPlayedCards();
 
-	if (instance->getCurrentRound()->getFirstTurn() == true) {
+	if (instance->getFirstTurn() == true) {
 		Card sevenSpade = Card(SPADE, SEVEN);
 		legalMoves.push_back(sevenSpade);
 		return legalMoves;
@@ -121,7 +121,7 @@ int Player::getTotalScore() const {
 
 bool Player::verify(Command c)
 {
-	shared_ptr<Deck> deck = GameController::getInstance()->getState()->deck_;
+	shared_ptr<Deck> deck = GameState::getInstance()->getDeck();
 	vector<Card> legalMoves = getLegalMoves();
 	bool validMove = false;
 	switch (c.type_) {

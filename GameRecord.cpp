@@ -68,8 +68,8 @@ void GameRecord::printPostRound(const Player& _player) {
 // requires: the player is a human player
 // ensure: ouput the current information available to the player for his turn
 void GameRecord::startHumanTurn(const Player& _human) {
-	shared_ptr<GameController> instance = GameController::getInstance();
-	vector<Card> played = instance->getCurrentRound()->getPlayedCard();
+	shared_ptr<GameState> instance = GameState::getInstance();
+	vector<Card> played = instance->getPlayedCards();
 	map<Suit, vector<Card>> playedCardsMap;
 
 	for (Card card : played) {

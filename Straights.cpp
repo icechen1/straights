@@ -7,6 +7,7 @@
 using namespace std;
 
 std::shared_ptr<GameController> GameController::instance_; // WHYYY?
+std::shared_ptr<GameState> GameState::instance_; // WHYYY?
 
 // ensures: creates players and runs a full game of Straights
 // returns: 0 if game properly runs

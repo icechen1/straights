@@ -6,6 +6,9 @@ using namespace std;
 // ensures: set initial random dealt cards and starting player
 // returns: a constructed Round object
 RoundController::RoundController() {
+	vector<Card> cards;
+	GameState::getInstance()->setPlayedCards(cards);
+	GameState::getInstance()->setFirstTurn(true);
 	dealCards();
 	findStartingPlayer();
 }
@@ -14,12 +17,14 @@ RoundController::RoundController() {
 // modifies: sets the currentPlayer_ to the player with a 7S
 // ensures: does not modify the players
 void RoundController::findStartingPlayer() {
-	vector<shared_ptr<Player>> players = GameController::getInstance()->getState()->players_;
+	shared_ptr<GameState> state = GameState::getInstance();
+
+	vector<shared_ptr<Player>> players = state->getPlayers();
 	for (shared_ptr<Player> p : players) {
 		for (Card c : p->getHand()) {
 			if (c.getRank() == SEVEN && c.getSuit() == SPADE) {
 				// this player starts
-				currentPlayer_ = p;
+				state->setCurrentPlayer(p);
 				return;
 			}
 		}
@@ -32,9 +37,11 @@ void RoundController::findStartingPlayer() {
 // ensures: does not modify the game state
 void RoundController::dealCards() {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	instance->getState()->deck_->shuffle();
-	deque<shared_ptr<Card>> cards = instance->getState()->deck_->getCards();
-	for (shared_ptr<Player> p : instance->getState()->players_) {
+	shared_ptr<GameState> state = GameState::getInstance();
+
+	state->getDeck()->shuffle();
+	deque<shared_ptr<Card>> cards = state->getDeck()->getCards();
+	for (shared_ptr<Player> p : state->getPlayers()) {
 		for (int i = 0; i < 13; i++) {
 			p->dealCard(*cards.at(0));
 			cards.pop_front();
@@ -46,7 +53,7 @@ void RoundController::dealCards() {
 // modifies: list of legal moves
 // ensures: player.play() gets called
 void RoundController::handleTurn() {
-	shared_ptr<Player> p = currentPlayer_;
+	shared_ptr<Player> p = GameState::getInstance()->getCurrentPlayer();
 	// ask the player to make a move
 	Command c = p->play();
 	// play move
@@ -58,7 +65,8 @@ void RoundController::handleTurn() {
 // ensures: a full round is played after the function runs
 void RoundController::playAITurns() {
 	// play turns until a player runs out of cards
-	while (currentPlayer_->getHand().size() > 0 && currentPlayer_->getPlayerType() == COMPUTER) {
+	while (GameState::getInstance()->getCurrentPlayer()->getHand().size() > 0 
+		&& GameState::getInstance()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
 		handleTurn();
 	}
 	return;
@@ -69,19 +77,22 @@ void RoundController::playAITurns() {
 // ensures: the next player will become the current player
 void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 	shared_ptr<GameController> instance = GameController::getInstance();
+	shared_ptr<GameState> state = GameState::getInstance();
+	vector<Card> playedlist = state->getPlayedCards();
 	// handle play
 	switch (command.type_) {
 	case PLAY:
 		player->playCard(command.card_);
 		instance->getRecord()->printPlayTurn(*player, command);
-		playedCards_.push_back(command.card_);
+		playedlist.push_back(command.card_);
+		state->setPlayedCards(playedlist);
 		break;
 	case DISCARD:
 		player->discardCard(command.card_);
 		instance->getRecord()->printDiscardTurn(*player, command);
 		break;
 	case RAGEQUIT:
-		currentPlayer_ = GameController::getInstance()->handleRageQuit(*player);
+		state->setCurrentPlayer(GameController::getInstance()->handleRageQuit(*player));
 		handleTurn();	//Let the PC to play the turn instead of continuing the turn by human
 		return;
 	case DECK:
@@ -91,28 +102,11 @@ void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 	}
 
 	// increment current player
-	firstTurn_ = false;
+	state->setFirstTurn(false);
 
-	int newPosition = (currentPlayer_->getPlayerId() + 1) % 4;
-	currentPlayer_ = instance->getState()->players_.at(newPosition);
+	int newPosition = (state->getCurrentPlayer()->getPlayerId() + 1) % 4;
+	state->setCurrentPlayer(state->getPlayers().at(newPosition));
 
 	// update
-	instance->getState()->notify();
-}
-
-// requires: a list of played cards
-// ensures: nothing is modified
-// returns: list of cards that have been played this round
-vector<Card> RoundController::getPlayedCard() const {
-	return playedCards_;
-}
-
-std::shared_ptr<Player> RoundController::getCurrentPlayer() const
-{
-	return currentPlayer_;
-}
-
-bool RoundController::getFirstTurn() const
-{
-	return firstTurn_;
+	state->notify();
 }

@@ -12,6 +12,7 @@
 #include "MainMenu.h"
 #include "GameController.h"
 class GameController;
+class GameState;
 class MainMenu;
 
 class GameView : public Observer {

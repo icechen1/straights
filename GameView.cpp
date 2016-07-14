@@ -61,7 +61,7 @@ GameView::GameView()
 
 	// disable UI elements when game is not in progress
 	hideAllCards();
-	clearHand();
+	clearHand(); 
 	disableHandButtons();
 	disableRageButtons();
 
@@ -90,16 +90,17 @@ int GameView::run(Glib::RefPtr<Gtk::Application> app) {
 void GameView::update()
 {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
-	vector<shared_ptr<Player>> players = instance->getState()->players_;
+	shared_ptr<GameState> state_instance = GameState::getInstance();
+	shared_ptr<Player> p = state_instance->getCurrentPlayer();
+	vector<shared_ptr<Player>> players = state_instance->getPlayers();
 	bool gameOver = instance->isGameOver();
 
 	disableRageButtons();
 	// update score board
 	for (int i = 0; i < 4; i++) {
 		// show points
-		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
-		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
+		scores_[i]->set_text(std::to_string(state_instance->getPlayerTotalScore(i)) + " points");
+		discards_[i]->set_text(std::to_string(state_instance->getPlayerDiscards(i).size()) + " discards");
 		// enable rage button
 		if (players.at(i) == p && gameOver == false) {
 			// enable rage button for current 
@@ -146,7 +147,7 @@ void GameView::update()
 
 	// show card state
 	hideAllCards();
-	vector<Card> cards = instance->getState()->currentRound_->getPlayedCard();
+	vector<Card> cards = state_instance->getPlayedCards();
 	for (Card c : cards) {
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		cardGrid_[c.getSuit()][c.getRank()]->set(filename);
@@ -205,13 +206,13 @@ void GameView::startGameWithSettings(int seed, bool computers[]) {
 void GameView::rageQuit(int n) {
 	Command c;
 	c.type_ = RAGEQUIT;
-	shared_ptr<Player> player = GameController::getInstance()->getState()->players_[n];
-	GameController::getInstance()->getState()->currentRound_->playTurn(player, c);
+	shared_ptr<Player> player = GameState::getInstance()->getPlayers().at(n);
+	GameController::getInstance()->getCurrentRound()->playTurn(player, c);
 	GameController::getInstance()->playAITurns();
 }
 
 void GameView::selectHand(int n) {
-	shared_ptr<Player> player = GameController::getInstance()->getState()->currentRound_->getCurrentPlayer();
+	shared_ptr<Player> player = GameState::getInstance()->getCurrentPlayer();
 	vector<Card> hand = player->getHand();
 	Card selectedCard = hand.at(n);
 	bool valid = GameController::getInstance()->playHumanTurn(selectedCard);
@@ -229,8 +230,8 @@ void GameView::showRoundEndDialog(bool isGameEnd) {
 	std::ostringstream stream; // pipe output to an output stream for now
 
 	vector<shared_ptr<Player>> winningPlayers;
-	vector<shared_ptr<Player>> players = GameController::getInstance()->getState()->players_;
-	int min = GameController::getInstance()->getState()->players_[0]->getTotalScore();
+	vector<shared_ptr<Player>> players = GameState::getInstance()->getPlayers();
+	int min = players[0]->getTotalScore();
 
 	for (shared_ptr<Player> player : players) {
 		stream << "Player " << player->getPlayerId() + 1 << "'s discards:";

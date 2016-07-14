@@ -7,6 +7,9 @@
 #include "Player.h"
 #include "Deck.h"
 #include "GameController.h"
+#include "GameState.h"
+class GameController;
+class GameState;
 
 class GameRecord {
 private:
@@ -15,7 +18,6 @@ private:
 	void printList(std::vector<T>);							// Print a list of object T
 	void printSuit(std::vector<Card>);						// Map each card to the correct Suit and print Cards per Suit ordered by Rank
 public:
-	PlayerType invitePlayer(int);							// Prompt the user to determine if a player is human or AI
 	void startRound(const Player&);							// Print a message to indicate the start of a round and which player starts
 	void printWinner(const Player &);						// Print a message to indicate which player wins
 	void printPostRound(const Player&);						// Print information about the round at the end of the round
