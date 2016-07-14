@@ -148,11 +148,14 @@ void GameController::endRound() {
 	}
 	if (!isGameOver()) {
 		// start another round
+		view_->showRoundEndDialog(false);
 		initStartRound();
 		playAITurns();
 	}
 	else {
 		printWinner();
+		view_->showRoundEndDialog(true);
+		state_->notify();
 	}
 }
 

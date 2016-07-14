@@ -236,10 +236,7 @@ void GameView::update()
 	shared_ptr<GameController> instance = GameController::getInstance();
 	shared_ptr<Player> p = instance->getState()->currentRound_->getCurrentPlayer();
 	vector<shared_ptr<Player>> players = instance->getState()->players_;
-
-	if (instance->isRoundEnd() == true) {
-		return;
-	}
+	bool gameOver = instance->isGameOver();
 
 	disableRageButtons();
 	// update score board
@@ -248,7 +245,7 @@ void GameView::update()
 		scores_[i]->set_text(std::to_string(instance->getState()->players_[i]->getTotalScore()) + " points");
 		discards_[i]->set_text(std::to_string(instance->getState()->players_[i]->getDiscards().size()) + " discards");
 		// enable rage button
-		if (players.at(i) == p) {
+		if (players.at(i) == p && gameOver == false) {
 			// enable rage button for current 
 			rageQuit_[i]->set_sensitive(true);
 		}
@@ -297,6 +294,10 @@ void GameView::update()
 	for (Card c : cards) {
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		cardGrid_[c.getSuit()][c.getRank()]->set(filename);
+	}
+
+	if (instance->isRoundEnd() == true) {
+		return;
 	}
 }
 

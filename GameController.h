@@ -14,6 +14,7 @@ class RoundController;
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	GameView* view_;
+	bool gamEnd_;
 	
 	struct GameState : public Subject {									// Struct that holds the information about the game
 		std::vector<std::shared_ptr<Player>> players_;	// Hold the pointers to players in the game
@@ -32,7 +33,6 @@ class GameController {
 	GameController(int, GameView*);			// Initialize a GameController object
 	void initPlayers();									// Initialize a list of 4 players
 	void endRound();									// Proceed to end the round and print the correct information
-	bool isGameOver();									// Check if the game is over
 	void printWinner() const;							// print the information about the winner
 	void setPlayers(bool[]);
 public:
@@ -47,6 +47,7 @@ public:
 	bool playHumanTurn(Card);
 	void initStartRound();										// Initialize a new round, by creating a round object
 	bool isRoundEnd();
+	bool isGameOver();									// Check if the game is over
 };
 
 #endif
