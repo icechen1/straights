@@ -124,8 +124,7 @@ using namespace std;
 // requires: a command
 // ensures: the provided command describes a legal move or action
 // returns: true if the provided play is valid, false otherwise
-bool Player::verify(Command c)
-{
+bool Player::verify(const Command c) const {
 	shared_ptr<Deck> deck = GameState::getInstance()->getDeck();
 	vector<Card> legalMoves = getLegalMoves();
 	bool validMove = false;

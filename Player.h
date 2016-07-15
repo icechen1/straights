@@ -27,7 +27,7 @@ public:
 	std::vector<Card> getHand() const; // returns list of cards on hand
 	void playCard(Card); // removes card from list of cards
 	void discardCard(Card); // removes card from list of cards, adds to discards and round score
-	bool verify(Command c); // verify a move, return true if it is valid
+	bool verify(const Command c) const; // verify a move, return true if it is valid
 };
 
 #endif

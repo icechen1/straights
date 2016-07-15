@@ -254,7 +254,7 @@ void GameView::selectHand(int n) {
 	}
 }
 
-void GameView::showRoundEndDialog(bool isGameEnd) {
+void GameView::showRoundEndDialog(bool isGameEnd) const {
 	string title = isGameEnd ? "Game over" : "Round over";
 	Gtk::MessageDialog dialog(*window_, title, false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK);
 	std::ostringstream stream; // pipe output to an output stream for now

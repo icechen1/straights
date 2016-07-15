@@ -37,7 +37,7 @@ class GameView : public Observer {
 	void disableHandButtons(); // disable all buttons from the player's hand
 	void disableRageButtons(); // disable all ragequit buttons
 	void clearHand(); // removes cards from hand
-	bool playNextAITurn();
+	bool playNextAITurn(); // decide if it has to play an AI turn for each timeout
 protected:
 	void update(); // called from subject updates (model)
 public:
@@ -46,11 +46,11 @@ public:
 	void openMenu(); // handles new game button
 	int run(Glib::RefPtr<Gtk::Application> app); // shows the window
 	void startGameWithSettings(int seed, bool computers[]); // handler for a new game creation (Called from menu)
-	void initGameRoundWatcher();
-	void disconnectWatcher();
+	void initGameRoundWatcher(); // initialize a watcher to play an AI action
+	void disconnectWatcher(); // disconnect the watcher at the end of the round
 	void rageQuit(int n); // handles rage quit button action
 	void selectHand(int n); // handles card selection from hand
-	void showRoundEndDialog(bool isGameEnd); // handles showing up round/game end message dialog
+	void showRoundEndDialog(bool isGameEnd) const; // handles showing up round/game end message dialog
 };
 
 #endif
