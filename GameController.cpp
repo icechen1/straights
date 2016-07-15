@@ -15,11 +15,25 @@ shared_ptr<GameController> GameController::createInstance(int seed, bool compute
 // returns:	A game controller object to be used for the full game
 GameController::GameController(int seed, GameView* view) : view_(view) {
 	// create game state
+	shared_ptr<GameState> old_state = GameState::getInstance();
 	shared_ptr<GameState> state = GameState::createInstance(seed);
 	state->subscribe(view);
 	// create the deck we're going to use for this game
-	shared_ptr<Deck> t(new Deck(seed));
-	state->setDeck(t);
+	if (old_state == nullptr) {
+		// new game
+		shared_ptr<Deck> t(new Deck(seed));
+		state->setDeck(t);
+	}
+	else if (old_state->getSeed() != seed) {
+		// do not reuse deck as seed has changed
+		shared_ptr<Deck> t(new Deck(seed));
+		state->setDeck(t);
+	}
+	else {
+		// reuse deck
+		state->setDeck(old_state->getDeck());
+	}
+
 	// create a game record keeping stream
 	record_ = unique_ptr<GameRecord>(new GameRecord());
 }
