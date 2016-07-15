@@ -224,9 +224,13 @@ void GameView::startGameWithSettings(int seed, bool computers[]) {
 	instance->initStartRound();
 }
 
-void GameView::initGameRoundTimer() {
+void GameView::initGameRoundWatcher() {
 	sigc::slot<bool> my_slot = sigc::mem_fun(*this, &GameView::playNextAITurn);
-	sigc::connection conn = Glib::signal_timeout().connect(my_slot, 500);
+	AIwatcher_ = Glib::signal_timeout().connect(my_slot, 500);
+}
+
+void GameView::disconnectWatcher() {
+	AIwatcher_.disconnect();
 }
 
 void GameView::rageQuit(int n) {

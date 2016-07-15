@@ -47,7 +47,7 @@ void GameController::setPlayers(bool computers[]) {
 // ensures: Players score are correctly updated
 void GameController::playAITurns() {
 	shared_ptr<GameState> state = GameState::getInstance();
-	roundController_->playAITurns();
+	roundController_->playAITurn();
 	if (isRoundEnd() == true) {
 		endRound();
 	}
@@ -84,7 +84,7 @@ void GameController::initStartRound() {
 	roundController_ = unique_ptr<RoundController>(new RoundController());
 	// print round start message
 	record_->startRound(*(GameState::getInstance()->getCurrentPlayer()));
-	view_->initGameRoundTimer();
+	view_->initGameRoundWatcher();
 	GameState::getInstance()->notify();
 }
 
@@ -125,6 +125,7 @@ void GameController::printWinner() const {
 // ensures: player's score stay the same
 void GameController::endRound() {
 	shared_ptr<GameState> state = GameState::getInstance();
+	view_->disconnectWatcher();
 	// print post round information and clear hands
 	for (shared_ptr<Player> p : state->getPlayers()) {
 		record_->printPostRound(*p);

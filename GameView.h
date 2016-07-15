@@ -31,6 +31,7 @@ class GameView : public Observer {
 
 	// reference to the new game window
 	MainMenu* mainMenu_;
+	sigc::connection AIwatcher_;
 	
 	void hideAllCards(); // hide all cards from the played card grid
 	void disableHandButtons(); // disable all buttons from the player's hand
@@ -45,7 +46,8 @@ public:
 	void openMenu(); // handles new game button
 	int run(Glib::RefPtr<Gtk::Application> app); // shows the window
 	void startGameWithSettings(int seed, bool computers[]); // handler for a new game creation (Called from menu)
-	void initGameRoundTimer();
+	void initGameRoundWatcher();
+	void disconnectWatcher();
 	void rageQuit(int n); // handles rage quit button action
 	void selectHand(int n); // handles card selection from hand
 	void showRoundEndDialog(bool isGameEnd); // handles showing up round/game end message dialog

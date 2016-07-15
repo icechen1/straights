@@ -63,21 +63,11 @@ void RoundController::handleTurn() {
 // requires: valid player
 // modifies: state about current round
 // ensures: a full round is played after the function runs
-void RoundController::playAITurns() {
-	// play turns until a player runs out of cards
-
-	/*
-	while (GameState::getInstance()->getCurrentPlayer()->getHand().size() > 0 
-		&& GameState::getInstance()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
-		handleTurn();
-	}
-	*/
-
+void RoundController::playAITurn() {
 	if (GameState::getInstance()->getCurrentPlayer()->getHand().size() > 0
 		&& GameState::getInstance()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
 		handleTurn();
 	}
-
 	return;
 }
 
