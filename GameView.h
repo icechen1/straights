@@ -20,6 +20,7 @@ class GameView : public Observer {
 	// the following are references to GUI elements
 	Gtk::Window *window_;
 	Gtk::Label *record_;
+	Gtk::Label *playerTurnDisplay_;
 	Gtk::Viewport *viewport_;
 	Gtk::Label *scores_[4];
 	Gtk::Label *discards_[4];

@@ -23,6 +23,7 @@ GameView::GameView()
 	builder->get_widget("window1", window_);
 	builder->get_widget("quit_btn", quitBtn);
 	builder->get_widget("new_game_btn", newGameBtn);
+	builder->get_widget("player_display", playerTurnDisplay_);
 
 	string suits[] = { "C", "D", "H", "S" };
 	string ranks[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
@@ -101,10 +102,15 @@ void GameView::update()
 		// show points
 		scores_[i]->set_text(std::to_string(state_instance->getPlayerTotalScore(i)) + " points");
 		discards_[i]->set_text(std::to_string(state_instance->getPlayerDiscards(i).size()) + " discards");
-		// enable rage button
-		if (players.at(i) == p && p->getPlayerType() == HUMAN && gameOver == false) {
-			// enable rage button for current 
-			rageQuit_[i]->set_sensitive(true);
+
+		if (players.at(i) == p && gameOver == false) {
+
+			playerTurnDisplay_->set_text("Player " + std::to_string(i + 1) + " to play");
+
+			if (p->getPlayerType() == HUMAN) {
+				// enable rage button for current 
+				rageQuit_[i]->set_sensitive(true);
+			}
 		}
 	}
 	
