@@ -41,10 +41,9 @@ void GameController::setPlayers(bool computers[]) {
 	state->setPlayers(playerList);
 }
 
-// requires: a valid GameState objects in GameController
-// modifies: Create a round, play the round and end the round
-//			 Players score
-// ensures: Players score are correctly updated
+// requires: Game must be initialized
+// modifies: Game State
+// ensures: All AI turns are played successively until a human player is the current player
 void GameController::playAITurns() {
 	shared_ptr<GameState> state = GameState::getInstance();
 	roundController_->playAITurns();
@@ -53,6 +52,10 @@ void GameController::playAITurns() {
 	}
 }
 
+// requires: A Card on the player hand that is to be played
+// modifies: Game State
+// ensures: Plays a human turn with the provided card (can be either discard or play)
+// returns: true or false depending if the provided Card is a valid play
 bool GameController::playHumanTurn(Card card) {
 	shared_ptr<GameState> state = GameState::getInstance();
 
@@ -88,6 +91,7 @@ void GameController::initStartRound() {
 	GameState::getInstance()->notify();
 }
 
+// returns: bool - is the round over (all hands empty)
 bool GameController::isRoundEnd() {
 	shared_ptr<GameState> state = GameState::getInstance();
 	int id = state->getCurrentPlayer()->getPlayerId();
@@ -182,17 +186,19 @@ shared_ptr<GameState> GameController::getState() const {
 	return GameState::getInstance();
 }
 
+// returns: a pointer to the main game view
 GameView* GameController::getView() const
 {
 	return view_;
 }
 
+// returns: a pointer to the record of current game
 GameRecord * GameController::getRecord() const
 {
 	return record_.get();
 }
 
-// returns: a pointer to the current game round
+// returns: a pointer to the current game round controller
 RoundController* GameController::getCurrentRound() const {
 	return roundController_.get();
 }
