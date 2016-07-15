@@ -52,7 +52,6 @@ public:
 	std::vector<Card> getPlayerLegalMoves(int);
 	int getPlayerTotalScore(int);
 	PlayerType getPlayerType(int);
-	int getPlayerId(int);
 };
 
 #endif
