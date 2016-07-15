@@ -299,13 +299,13 @@ void GameView::showRoundEndDialog(bool isGameEnd) const {
 
 		int roundScore = player->getRoundScore();
 		int totalScore = player->getTotalScore();
-		int sum = roundScore + totalScore;
+		int previousScore = totalScore - roundScore;
 
 		stream << "Player " << player->getPlayerId() + 1 << "'s score: ";
-		stream << totalScore;
+		stream << previousScore;
 		stream << " + ";
 		stream << roundScore;
-		stream << " = " << sum << endl;
+		stream << " = " << totalScore << endl;
 
 		//find winner (if this is game end)
 		if (isGameEnd) {

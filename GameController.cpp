@@ -88,7 +88,6 @@ void GameController::initStartRound() {
 	// print round start message
 	record_->startRound(*(GameState::getInstance()->getCurrentPlayer()));
 	view_->initGameRoundWatcher();
-	GameState::getInstance()->notify();
 }
 
 // returns: bool - is the round over (all hands empty)
@@ -126,24 +125,29 @@ void GameController::printWinner() const {
 // requires: all players played their cards
 // modifies: clean all players' hand, played cards, discarded cards
 //			 end the game or to play another round depending on the score
-// ensures: player's score stay the same
+//			 calculate new scores
 void GameController::endRound() {
 	shared_ptr<GameState> state = GameState::getInstance();
 	view_->disconnectWatcher();
-	// print post round information and clear hands
 
+	// Calculate round score
+	for (shared_ptr<Player> p : state->getPlayers()) {
+		p->calculateTotalScore();
+	}
+
+	// print post round information and clear hands
 	view_->showRoundEndDialog(isGameOver());
+
 	for (shared_ptr<Player> p : state->getPlayers()) {
 		record_->printPostRound(*p);
 		p->clearHand();
 	}
-	if (!isGameOver()) {
-		// start another round
-		initStartRound();
+	if (isGameOver()) {
+		printWinner();
 	}
 	else {
-		printWinner();
-		state->notify();
+		// start another round
+		initStartRound();
 	}
 }
 

@@ -106,7 +106,4 @@ void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 
 	int newPosition = (state->getCurrentPlayer()->getPlayerId() + 1) % 4;
 	state->setCurrentPlayer(state->getPlayers().at(newPosition));
-
-	// update
-	state->notify();
 }

@@ -45,6 +45,7 @@ std::vector<std::shared_ptr<Player>> GameState::getPlayers() const
 void GameState::setCurrentPlayer(std::shared_ptr<Player> current)
 {
 	currentPlayer_ = current;
+	notify();
 }
 
 std::shared_ptr<Player> GameState::getCurrentPlayer() const

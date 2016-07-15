@@ -91,9 +91,13 @@ int Player::getPlayerId() const {
 
 // modifies: clears list of cards and discards after a round. adds round score to total
 void Player::clearHand() {
-	total_score_ += getRoundScore();
 	cards_.clear();
 	discards_.clear();
+}
+
+// modifies: calculate the new total score of the player
+void Player::calculateTotalScore() {
+	total_score_ += getRoundScore();
 }
 
 // ensures: does not edit the class state
@@ -118,8 +122,6 @@ int Player::getRoundScore() const {
 int Player::getTotalScore() const {
 	return total_score_;
 }
-
-using namespace std;
 
 // requires: a command
 // ensures: the provided command describes a legal move or action

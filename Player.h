@@ -19,6 +19,7 @@ public:
 	virtual Command play() = 0; // abstract function - derived classes will implement player logic
 	int getPlayerId() const; // returns the player id
 	void clearHand(); // clears discards and list of cards on hand
+	void calculateTotalScore();	// calculate total score of a player
 	std::vector<Card> getDiscards() const; // returns list of discards
 	int getRoundScore() const; // computes current round score
 	int getTotalScore() const; // returns total score
