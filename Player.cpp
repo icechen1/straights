@@ -119,6 +119,11 @@ int Player::getTotalScore() const {
 	return total_score_;
 }
 
+using namespace std;
+
+// requires: a command
+// ensures: the provided command describes a legal move or action
+// returns: true if the provided play is valid, false otherwise
 bool Player::verify(Command c)
 {
 	shared_ptr<Deck> deck = GameState::getInstance()->getDeck();
@@ -141,12 +146,9 @@ bool Player::verify(Command c)
 			cout << "You have a legal play. You may not discard." << endl;
 		}
 		break;
-	case DECK:
-		GameController::getInstance()->getRecord()->printDeck(*deck);
-		break;
+	case DECK: // no longer valid
 	case QUIT:
-		throw c;
-		break;
+		return false;
 	case RAGEQUIT:
 		validMove = true;
 		break;
