@@ -71,9 +71,8 @@ bool GameController::playHumanTurn(Card card) {
 		c.card_ = card;
 	}
 	//verify
-	if (player->verify(c)) {
+	if (player->verify(c) == true) {
 		roundController_->playTurn(player, c);
-		playAITurns();
 		return true;
 	}
 	// invalid move
@@ -85,6 +84,7 @@ void GameController::initStartRound() {
 	roundController_ = unique_ptr<RoundController>(new RoundController());
 	// print round start message
 	record_->startRound(*(GameState::getInstance()->getCurrentPlayer()));
+	view_->initGameRoundTimer();
 	GameState::getInstance()->notify();
 }
 
@@ -134,7 +134,6 @@ void GameController::endRound() {
 		// start another round
 		view_->showRoundEndDialog(false);
 		initStartRound();
-		playAITurns();
 	}
 	else {
 		printWinner();

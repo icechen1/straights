@@ -102,7 +102,7 @@ void GameView::update()
 		scores_[i]->set_text(std::to_string(state_instance->getPlayerTotalScore(i)) + " points");
 		discards_[i]->set_text(std::to_string(state_instance->getPlayerDiscards(i).size()) + " discards");
 		// enable rage button
-		if (players.at(i) == p && gameOver == false) {
+		if (players.at(i) == p && p->getPlayerType() == HUMAN && gameOver == false) {
 			// enable rage button for current 
 			rageQuit_[i]->set_sensitive(true);
 		}
@@ -142,7 +142,9 @@ void GameView::update()
 			context->remove_class("invalid");
 			context->add_class("discard");
 		}
-		hand_[i]->set_sensitive(true);
+		if (p->getPlayerType() == HUMAN) {
+			hand_[i]->set_sensitive(true);
+		}
 	}
 
 	// show card state
@@ -196,11 +198,29 @@ void GameView::clearHand() {
 	}
 }
 
+bool GameView::playNextAITurn() {
+	shared_ptr<GameController> instance = GameController::getInstance();
+	if (instance->isRoundEnd()) {
+		return false;
+	}
+	else if (instance->getState()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
+		instance->playAITurns();
+		return true;
+	}
+	else {
+		return true;
+	}
+}
+
 void GameView::startGameWithSettings(int seed, bool computers[]) {
 	GameController::createInstance(seed, computers, this);
 	shared_ptr<GameController> instance = GameController::getInstance();
 	instance->initStartRound();
-	instance->playAITurns();
+}
+
+void GameView::initGameRoundTimer() {
+	sigc::slot<bool> my_slot = sigc::mem_fun(*this, &GameView::playNextAITurn);
+	sigc::connection conn = Glib::signal_timeout().connect(my_slot, 500);
 }
 
 void GameView::rageQuit(int n) {

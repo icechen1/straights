@@ -65,10 +65,19 @@ void RoundController::handleTurn() {
 // ensures: a full round is played after the function runs
 void RoundController::playAITurns() {
 	// play turns until a player runs out of cards
+
+	/*
 	while (GameState::getInstance()->getCurrentPlayer()->getHand().size() > 0 
 		&& GameState::getInstance()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
 		handleTurn();
 	}
+	*/
+
+	if (GameState::getInstance()->getCurrentPlayer()->getHand().size() > 0
+		&& GameState::getInstance()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
+		handleTurn();
+	}
+
 	return;
 }
 
@@ -79,6 +88,7 @@ void RoundController::playTurn(shared_ptr<Player> player, Command command) {
 	shared_ptr<GameController> instance = GameController::getInstance();
 	shared_ptr<GameState> state = GameState::getInstance();
 	vector<Card> playedlist = state->getPlayedCards();
+
 	// handle play
 	switch (command.type_) {
 	case PLAY:
