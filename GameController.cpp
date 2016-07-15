@@ -131,18 +131,18 @@ void GameController::endRound() {
 	shared_ptr<GameState> state = GameState::getInstance();
 	view_->disconnectWatcher();
 	// print post round information and clear hands
+
+	view_->showRoundEndDialog(isGameOver());
 	for (shared_ptr<Player> p : state->getPlayers()) {
 		record_->printPostRound(*p);
 		p->clearHand();
 	}
 	if (!isGameOver()) {
 		// start another round
-		view_->showRoundEndDialog(false);
 		initStartRound();
 	}
 	else {
 		printWinner();
-		view_->showRoundEndDialog(true);
 		state->notify();
 	}
 }

@@ -75,8 +75,10 @@ GameView::GameView()
 
 void GameView::handleQuit()
 {
-	shared_ptr<GameController> instance = GameController::getInstance();
-	//instance->unsubscribe(this);
+	shared_ptr<GameState> instance = GameController::getInstance()->getState();
+	if (instance != nullptr) {
+		instance->unsubscribe(this);
+	}
 	window_->hide();
 }
 
