@@ -218,20 +218,12 @@ void GameView::clearHand() {
 	}
 }
 
-// ensures: plays the AI turn from the UI - required in order to show AI play animation
-// returns: if the timeout should be called again
-bool GameView::playNextAITurn() {
+// ensures: plays the AI turn if necessary - required in order to show AI play animation
+// returns: always return true to get this call until we manually disconnect the timeout
+bool GameView::playNextTurn() {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	if (instance->isRoundEnd()) {
-		return false;
-	}
-	else if (instance->getState()->getCurrentPlayer()->getPlayerType() == COMPUTER) {
-		instance->playAITurns();
-		return true;
-	}
-	else {
-		return true;
-	}
+	instance->playTurn();
+	return true;
 }
 
 // modifies: GameController is re-instanciated
@@ -244,7 +236,7 @@ void GameView::startGameWithSettings(int seed, bool computers[]) {
 
 // ensures: starts a timeout handler on the AI turns
 void GameView::initGameRoundWatcher() {
-	sigc::slot<bool> my_slot = sigc::mem_fun(*this, &GameView::playNextAITurn);
+	sigc::slot<bool> my_slot = sigc::mem_fun(*this, &GameView::playNextTurn);
 	AIwatcher_ = Glib::signal_timeout().connect(my_slot, 500);
 }
 
@@ -259,7 +251,7 @@ void GameView::rageQuit(int n) {
 	c.type_ = RAGEQUIT;
 	shared_ptr<Player> player = GameState::getInstance()->getPlayers().at(n);
 	GameController::getInstance()->getCurrentRound()->playTurn(player, c);
-	GameController::getInstance()->playAITurns();
+	GameController::getInstance()->playTurn();
 }
 
 // ensures: the selected card is played (either as discard or play) or show error dialog

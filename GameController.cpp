@@ -60,10 +60,12 @@ void GameController::setPlayers(bool computers[]) {
 
 // requires: Game must be initialized
 // modifies: Game State
-// ensures: All AI turns are played successively until a human player is the current player
-void GameController::playAITurns() {
+// ensures: Make AI to play the turn if needed and/or end the game
+void GameController::playTurn() {
 	shared_ptr<GameState> state = GameState::getInstance();
-	roundController_->playAITurn();
+	if (state->getCurrentPlayer()->getPlayerType() == COMPUTER) {
+		roundController_->playAITurn();
+	}
 	if (isRoundEnd() == true) {
 		endRound();
 	}

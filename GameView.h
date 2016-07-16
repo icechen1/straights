@@ -39,7 +39,7 @@ class GameView : public Observer {
 	void disableHandButtons(); // disable all buttons from the player's hand
 	void disableRageButtons(); // disable all ragequit buttons
 	void clearHand(); // removes cards from hand
-	bool playNextAITurn(); // decide if it has to play an AI turn for each timeout
+	bool playNextTurn(); // decide if it has to play an AI turn for each timeout
 protected:
 	void update(); // called from subject updates (model)
 public:

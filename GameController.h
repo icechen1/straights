@@ -34,7 +34,7 @@ public:
 	std::shared_ptr<GameState> getState() const;				// Accessor - get the current state of the game
 	GameView* getView() const;									// Accessor - get the view of the game
 	GameRecord* getRecord() const;								// Accessor - get the record buffer of the game
-	void playAITurns();											// Play a full round (create, play and end the round)
+	void playTurn();											// Play a full round (create, play and end the round)
 	bool playHumanTurn(Card);									// Play a human turn - called from GUI
 	void initStartRound();										// Initialize a new round, by creating a round object
 	bool isRoundEnd();											// Check if the round is over
