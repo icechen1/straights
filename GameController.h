@@ -37,8 +37,6 @@ public:
 	void playAITurns();											// Play a full round (create, play and end the round)
 	bool playHumanTurn(Card);									// Play a human turn - called from GUI
 	void initStartRound();										// Initialize a new round, by creating a round object
-	bool isRoundEnd();											// Check if the round is over
-	bool isGameOver();											// Check if the game is over
 };
 
 #endif

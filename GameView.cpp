@@ -109,7 +109,7 @@ void GameView::update()
 	shared_ptr<GameState> state_instance = GameState::getInstance();
 	shared_ptr<Player> p = state_instance->getCurrentPlayer();
 	vector<shared_ptr<Player>> players = state_instance->getPlayers();
-	bool roundEnd = instance->isRoundEnd();
+	bool roundEnd = state_instance->isRoundEnd();
 	
 	// Disable first all the buttons
 	disableRageButtons();
@@ -222,7 +222,8 @@ void GameView::clearHand() {
 // returns: if the timeout should be called again
 bool GameView::playNextAITurn() {
 	shared_ptr<GameController> instance = GameController::getInstance();
-	if (instance->isRoundEnd()) {
+	shared_ptr<GameState> state = GameState::getInstance();
+	if (state->isRoundEnd()) {
 		return false;
 	}
 	else if (instance->getState()->getCurrentPlayer()->getPlayerType() == COMPUTER) {

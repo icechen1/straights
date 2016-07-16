@@ -128,7 +128,6 @@ void GameState::computeTotalScore() {
 	for (shared_ptr<Player> p : players_) {
 		p->calculateTotalScore();
 	}
-	notify();
 }
 
 // requires: end of the game
@@ -148,4 +147,24 @@ vector<shared_ptr<Player>> GameState::computeWinners() const {
 		}
 	}
 	return winningPlayers;
+}
+
+// returns: a boolean to indicate if the game is over
+bool GameState::isGameOver() {
+	bool over = false;
+	for (shared_ptr<Player> p : getPlayers()) {
+		if (p->getTotalScore() >= 80) {
+			over = true;
+		}
+	}
+	return over;
+}
+
+// returns: bool - is the round over (all hands empty)
+bool GameState::isRoundEnd() {
+	int id = getCurrentPlayer()->getPlayerId();
+	if (getPlayerHand(id).size() > 0) {
+		return false;
+	}
+	return true;
 }
