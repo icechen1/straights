@@ -1,0 +1,24 @@
+=== Visual Display of Hand moves ===
+Using GTK CSS styling and opacity changes, we color the buttons of the cards in the hands of the player accordingly.
+If it is red, the move is a discard. If a card is green, it is a valid play. If a card is semi-transparent and red
+then it is an invalid move and clicking it would result in an error popup.
+
+This feature is shown on all games, for computer and human players.
+
+=== Better turn display ==
+We show who's turn is it at the top of the game screen. Additionally, in order to better visualize computer moves, we added a delay using c++ timeouts, so each computer player will
+take a bit of time to play its move. This makes the game easier to follow for human players, especially if there are multiple human or computer players in the game.
+
+=== Game history ===
+There is a collapsable widget at the bottom of the main game window (Game History). Clicking it will 
+expand a text field with a move by move history of the current game. The output is similar to the output of the game
+from project part 1.
+
+It is implemented using a string stream that stores every action in the game, and it is then printed to the GTKLabel
+containing the game history.
+
+This feature is shown on all games.
+
+=== Glade GUI ===
+Instead of building the GUI from the code, we implemented our entire game using glade's interface designer (screen.glade and mainmenu.glade).
+This makes the GUI easier to maintain and to reason with, and each screen is stored in an xml file (.glade) and loaded upon opening the game program.
