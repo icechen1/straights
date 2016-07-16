@@ -3,10 +3,11 @@ Using GTK CSS styling and opacity changes, we color the buttons of the cards in 
 If it is red, the move is a discard. If a card is green, it is a valid play. If a card is semi-transparent and red
 then it is an invalid move and clicking it would result in an error popup.
 
-Additionally, in order to better visualize computer moves, we added a delay using c++ timeouts, so each computer player will
-take a bit of time to play its move.
-
 This feature is shown on all games, for computer and human players.
+
+=== Better turn display ==
+We show who's turn is it at the top of the game screen. Additionally, in order to better visualize computer moves, we added a delay using c++ timeouts, so each computer player will
+take a bit of time to play its move. This makes the game easier to follow for human players, especially if there are multiple human or computer players in the game.
 
 === Game history ===
 There is a collapsable widget at the bottom of the main game window (Game History). Clicking it will 
