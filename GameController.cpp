@@ -66,7 +66,7 @@ void GameController::playTurn() {
 	if (state->getCurrentPlayer()->getPlayerType() == COMPUTER) {
 		roundController_->playAITurn();
 	}
-	if (isRoundEnd() == true) {
+	if (state->isRoundEnd() == true) {
 		endRound();
 	}
 }
@@ -109,16 +109,6 @@ void GameController::initStartRound() {
 	view_->initGameRoundWatcher();
 }
 
-// returns: bool - is the round over (all hands empty)
-bool GameController::isRoundEnd() {
-	shared_ptr<GameState> state = GameState::getInstance();
-	int id = state->getCurrentPlayer()->getPlayerId();
-	if (state->getPlayerHand(id).size() > 0) {
-		return false;
-	}
-	return true;
-}
-
 // requires: a player has more than 80 points
 void GameController::printWinner() const {
 	shared_ptr<GameState> state = GameState::getInstance();
@@ -139,7 +129,7 @@ void GameController::endRound() {
 	view_->disconnectWatcher();
 	state->computeTotalScore();
 
-	bool gameOver = isGameOver();
+	bool gameOver = state->isGameOver();
 	view_->showRoundEndDialog(gameOver);
 
 	// clear players hand
@@ -147,10 +137,13 @@ void GameController::endRound() {
 		record_->printPostRound(*p);
 		p->clearHand();
 	}
-	if (gameOver == true) {
+
+	if (gameOver) {
 		printWinner();
 	}
-	else {
+	state->notify();
+
+	if (!gameOver) {
 		// start another round
 		initStartRound();
 	}
@@ -173,17 +166,6 @@ shared_ptr<Player> GameController::handleRageQuit(Player& player) {
 	state->setPlayers(players);
 	return ai;
 	// ┬──┬ ノ(゜-゜ノ)
-}
-
-// returns: a boolean to indicate if the game is over
-bool GameController::isGameOver() {
-	shared_ptr<GameState> state = GameState::getInstance();
-	for (shared_ptr<Player> p : state->getPlayers()) {
-		if (p->getTotalScore() >= 80) {
-			return true;
-		}
-	}
-	return false;
 }
 
 // returns: a pointer to the GameController instance

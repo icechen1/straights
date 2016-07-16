@@ -16,8 +16,3 @@ int main(int argc, char *argv[]) {
 	GameView gameView;
 	return gameView.run(app);
 }
-
-// bonus ideas:
-// leaderboard
-// textbox with player actions
-// achievements

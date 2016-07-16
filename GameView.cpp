@@ -109,7 +109,7 @@ void GameView::update()
 	shared_ptr<GameState> state_instance = GameState::getInstance();
 	shared_ptr<Player> p = state_instance->getCurrentPlayer();
 	vector<shared_ptr<Player>> players = state_instance->getPlayers();
-	bool roundEnd = instance->isRoundEnd();
+	bool roundEnd = state_instance->isRoundEnd();
 	
 	// Disable first all the buttons
 	disableRageButtons();

@@ -48,6 +48,9 @@ public:
 	void computeTotalScore();	// Calculate the total score of each player
 	std::vector<std::shared_ptr<Player>> computeWinners() const;	// Find the list of winners
 
+	bool isRoundEnd();											// Check if the round is over
+	bool isGameOver();											// Check if the game is over
+
 	// the following methods are facade methods that retrieves a field from a given Player in game (using their index)
 	std::vector<Card> getPlayerDiscards(int) const;
 	std::vector<Card> getPlayerHand(int) const;
