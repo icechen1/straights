@@ -45,13 +45,15 @@ public:
 
 	void setPlayedCards(std::vector<Card>); // sets the list of played cards in game
 	std::vector<Card> getPlayedCards() const; // gets the list of played cards
+	void computeTotalScore();	// Calculate the total score of each player
+	std::vector<std::shared_ptr<Player>> computeWinners() const;	// Find the list of winners
 
 	// the following methods are facade methods that retrieves a field from a given Player in game (using their index)
-	std::vector<Card> getPlayerDiscards(int);
-	std::vector<Card> getPlayerHand(int);
-	std::vector<Card> getPlayerLegalMoves(int);
-	int getPlayerTotalScore(int);
-	PlayerType getPlayerType(int);
+	std::vector<Card> getPlayerDiscards(int) const;
+	std::vector<Card> getPlayerHand(int) const;
+	std::vector<Card> getPlayerLegalMoves(int) const;
+	int getPlayerTotalScore(int) const;
+	PlayerType getPlayerType(int) const;
 };
 
 #endif

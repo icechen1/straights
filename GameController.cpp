@@ -38,6 +38,9 @@ GameController::GameController(int seed, GameView* view) : view_(view) {
 	record_ = unique_ptr<GameRecord>(new GameRecord());
 }
 
+// requires: array of boolean of size 4, true-> computer/false->human
+// modifies: players in the game state
+// ensures: game state now have 4 players (human or AI depending on the array)
 void GameController::setPlayers(bool computers[]) {
 	shared_ptr<GameState> state = GameState::getInstance();
 	vector<shared_ptr<Player>> playerList;
@@ -117,18 +120,7 @@ bool GameController::isRoundEnd() {
 // requires: a player has more than 80 points
 void GameController::printWinner() const {
 	shared_ptr<GameState> state = GameState::getInstance();
-	int min = state->getPlayerTotalScore(0);
-	vector<shared_ptr<Player>> winningPlayers;
-	for (shared_ptr<Player> p : state->getPlayers()) {
-		//find winner
-		if (p->getTotalScore() < min) {
-			winningPlayers.clear();
-			winningPlayers.push_back(p);
-			min = p->getTotalScore();
-		} else if(p->getTotalScore() == min) {
-			winningPlayers.push_back(p);
-		}
-	}
+	vector<shared_ptr<Player>> winningPlayers = state->computeWinners();
 
 	// print out all winning players
 	for (shared_ptr<Player> p : winningPlayers) {
@@ -143,20 +135,17 @@ void GameController::printWinner() const {
 void GameController::endRound() {
 	shared_ptr<GameState> state = GameState::getInstance();
 	view_->disconnectWatcher();
+	state->computeTotalScore();
 
-	// Calculate round score
-	for (shared_ptr<Player> p : state->getPlayers()) {
-		p->calculateTotalScore();
-	}
+	bool gameOver = isGameOver();
+	view_->showRoundEndDialog(gameOver);
 
-	// print post round information and clear hands
-	view_->showRoundEndDialog(isGameOver());
-
+	// clear players hand
 	for (shared_ptr<Player> p : state->getPlayers()) {
 		record_->printPostRound(*p);
 		p->clearHand();
 	}
-	if (isGameOver()) {
+	if (gameOver == true) {
 		printWinner();
 	}
 	else {

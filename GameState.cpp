@@ -53,6 +53,7 @@ std::vector<std::shared_ptr<Player>> GameState::getPlayers() const
 }
 
 // modifies: pointer to current player
+//			 notify the observer to change the view
 void GameState::setCurrentPlayer(std::shared_ptr<Player> current)
 {
 	currentPlayer_ = current;
@@ -90,32 +91,61 @@ std::vector<Card> GameState::getPlayedCards() const
 }
 
 // returns: vector of discards in this round for given player id
-std::vector<Card> GameState::getPlayerDiscards(int playerNo)
+std::vector<Card> GameState::getPlayerDiscards(int playerNo) const
 {
 	return players_.at(playerNo)->getDiscards();
 }
 
 // returns: vector of cards in hard in this round for given player id
-std::vector<Card> GameState::getPlayerHand(int playerNo)
+std::vector<Card> GameState::getPlayerHand(int playerNo) const
 {
 	return players_.at(playerNo)->getHand();
 }
 
 // returns: player total score for given player id
-int GameState::getPlayerTotalScore(int playerNo)
+int GameState::getPlayerTotalScore(int playerNo) const
 {
 	return players_.at(playerNo)->getTotalScore();
 
 }
 
 // returns: player total score for given player id
-std::vector<Card> GameState::getPlayerLegalMoves(int playerNo)
+std::vector<Card> GameState::getPlayerLegalMoves(int playerNo) const
 {
 	return players_.at(playerNo)->getLegalMoves();
 }
 
 // returns: player type for given player id
-PlayerType GameState::getPlayerType(int playerNo)
+PlayerType GameState::getPlayerType(int playerNo) const
 {
 	return players_.at(playerNo)->getPlayerType();
+}
+
+// requires: end of a round or end of a game
+// modifies: total score of each player
+//			 notify the UI to update the total score
+void GameState::computeTotalScore() {
+	for (shared_ptr<Player> p : players_) {
+		p->calculateTotalScore();
+	}
+	notify();
+}
+
+// requires: end of the game
+// returns: list of winning players
+vector<shared_ptr<Player>> GameState::computeWinners() const {
+	int min = getPlayerTotalScore(0);
+	vector<shared_ptr<Player>> winningPlayers;
+	for (shared_ptr<Player> p : players_) {
+		//find winner
+		if (p->getTotalScore() < min) {
+			winningPlayers.clear();
+			winningPlayers.push_back(p);
+			min = p->getTotalScore();
+		}
+		else if (p->getTotalScore() == min) {
+			winningPlayers.push_back(p);
+		}
+	}
+	return winningPlayers;
 }
