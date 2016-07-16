@@ -31,6 +31,8 @@ class GameView : public Observer {
 
 	// reference to the new game window
 	MainMenu* mainMenu_;
+
+	// hold the timeout signal to play AI moves periodically
 	sigc::connection AIwatcher_;
 	
 	void hideAllCards(); // hide all cards from the played card grid

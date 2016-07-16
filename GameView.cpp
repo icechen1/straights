@@ -69,7 +69,7 @@ GameView::GameView()
 
 	// disable UI elements when game is not in progress
 	hideAllCards();
-	clearHand(); 
+	clearHand();
 	disableHandButtons();
 	disableRageButtons();
 
@@ -92,7 +92,7 @@ void GameView::handleQuit()
 }
 
 // ensures: opens the game creation menu
-void GameView::openMenu(){
+void GameView::openMenu() {
 	mainMenu_->run();
 }
 
@@ -109,46 +109,42 @@ void GameView::update()
 	shared_ptr<GameState> state_instance = GameState::getInstance();
 	shared_ptr<Player> p = state_instance->getCurrentPlayer();
 	vector<shared_ptr<Player>> players = state_instance->getPlayers();
-	bool gameOver = instance->isGameOver();
-
+	bool roundEnd = instance->isRoundEnd();
+	
+	// Disable first all the buttons
 	disableRageButtons();
+	disableHandButtons();
+
+	// clear all displayed cards
+	clearHand();
+	hideAllCards();
+
 	// update score board
 	for (int i = 0; i < 4; i++) {
 		// show points
 		scores_[i]->set_text(std::to_string(state_instance->getPlayerTotalScore(i)) + " points");
 		discards_[i]->set_text(std::to_string(state_instance->getPlayerDiscards(i).size()) + " discards");
-
-		if (players.at(i) == p && gameOver == false) {
-
-			playerTurnDisplay_->set_text("Player " + std::to_string(i + 1) + " to play");
-
-			if (p->getPlayerType() == HUMAN) {
-				// enable rage button for current 
-				rageQuit_[i]->set_sensitive(true);
-			}
-		}
 	}
-	
-	clearHand();
+
+	int currentPlayerPosition = p->getPlayerId(); // Get 0 indexed player position
+
+	playerTurnDisplay_->set_text("Player " + std::to_string(currentPlayerPosition + 1) + " to play");
+	if (p->getPlayerType() == HUMAN) {
+		// enable rage button for current 
+		rageQuit_[currentPlayerPosition]->set_sensitive(true);
+	}
 
 	// use an array to convert rank ordinal to file name
 	string ranks[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "j", "q", "k" };
 	// update hand
-	// TODO: get a helper function for this
 	vector<Card> hand = p->getHand();
 	vector<Card> legalMoves = p->getLegalMoves();
-
-	disableHandButtons();
-
-	Gdk::RGBA green;
-	green.set("#00ff00");
-	Gdk::RGBA red;
-	red.set("#ff0000");
 
 	for (int i = 0; i < hand.size(); i++) {
 		Card c = hand.at(i);
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
 		handImage_[i]->set(filename);
+
 		// check if it is a legal move
 		auto context = hand_[i]->get_style_context();
 		if (std::find(legalMoves.begin(), legalMoves.end(), c) != legalMoves.end()) {
@@ -163,13 +159,13 @@ void GameView::update()
 			context->remove_class("invalid");
 			context->add_class("discard");
 		}
+
 		if (p->getPlayerType() == HUMAN) {
 			hand_[i]->set_sensitive(true);
 		}
 	}
 
-	// show card state
-	hideAllCards();
+	// show played card state
 	vector<Card> cards = state_instance->getPlayedCards();
 	for (Card c : cards) {
 		string filename = "img/" + std::to_string(c.getSuit()) + '_' + ranks[c.getRank()] + ".png";
@@ -182,7 +178,7 @@ void GameView::update()
 	Glib::RefPtr<Gtk::Adjustment> adj = viewport_->get_vadjustment();
 	adj->set_value(adj->get_upper());
 
-	if (instance->isRoundEnd() == true) {
+	if (roundEnd) {
 		return;
 	}
 }
@@ -286,9 +282,7 @@ void GameView::showRoundEndDialog(bool isGameEnd) const {
 	Gtk::MessageDialog dialog(*window_, title, false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK);
 	std::ostringstream stream; // pipe output to an output stream for now
 
-	vector<shared_ptr<Player>> winningPlayers;
 	vector<shared_ptr<Player>> players = GameState::getInstance()->getPlayers();
-	int min = players[0]->getTotalScore();
 
 	for (shared_ptr<Player> player : players) {
 		stream << "Player " << player->getPlayerId() + 1 << "'s discards:";
@@ -306,22 +300,13 @@ void GameView::showRoundEndDialog(bool isGameEnd) const {
 		stream << " + ";
 		stream << roundScore;
 		stream << " = " << totalScore << endl;
-
-		//find winner (if this is game end)
-		if (isGameEnd) {
-			if (player->getTotalScore() < min) {
-				winningPlayers.clear();
-				winningPlayers.push_back(player);
-				min = player->getTotalScore();
-			}
-			else if (player->getTotalScore() == min) {
-				winningPlayers.push_back(player);
-			}
-		}
-
 	}
+
 	// print winner
 	if (isGameEnd) {
+		shared_ptr<GameState> state = GameState::getInstance();
+		vector<shared_ptr<Player>> winningPlayers = state->computeWinners();
+
 		// print out all winning players
 		for (shared_ptr<Player> p : winningPlayers) {
 			stream << "Player " << p->getPlayerId() + 1 << " wins!" << endl;

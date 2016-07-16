@@ -19,7 +19,7 @@ class GameState;
 // GameController is a singleton entity representing the controller for the Straights game
 class GameController {
 	GameView* view_;
-	std::unique_ptr<GameRecord> record_;
+	std::unique_ptr<GameRecord> record_;				// Process the play history of the game
 	static std::shared_ptr<GameController> instance_;	// Hold the instance of the GameController
 	std::unique_ptr<RoundController> roundController_;	// Hold the instance of the RoundController
 	GameController(int, GameView*);						// Initialize a GameController object
