@@ -5,5 +5,5 @@ The rules of the games are simple, the player with the 7 of Spades start the gam
 
 Built in C++11, gtkmm, and glade. Binaries available for Windows in releases.
 
-By Yu Chen Hou(@icechen1) and Ruo Tai Sun (@rtsun).
+By Yu Chen Hou(@icechen1) and Ruo Tai Sun (@rtsun95).
 
